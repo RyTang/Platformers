@@ -3,5 +3,6 @@ public enum GameLayers{
     PLAYER = 3,
     GROUND = 6,
     ENEMY = 7,
-    WALL = 8
+    WALL = 8,
+    BREAKABLE = 9
 }

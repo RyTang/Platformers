@@ -3,29 +3,30 @@ using UnityEngine;
 /// <summary>
 /// Base Class that all characters in this game must inherit from
 /// </summary>
-public abstract class BaseCharacter : MonoBehaviour, IDamageable
+public abstract class BaseCharacter<T> : PlayerStateRunner<T> where T: MonoBehaviour
 {
-    [SerializeField] protected int health;
     protected Rigidbody2D rb2d;
     protected SpriteRenderer spriteRenderer;
 
-    protected virtual void Start()
+    
+    [SerializeField] protected LayerCheck groundCheck;
+    [SerializeField] protected LayerCheck wallCheck;
+
+
+
+    protected override void Awake()
     {
         rb2d ??= GetComponent<Rigidbody2D>();
         spriteRenderer ??= GetComponent<SpriteRenderer>();
-
-        // TODO : Decide if should store character info in a character configuration
     }
 
-    protected virtual void Update()
+    public override void Update()
     {
+        base.Update();
+
         SpriteDirection();
     }
 
-    protected virtual void FixedUpdate()
-    {
-        
-    }
 
     protected virtual void SpriteDirection(){
         Vector3 localScale =  spriteRenderer.transform.localScale;
@@ -38,25 +39,19 @@ public abstract class BaseCharacter : MonoBehaviour, IDamageable
         }
     }
 
-
-    /// <summary>
-    /// Common Method to take Damage for a Characters
-    /// </summary>
-    /// <param name="damage">Damage to be Done</param>
-    public virtual void TakeDamage(int damage){
-        Debug.Assert(damage >= 0, "Damage is less than 0 for some reason: " + this);
-
-        if (damage < 0) return;
-
-        health -= damage;
+    public Rigidbody2D GetRigidbody2D(){
+        return rb2d;
     }
 
-    /// <summary>
-    /// Cause the Character to die
-    /// </summary>
-    public virtual void Destroyed(){
-        // TODO: Perform Death Animation
+    public SpriteRenderer GetSpriteRenderer(){
+        return spriteRenderer;
+    }
 
-        Destroy(gameObject);
+    public LayerCheck GetGroundCheck(){
+        return groundCheck;
+    }
+
+    public LayerCheck GetWallCheck(){
+        return wallCheck;
     }
 }
