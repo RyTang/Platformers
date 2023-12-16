@@ -9,6 +9,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f7e8bbbf4272171449d38ccaa4cf645f, type: 3}
+  m_Script: {fileID: 11500000, guid: 9072cd9decf1b2a4eb32f1ddd3e6c448, type: 3}
   m_Name: Player Wall Jump State
   m_EditorClassIdentifier: 

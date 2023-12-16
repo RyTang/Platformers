@@ -9,6 +9,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bee3f42bdada4294fad3654df46ce163, type: 3}
+  m_Script: {fileID: 11500000, guid: 2d8d94b1dbd88c84e903e4aa14eb26a8, type: 3}
   m_Name: Player Idle State
   m_EditorClassIdentifier: 

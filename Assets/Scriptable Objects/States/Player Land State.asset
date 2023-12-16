@@ -9,8 +9,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 66345afc0a2c16943a0f2231cdd39ede, type: 3}
+  m_Script: {fileID: 11500000, guid: b0d0e2b9baa7c9b4f9b4a43ceef5a369, type: 3}
   m_Name: Player Land State
   m_EditorClassIdentifier: 
-  landVelocityThreshold: 15
-  landDelay: 1

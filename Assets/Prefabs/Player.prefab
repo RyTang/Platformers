@@ -40,7 +40,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 6019058278295578505}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 96032d945bb550f48b823515795a1f44, type: 3}
+  m_Script: {fileID: 11500000, guid: 14fabca943b73714ebfb65d77778d2b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   layerCheckBox: {x: 1, y: 1}
@@ -87,7 +87,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 6019058278878299280}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 96032d945bb550f48b823515795a1f44, type: 3}
+  m_Script: {fileID: 11500000, guid: 14fabca943b73714ebfb65d77778d2b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   layerCheckBox: {x: 0.1, y: 0.8}
@@ -134,7 +134,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 6019058279313193070}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 96032d945bb550f48b823515795a1f44, type: 3}
+  m_Script: {fileID: 11500000, guid: 14fabca943b73714ebfb65d77778d2b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   layerCheckBox: {x: 0.8, y: 0.15}
@@ -239,23 +239,23 @@ MonoBehaviour:
   m_GameObject: {fileID: 6019058279429399999}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1b862e2b2f502d8458379c1e7027c5d3, type: 3}
+  m_Script: {fileID: 11500000, guid: d00f3a25f30b83042ba9a500f5c0829c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _states:
-  - {fileID: 11400000, guid: fe04d46a2cfc9524991e3f1f606460da, type: 2}
-  - {fileID: 11400000, guid: f76026f22cb9feb4ca222db584bc6706, type: 2}
-  - {fileID: 11400000, guid: 942ef5a41839cb14aaa41085dca89f5f, type: 2}
-  - {fileID: 11400000, guid: 774f4bfeb80395c42848c62d0c0459d7, type: 2}
-  - {fileID: 11400000, guid: 732bc5530c0938f429579610b1d81592, type: 2}
-  - {fileID: 11400000, guid: 178790bedd2b94846940ff78bb9443dd, type: 2}
-  - {fileID: 11400000, guid: f09fc1e7fedb7f84692452dc7962d3bf, type: 2}
-  - {fileID: 11400000, guid: 458fffeed77262d4ca049fd11d17b69e, type: 2}
-  - {fileID: 11400000, guid: 78cb0b124d150d84cae192475862c570, type: 2}
-  - {fileID: 11400000, guid: 852cb39a98a8b264d92cbbed44476e34, type: 2}
+  - {fileID: 11400000, guid: 29f4acc68598cd145a52d2c2e275386f, type: 2}
+  - {fileID: 11400000, guid: 8708e9bedbd3f1d49a0e9a80fbaee342, type: 2}
+  - {fileID: 11400000, guid: fba52ec93a210454fa0b0e36d7142efe, type: 2}
+  - {fileID: 11400000, guid: 492da041c46c79f429747da62930e798, type: 2}
+  - {fileID: 11400000, guid: a09c9833da8e7624a8e1e248924e1288, type: 2}
+  - {fileID: 11400000, guid: ee0d7b8cecf524c4388636ab1989b6e0, type: 2}
+  - {fileID: 11400000, guid: 0474ae0e39833474ea672e60cc8446a5, type: 2}
+  - {fileID: 11400000, guid: a01c75acc8f56b043a930539e5f85030, type: 2}
+  - {fileID: 11400000, guid: f3f62f66ac2ffce4a92038b6d15bd17d, type: 2}
+  - {fileID: 11400000, guid: 508892d80c2f14e44a109637837a0142, type: 2}
   groundCheck: {fileID: 6019058279313193068}
   wallCheck: {fileID: 6019058278878299286}
-  playerData: {fileID: 11400000, guid: 897eb1f3ee7b88e4a986c15ff062e4e0, type: 2}
+  playerData: {fileID: 11400000, guid: c764ce250c9386a4da0c2e2331aa21fa, type: 2}
   attackCheck: {fileID: 6019058278295578510}
 --- !u!50 &6019058279429399997
 Rigidbody2D:
