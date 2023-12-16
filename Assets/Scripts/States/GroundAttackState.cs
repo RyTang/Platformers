@@ -36,8 +36,9 @@ public class GroundAttackState : State<PlayerController>
 
         foreach (GameObject attackedObject in attackedObjects)
         {
-            IDamageable damageable = attackedObject.GetComponent<IDamageable>();
-            damageable.TakeDamage(_runner.GetPlayerData().attackDamage);
+            IDamageable damageable;
+            bool attackable = attackedObject.TryGetComponent<IDamageable>(out damageable);
+            if (attackable) damageable.TakeDamage(_runner.GetPlayerData().attackDamage);
         }
     }
 

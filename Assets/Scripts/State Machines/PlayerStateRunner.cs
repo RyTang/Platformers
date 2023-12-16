@@ -14,6 +14,7 @@ public class PlayerStateRunner<T> : MonoBehaviour where T: MonoBehaviour
         SetState(_states[0].GetType());
     }
 
+
     public void SetState(Type newStateType){
         if (active_state != null){
             active_state.ExitState();
