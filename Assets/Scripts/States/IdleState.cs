@@ -10,6 +10,12 @@ public class IdleState : State<PlayerController>
 
     private Coroutine coyoteTimer;
 
+    public override void EnterState(PlayerController parent)
+    {
+        base.EnterState(parent);
+        _runner.GetAnimator().SetBool(PlayerAnimation.isIdleBool, true);
+    }
+
     public override void CaptureInput()
     {
         horizontalControl = _runner.GetHorizontalControls();
@@ -39,6 +45,7 @@ public class IdleState : State<PlayerController>
 
     public override void ExitState()
     {
+        _runner.GetAnimator().SetBool(PlayerAnimation.isIdleBool, false);
         canJump = false;
     }
 

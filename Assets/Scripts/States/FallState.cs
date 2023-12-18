@@ -18,6 +18,8 @@ public class FallState : State<PlayerController>
 
         rb2d.gravityScale = initialLocalGravity * _runner.GetPlayerData().fallGravityMultiplier;
 
+        _runner.GetAnimator().SetBool(PlayerAnimation.isFallingBool, true);
+
         // TODO: Look into doing coyote Timing here. Need to figure out how to differentiate Wall Jump vs Jump
     }
 
@@ -44,6 +46,7 @@ public class FallState : State<PlayerController>
     public override void ExitState()
     {
         rb2d.gravityScale = initialLocalGravity;
+        _runner.GetAnimator().SetBool(PlayerAnimation.isFallingBool, false);
     }
 
     public override void FixedUpdate()

@@ -12,6 +12,8 @@ public class JumpState : State<PlayerController>
         base.EnterState(parent);
         rb2d = _runner.GetRigidbody2D();
         rb2d.AddForce(new Vector2(0f, _runner.GetPlayerData().jumpForce), ForceMode2D.Impulse);
+        _runner.GetAnimator().SetBool(PlayerAnimation.isJumping, true);
+        _runner.GetAnimator().SetTrigger(PlayerAnimation.jumpTrigger);
     }
 
     public override void CaptureInput()
@@ -36,6 +38,7 @@ public class JumpState : State<PlayerController>
 
     public override void ExitState()
     {
+        _runner.GetAnimator().SetBool(PlayerAnimation.isJumping, false);
     }
 
     public override void FixedUpdate()

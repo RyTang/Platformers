@@ -1,4 +1,5 @@
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "State/Dash")]
@@ -15,7 +16,7 @@ public class DashState : State<PlayerController>
     {
         base.EnterState(parent);
 
-        if (!canDash){
+        if (!canDash && currentDashDelay != null){
             _runner.SetState(typeof(IdleState));
             return;
         }

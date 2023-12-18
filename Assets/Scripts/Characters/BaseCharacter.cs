@@ -7,6 +7,7 @@ public abstract class BaseCharacter<T> : PlayerStateRunner<T> where T: MonoBehav
 {
     protected Rigidbody2D rb2d;
     protected SpriteRenderer spriteRenderer;
+    protected Animator animator;
 
     
     [SerializeField] protected LayerCheck groundCheck;
@@ -18,6 +19,7 @@ public abstract class BaseCharacter<T> : PlayerStateRunner<T> where T: MonoBehav
     {
         rb2d ??= GetComponent<Rigidbody2D>();
         spriteRenderer ??= GetComponent<SpriteRenderer>();
+        animator ??= GetComponent<Animator>();
     }
 
     public override void Update()
@@ -53,5 +55,9 @@ public abstract class BaseCharacter<T> : PlayerStateRunner<T> where T: MonoBehav
 
     public LayerCheck GetWallCheck(){
         return wallCheck;
+    }
+
+    public Animator GetAnimator(){
+        return animator;
     }
 }

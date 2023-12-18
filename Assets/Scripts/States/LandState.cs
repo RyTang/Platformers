@@ -22,6 +22,8 @@ public class LandState : State<PlayerController>
             _runner.StopCoroutine(LandDelay());
             _runner.StartCoroutine(LandDelay());
         }
+
+        _runner.GetAnimator().SetBool(PlayerAnimation.isLandingBool, true);
     }
 
     private IEnumerator LandDelay(){
@@ -32,7 +34,7 @@ public class LandState : State<PlayerController>
     public override void CaptureInput()
     {
     }
-
+ 
     public override void ChangeState()
     {
         if (canMove) {
@@ -42,6 +44,7 @@ public class LandState : State<PlayerController>
 
     public override void ExitState()
     {
+        _runner.GetAnimator().SetBool(PlayerAnimation.isLandingBool, false);
     }
 
     public override void FixedUpdate()

@@ -17,6 +17,7 @@ public class WalkState : State<PlayerController>
         base.EnterState(parent);
         rb2d = parent.GetRigidbody2D();
         canJump = false;
+        _runner.GetAnimator().SetBool(PlayerAnimation.isRunningBool, true);
     }
 
     public override void CaptureInput()
@@ -48,6 +49,7 @@ public class WalkState : State<PlayerController>
     
     public override void ExitState(){
         canJump = false;
+        _runner.GetAnimator().SetBool(PlayerAnimation.isRunningBool, false);
     }
 
     public override void FixedUpdate()
