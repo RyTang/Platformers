@@ -23,6 +23,9 @@ public class WallJumpState : State<PlayerController>
         float wallJumpDirection = -_runner.transform.localScale.x;
         rb2d.AddForce(new Vector2(wallJumpDirection * _runner.GetPlayerData().wallJumpForce.x, _runner.GetPlayerData().wallJumpForce.y), ForceMode2D.Impulse);
 
+        _runner.GetAnimator().SetTrigger(PlayerAnimation.wallJumpTrigger);
+        _runner.GetAnimator().SetBool(PlayerAnimation.isWallJumpingBool, true);
+
         if (_runner.transform.localScale.x * wallJumpDirection <= 0){
             Vector3 localScale = _runner.transform.localScale;
             localScale.x *= -1f;
@@ -65,6 +68,7 @@ public class WallJumpState : State<PlayerController>
 
     public override void ExitState()
     {
+        _runner.GetAnimator().SetBool(PlayerAnimation.isWallJumpingBool, false);
     }
 
     public override void FixedUpdate()

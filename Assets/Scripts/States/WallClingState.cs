@@ -23,6 +23,7 @@ public class WallClingState : State<PlayerController>
 
         canJump = false;
 
+        _runner.GetAnimator().SetBool(PlayerAnimation.isWallClingingBool, true);
         clingDelay = _runner.StartCoroutine(ClingDelay());
     }
 
@@ -56,6 +57,7 @@ public class WallClingState : State<PlayerController>
 
     public override void ExitState()
     {
+        _runner.GetAnimator().SetBool(PlayerAnimation.isWallClingingBool, false);
     }
 
     public override void FixedUpdate()

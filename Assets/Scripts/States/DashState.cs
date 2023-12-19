@@ -29,6 +29,7 @@ public class DashState : State<PlayerController>
         }
         
         dashing = true;
+        _runner.GetAnimator().SetBool(PlayerAnimation.isDashingBool, true);
         canDash = false;
         dashDirection = Mathf.Clamp(_runner.transform.localScale.x, -1, 1);
 
@@ -39,6 +40,7 @@ public class DashState : State<PlayerController>
 
     private IEnumerator WallDashDelay(){
         yield return new WaitForSeconds(_runner.GetPlayerData().dashDuration);
+        _runner.GetAnimator().SetBool(PlayerAnimation.isDashingBool, false);
         dashing = false;
         yield return new WaitForSeconds(_runner.GetPlayerData().dashCooldown);
         canDash = true;

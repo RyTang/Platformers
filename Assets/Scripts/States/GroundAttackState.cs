@@ -6,32 +6,33 @@ using UnityEngine;
 public class GroundAttackState : State<PlayerController>
 {
     private bool attacking;
+    private float attackControl;
     private Coroutine attackDelay;
 
     public override void EnterState(PlayerController parent)
     {
 
         base.EnterState(parent);
-        attacking = true;
-        Debug.Log("Attacking");
-
 
         // Prevent from Moving  
         _runner.GetRigidbody2D().velocity = new Vector2(0, _runner.GetRigidbody2D().velocity.y);
+        Attack();
+    }
 
+    private void Attack()
+    {
         if (attackDelay != null)
         {
             _runner.StopCoroutine(attackDelay);
             attackDelay = null;
         }
 
-        Attack();
+        _runner.GetAnimator().SetTrigger(PlayerAnimation.attackTrigger);
 
-        if (attacking) attackDelay = _runner.StartCoroutine(AttackDelay());
-    }
+        _runner.GetAnimator().SetBool(PlayerAnimation.isAttackingBool, true);
 
-    private void Attack()
-    {
+        attacking = true;
+
         List<GameObject> attackedObjects = _runner.GetAttackCheck().GetObjectsInCheck();
 
         foreach (GameObject attackedObject in attackedObjects)
@@ -40,15 +41,28 @@ public class GroundAttackState : State<PlayerController>
             bool attackable = attackedObject.TryGetComponent<IDamageable>(out damageable);
             if (attackable) damageable.TakeDamage(_runner.GetPlayerData().attackDamage);
         }
+
+
+        if (attacking) attackDelay = _runner.StartCoroutine(AttackDelay());
     }
 
     private IEnumerator AttackDelay(){
+        
         yield return new WaitForSeconds(_runner.GetPlayerData().attackTime);
-        attacking = false;
+        
+        if (attackControl > 0){
+            Attack();
+        }
+        else{
+            _runner.GetAnimator().SetBool(PlayerAnimation.isAttackingBool, false);
+            attacking = false;
+        }        
     }
 
     public override void CaptureInput()
     {
+        attackControl = _runner.GetAttackControls();
+
     }
 
     public override void ChangeState()
