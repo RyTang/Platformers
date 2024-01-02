@@ -2,16 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "State/Ground Attack")]
-public class GroundAttackState : State<PlayerController>
+public abstract class BaseAttackState : State<PlayerController>
 {
-    private bool attacking;
-    private float attackControl;
-    private Coroutine attackDelay;
+    protected bool attacking;
+    protected float attackControl;
+    protected Coroutine attackDelay;
 
     public override void EnterState(PlayerController parent)
     {
-
         base.EnterState(parent);
 
         // Prevent from Moving  
@@ -19,7 +17,7 @@ public class GroundAttackState : State<PlayerController>
         Attack();
     }
 
-    private void Attack()
+    protected virtual void Attack()
     {
         if (attackDelay != null)
         {
@@ -27,37 +25,53 @@ public class GroundAttackState : State<PlayerController>
             attackDelay = null;
         }
 
-        _runner.GetAnimator().SetTrigger(PlayerAnimation.attackTrigger);
-
-        _runner.GetAnimator().SetBool(PlayerAnimation.isAttackingBool, true);
+        AttackAnimation();
 
         attacking = true;
-
-        List<GameObject> attackedObjects = _runner.GetAttackCheck().GetObjectsInCheck();
-
-        foreach (GameObject attackedObject in attackedObjects)
-        {
-            IDamageable damageable;
-            bool attackable = attackedObject.TryGetComponent<IDamageable>(out damageable);
-            if (attackable) damageable.TakeDamage(_runner.GetPlayerData().attackDamage);
-        }
-
+        AttackCollision();
 
         if (attacking) attackDelay = _runner.StartCoroutine(AttackDelay());
     }
 
-    private IEnumerator AttackDelay(){
+    protected virtual void AttackCollision()
+    {
+        List<GameObject> attackedObjects = _runner.GetAttackCheck().GetObjectsInCheck();
+
+        foreach (GameObject attackedObject in attackedObjects)
+        {
+            bool attackable = attackedObject.TryGetComponent(out IDamageable damageable);
+            if (attackable) damageable.TakeDamage(_runner.GetPlayerData().attackDamage);
+        }
+    }
+
+    /// <summary>
+    /// Animations to Trigger when attacking
+    /// </summary>
+    protected abstract void AttackAnimation();
+
+
+    /// <summary>
+    /// The Pause for the attack
+    /// </summary>
+    /// <returns></returns>
+    protected virtual IEnumerator AttackDelay(){
         
         yield return new WaitForSeconds(_runner.GetPlayerData().attackTime);
         
         if (attackControl > 0){
-            Attack();
+            // TODO: Switch to next attack
+            NextAttack();
         }
         else{
             _runner.GetAnimator().SetBool(PlayerAnimation.isAttackingBool, false);
             attacking = false;
         }        
     }
+
+    /// <summary>
+    /// Queues the next attack if control is pressed during current attack animation
+    /// </summary>
+    public abstract void NextAttack();
 
     public override void CaptureInput()
     {
@@ -74,6 +88,8 @@ public class GroundAttackState : State<PlayerController>
 
     public override void ExitState()
     {
+        attacking = false;
+        attackDelay = null;
     }
 
     public override void FixedUpdate()

@@ -36,7 +36,7 @@ public class FallState : State<PlayerController>
         }
        
         else if (_runner.GetGroundCheck().Check()){
-            _runner.SetState(typeof(LandState));
+            _runner.SetState(typeof(LandState), _runner.GetRigidbody2D().velocity.y);
         }
         else if (horizontalControl != 0 && _runner.GetWallCheck().Check()){
             _runner.SetState(typeof(WallClingState));

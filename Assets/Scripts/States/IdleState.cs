@@ -30,7 +30,7 @@ public class IdleState : State<PlayerController>
             _runner.SetState(typeof(DashState));
         } 
         else if (attackControl > 0){
-            _runner.SetState(typeof(GroundAttackState));
+            _runner.SetState(typeof(GroundAttackHierachy));
         }
         else if (horizontalControl != 0){
             _runner.SetState(typeof(WalkState));

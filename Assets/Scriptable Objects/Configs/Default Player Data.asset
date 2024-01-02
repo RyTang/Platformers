@@ -28,5 +28,5 @@ MonoBehaviour:
   wallSlidingSpeed: 2
   wallJumpForce: {x: 5, y: 10}
   wallJumpDuration: 0.15
-  attackTime: 0.3
+  attackTime: 0.5
   attackDamage: 1

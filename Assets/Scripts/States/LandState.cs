@@ -7,6 +7,14 @@ public class LandState : State<PlayerController>
 
     private bool canMove;
 
+    public override void EnterState(PlayerController parent, float floatVariable)
+    {
+        base.EnterState(parent, floatVariable);
+
+        canMove = !(floatVariable >= _runner.GetPlayerData().landVelocityThreshold);
+        LandCheck(canMove);
+    }
+
     public override void EnterState(PlayerController parent)
     {
         base.EnterState(parent);
@@ -16,8 +24,13 @@ public class LandState : State<PlayerController>
         Debug.Log("Landing Velocity: " + _runner.GetRigidbody2D().velocity.y);
 
         canMove = !(Mathf.Abs(_runner.GetRigidbody2D().velocity.y) >= _runner.GetPlayerData().landVelocityThreshold);
+        LandCheck(canMove);
+    }
 
-        if (!canMove){
+    private void LandCheck(bool canMove)
+    {
+        if (!canMove)
+        {
             // TODO: Create Animation here
             _runner.StopCoroutine(LandDelay());
             _runner.StartCoroutine(LandDelay());

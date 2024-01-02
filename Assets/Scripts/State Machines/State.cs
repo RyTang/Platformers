@@ -5,8 +5,13 @@ using UnityEngine;
 public abstract class State<T> : ScriptableObject where T: MonoBehaviour
 {
     protected T _runner;
+    
     public virtual void EnterState(T parent){
         _runner = parent;
+    }
+
+    public virtual void EnterState(T parent, float floatVariable){
+        EnterState(parent);
     }
 
     /// <summary>
