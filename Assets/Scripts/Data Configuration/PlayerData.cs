@@ -9,7 +9,7 @@ public class PlayerData : ScriptableObject
     public float jumpForce = 10f;
     public float coyoteTime = 0.3f;
 
-    [Header("Wall Jump Information")]
+    [Header("Dash Information")]
     public float dashDuration = 0.3f;
     public float dashForce = 5;
     public float dashCooldown = 1f;
@@ -30,7 +30,8 @@ public class PlayerData : ScriptableObject
     [Header("Wall Jump Information")]
     public float wallSlidingSpeed = 2f;
     public Vector2 wallJumpForce = new Vector2(10, 5);
-    public float wallJumpDuration = 0.3f;
+    public float wallJumpDuration = 0.5f;
+    public float clingDelay = 0.15f;
     
     [Header("Attack Information")]
     public float attackTime;

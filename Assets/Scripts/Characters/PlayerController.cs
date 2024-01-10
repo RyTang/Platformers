@@ -23,7 +23,7 @@ public class PlayerController : BaseCharacter<PlayerController>, IDamageable
         if (damage < 0) return;
 
         playerData.health -= damage;
-        SetState(typeof(InjuredState));
+        SetMainState(typeof(InjuredState));
         if (playerData.health <= 0 ) Destroyed();
     }
 

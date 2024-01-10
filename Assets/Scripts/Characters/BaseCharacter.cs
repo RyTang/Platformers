@@ -3,7 +3,7 @@ using UnityEngine;
 /// <summary>
 /// Base Class that all characters in this game must inherit from
 /// </summary>
-public abstract class BaseCharacter<T> : PlayerStateRunner<T> where T: MonoBehaviour
+public abstract class BaseCharacter<T> : StateRunner<T> where T: MonoBehaviour
 {
     protected Rigidbody2D rb2d;
     protected SpriteRenderer spriteRenderer;

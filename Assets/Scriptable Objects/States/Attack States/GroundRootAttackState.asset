@@ -9,9 +9,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 02719026f062f1e4ebd6fbf14e54e091, type: 3}
-  m_Name: Ground Attack Hierachy
+  m_Script: {fileID: 11500000, guid: 2c1466331bb92bb4ba95e948ad80beab, type: 3}
+  m_Name: GroundRootAttackState
   m_EditorClassIdentifier: 
-  _states:
-  - {fileID: 11400000, guid: ff2eee5623b6c7d4dad2ab909c59143d, type: 2}
-  - {fileID: 11400000, guid: 58335008245af9e4fa99f53d77ffee2f, type: 2}

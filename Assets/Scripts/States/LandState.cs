@@ -2,7 +2,7 @@ using System.Collections;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "State/Land")]
-public class LandState : State<PlayerController>
+public class LandState : BaseState<PlayerController>
 {
 
     private bool canMove;
@@ -11,7 +11,7 @@ public class LandState : State<PlayerController>
     {
         base.EnterState(parent, floatVariable);
 
-        canMove = !(floatVariable >= _runner.GetPlayerData().landVelocityThreshold);
+        canMove = !(floatVariable >= Runner.GetPlayerData().landVelocityThreshold);
         LandCheck(canMove);
     }
 
@@ -21,9 +21,9 @@ public class LandState : State<PlayerController>
 
         // FIXME: Velocity is 0 due to when entering the state, it has already touched the ground
 
-        Debug.Log("Landing Velocity: " + _runner.GetRigidbody2D().velocity.y);
+        Debug.Log("Landing Velocity: " + Runner.GetRigidbody2D().velocity.y);
 
-        canMove = !(Mathf.Abs(_runner.GetRigidbody2D().velocity.y) >= _runner.GetPlayerData().landVelocityThreshold);
+        canMove = !(Mathf.Abs(Runner.GetRigidbody2D().velocity.y) >= Runner.GetPlayerData().landVelocityThreshold);
         LandCheck(canMove);
     }
 
@@ -32,15 +32,15 @@ public class LandState : State<PlayerController>
         if (!canMove)
         {
             // TODO: Create Animation here
-            _runner.StopCoroutine(LandDelay());
-            _runner.StartCoroutine(LandDelay());
+            Runner.StopCoroutine(LandDelay());
+            Runner.StartCoroutine(LandDelay());
         }
 
-        _runner.GetAnimator().SetBool(PlayerAnimation.isLandingBool, true);
+        Runner.GetAnimator().SetBool(PlayerAnimation.isLandingBool, true);
     }
 
     private IEnumerator LandDelay(){
-        yield return new WaitForSeconds(_runner.GetPlayerData().landDelay);
+        yield return new WaitForSeconds(Runner.GetPlayerData().landDelay);
         canMove = true;
     }
 
@@ -48,19 +48,19 @@ public class LandState : State<PlayerController>
     {
     }
  
-    public override void ChangeState()
+    public override void CheckStateTransition()
     {
         if (canMove) {
-            _runner.SetState(typeof(IdleState));
+            Runner.SetMainState(typeof(IdleState));
         }
     }
 
     public override void ExitState()
     {
-        _runner.GetAnimator().SetBool(PlayerAnimation.isLandingBool, false);
+        Runner.GetAnimator().SetBool(PlayerAnimation.isLandingBool, false);
     }
 
-    public override void FixedUpdate()
+    public override void FixedUpdateState()
     {
     }
 
@@ -68,7 +68,12 @@ public class LandState : State<PlayerController>
     {
     }
 
-    public override void Update()
+    public override void UpdateState()
+    {
+    }
+
+
+    public override void InitialiseSubState()
     {
     }
 }

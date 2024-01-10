@@ -2,7 +2,7 @@ using System.Collections;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "State/Idle")]
-public class IdleState : State<PlayerController>
+public class IdleState : BaseState<PlayerController>
 {
     private float horizontalControl, verticalControl, dashControl, attackControl;
     
@@ -13,43 +13,43 @@ public class IdleState : State<PlayerController>
     public override void EnterState(PlayerController parent)
     {
         base.EnterState(parent);
-        _runner.GetAnimator().SetBool(PlayerAnimation.isIdleBool, true);
+        Runner.GetAnimator().SetBool(PlayerAnimation.isIdleBool, true);
     }
 
     public override void CaptureInput()
     {
-        horizontalControl = _runner.GetHorizontalControls();
-        verticalControl = _runner.GetVerticalControls();
-        dashControl = _runner.GetDashControls();
-        attackControl = _runner.GetAttackControls();
+        horizontalControl = Runner.GetHorizontalControls();
+        verticalControl = Runner.GetVerticalControls();
+        dashControl = Runner.GetDashControls();
+        attackControl = Runner.GetAttackControls();
     }
 
-    public override void ChangeState()
+    public override void CheckStateTransition()
     {
         if (dashControl > 0){
-            _runner.SetState(typeof(DashState));
+            Runner.SetMainState(typeof(DashState));
         } 
         else if (attackControl > 0){
-            _runner.SetState(typeof(GroundAttackHierachy));
+            Runner.SetMainState(typeof(GroundAttackState));
         }
         else if (horizontalControl != 0){
-            _runner.SetState(typeof(WalkState));
+            Runner.SetMainState(typeof(WalkState));
         }
         else if (verticalControl > 0 && canJump){
-            _runner.SetState(typeof(JumpState));
+            Runner.SetMainState(typeof(JumpState));
         }
-        else if ((verticalControl < 0 && !_runner.GetGroundCheck().Check()) || (_runner.GetRigidbody2D().velocity.y < 0 && !canJump)){
-            _runner.SetState(typeof(FallState));
+        else if ((verticalControl < 0 && !Runner.GetGroundCheck().Check()) || (Runner.GetRigidbody2D().velocity.y < 0 && !canJump)){
+            Runner.SetMainState(typeof(FallState));
         }
     }
 
     public override void ExitState()
     {
-        _runner.GetAnimator().SetBool(PlayerAnimation.isIdleBool, false);
+        Runner.GetAnimator().SetBool(PlayerAnimation.isIdleBool, false);
         canJump = false;
     }
 
-    public override void FixedUpdate()
+    public override void FixedUpdateState()
     {
     }
 
@@ -57,28 +57,33 @@ public class IdleState : State<PlayerController>
     {
     }
 
-    public override void Update()
+    public override void UpdateState()
     {
-        _runner.GetRigidbody2D().velocity = new Vector2(0, _runner.GetRigidbody2D().velocity.y);
+        Runner.GetRigidbody2D().velocity = new Vector2(0, Runner.GetRigidbody2D().velocity.y);
         
         CheckGround();
     }
 
     public void CheckGround(){
-        if (_runner.GetGroundCheck().Check()){
+        if (Runner.GetGroundCheck().Check()){
             canJump = true;
             if (coyoteTimer != null){
-                _runner.StopCoroutine(coyoteTimer);
+                Runner.StopCoroutine(coyoteTimer);
                 coyoteTimer = null;
             }
         }   
         else {
-            coyoteTimer = _runner.StartCoroutine(CoyoteTimer());
+            coyoteTimer = Runner.StartCoroutine(CoyoteTimer());
         }
     }
 
     public IEnumerator CoyoteTimer(){
-        yield return new WaitForSeconds(_runner.GetPlayerData().coyoteTime);
+        yield return new WaitForSeconds(Runner.GetPlayerData().coyoteTime);
         canJump = false;
+    }
+
+
+    public override void InitialiseSubState()
+    {
     }
 }

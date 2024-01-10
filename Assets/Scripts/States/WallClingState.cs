@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "State/Wall Cling")]
-public class WallClingState : State<PlayerController>
+public class WallClingState : BaseState<PlayerController>
 {
     private float horizontalControl, verticalControl, dashControl;
     private Rigidbody2D rb2d;
@@ -18,49 +18,49 @@ public class WallClingState : State<PlayerController>
         rb2d = parent.GetRigidbody2D();
 
         if (clingDelay != null){
-            _runner.StopCoroutine(clingDelay);
+            Runner.StopCoroutine(clingDelay);
         }
 
         canJump = false;
 
-        _runner.GetAnimator().SetBool(PlayerAnimation.isWallClingingBool, true);
-        clingDelay = _runner.StartCoroutine(ClingDelay());
+        Runner.GetAnimator().SetBool(PlayerAnimation.isWallClingingBool, true);
+        clingDelay = Runner.StartCoroutine(ClingDelay());
     }
 
 
     public override void CaptureInput()
     {
-        verticalControl = _runner.GetVerticalControls();
-        horizontalControl = _runner.GetHorizontalControls();
-        dashControl = _runner.GetDashControls();
+        verticalControl = Runner.GetVerticalControls();
+        horizontalControl = Runner.GetHorizontalControls();
+        dashControl = Runner.GetDashControls();
     }
 
-    public override void ChangeState()
+    public override void CheckStateTransition()
     {
-        if (dashControl > 0 && _runner.GetWallCheck().Check()){
-            Vector3 localScale = _runner.transform.localScale;
+        if (dashControl > 0 && Runner.GetWallCheck().Check()){
+            Vector3 localScale = Runner.transform.localScale;
             localScale.x *= -1f;
-            _runner.transform.localScale = localScale;
-            _runner.SetState(typeof(DashState));
+            Runner.transform.localScale = localScale;
+            Runner.SetMainState(typeof(DashState));
         }
         
-        else if (!_runner.GetWallCheck().Check() || (horizontalControl != _runner.transform.localScale.x && horizontalControl != 0)){
-            _runner.SetState(typeof(FallState));
+        else if (!Runner.GetWallCheck().Check() || (horizontalControl != Runner.transform.localScale.x && horizontalControl != 0)){
+            Runner.SetMainState(typeof(FallState));
         }
-        else if (_runner.GetGroundCheck().Check()){
-            _runner.SetState(typeof(LandState));
+        else if (Runner.GetGroundCheck().Check()){
+            Runner.SetMainState(typeof(LandState));
         }
         else if (verticalControl > 0 & canJump){
-            _runner.SetState(typeof(WallJumpState));
+            Runner.SetMainState(typeof(WallJumpState));
         }
     }
 
     public override void ExitState()
     {
-        _runner.GetAnimator().SetBool(PlayerAnimation.isWallClingingBool, false);
+        Runner.GetAnimator().SetBool(PlayerAnimation.isWallClingingBool, false);
     }
 
-    public override void FixedUpdate()
+    public override void FixedUpdateState()
     {
     }
 
@@ -68,19 +68,23 @@ public class WallClingState : State<PlayerController>
     {
     }
 
-    public override void Update()
+    public override void UpdateState()
     {
-
-        rb2d.velocity = new Vector2(rb2d.velocity.x, Mathf.Clamp(rb2d.velocity.y, -_runner.GetPlayerData().wallSlidingSpeed, _runner.GetPlayerData().wallSlidingSpeed));
+        rb2d.velocity = new Vector2(rb2d.velocity.x, Mathf.Clamp(rb2d.velocity.y, -Runner.GetPlayerData().wallSlidingSpeed, Runner.GetPlayerData().wallSlidingSpeed));
     }
 
     public IEnumerator ClingDelay(){
-        yield return new WaitForSeconds(_runner.GetPlayerData().wallJumpDuration);
+        yield return new WaitForSeconds(Runner.GetPlayerData().clingDelay);
         canJump = true;
     }
 
     public IEnumerator CoyoteTimer(){
-        yield return new WaitForSeconds(_runner.GetPlayerData().coyoteTime);
+        yield return new WaitForSeconds(Runner.GetPlayerData().coyoteTime);
         canJump = false;
+    }
+
+
+    public override void InitialiseSubState()
+    {
     }
 }
