@@ -36,6 +36,8 @@ public class StateRunner<T>: MonoBehaviour where T : MonoBehaviour
             yield return StartCoroutine(active_state.ExitStates());
         }
         active_state = _states.First(s => s.GetType() == newStateType);
+        Debug.Assert(active_state != null, gameObject + ": UNABLE TO FIND STATE " + newStateType);
+
         active_state.EnterState(GetComponent<T>(), floatVariable);
     }
 

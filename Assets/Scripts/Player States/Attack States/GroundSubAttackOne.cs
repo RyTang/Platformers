@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "State/GroundAttackState/Sub Attack 1")]
+[CreateAssetMenu(menuName = "Player State/GroundAttackState/Sub Attack 1")]
 public class GroundSubAttackOne : BaseState<PlayerController>
 {
     private bool _isAttacking;
