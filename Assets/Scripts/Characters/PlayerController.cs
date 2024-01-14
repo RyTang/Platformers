@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Animations;
 
 /// <summary>
 /// Base Class that all characters in this game must inherit from
@@ -11,8 +10,15 @@ public class PlayerController : BaseCharacter<PlayerController>, IDamageable
 {
     [SerializeField] PlayerData playerData;
     [SerializeField] private LayerCheck attackCheck;
+    [SerializeField] protected LayerCheck wallCheck;
     
     private Dictionary<string, Coroutine> buttonReleasedStates = new Dictionary<string, Coroutine>();
+
+    protected override void Awake()
+    {
+        base.Awake();
+        playerData = Instantiate(playerData);
+    }
 
 
     public PlayerData GetPlayerData(){
@@ -39,11 +45,15 @@ public class PlayerController : BaseCharacter<PlayerController>, IDamageable
     public virtual void Destroyed(){
         // TODO: Perform Death Animation
 
-        Destroy(transform.parent.gameObject);
+        Destroy(transform.root.gameObject);
     }
 
     public LayerCheck GetAttackCheck(){
         return attackCheck;
+    }
+
+    public LayerCheck GetWallCheck(){
+        return wallCheck;
     }
 
     public virtual float GetHorizontalControls(){
