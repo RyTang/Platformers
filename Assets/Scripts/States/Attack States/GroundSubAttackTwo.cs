@@ -17,7 +17,6 @@ public class GroundSubAttackTwo : BaseState<PlayerController>
         // Prevent from Moving  
         Runner.GetRigidbody2D().velocity = new Vector2(0, Runner.GetRigidbody2D().velocity.y);
 
-        Debug.Log("Sub Attack 2: attack Control:" + attackControl);
         Attack();
     }
 

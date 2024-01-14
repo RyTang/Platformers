@@ -20,7 +20,6 @@ public class LandState : BaseState<PlayerController>
         // FIXME: Velocity is 0 due to when entering the state, it has already touched the ground
 
         landVelocity = landVelocity != 0 ? landVelocity : Mathf.Abs(Runner.GetRigidbody2D().velocity.y);
-        Debug.Log("Normal Entry - Landing Velocity: " + landVelocity);
         canMove = !(landVelocity >= Runner.GetPlayerData().landVelocityThreshold);
         LandCheck(canMove);
     }
