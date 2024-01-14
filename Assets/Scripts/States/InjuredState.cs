@@ -49,7 +49,4 @@ public class InjuredState : BaseState<PlayerController>
     {
     }
 
-    public override void ExitState()
-    {
-    }
 }

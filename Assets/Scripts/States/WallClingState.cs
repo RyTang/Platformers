@@ -48,16 +48,17 @@ public class WallClingState : BaseState<PlayerController>
             Runner.SetMainState(typeof(FallState));
         }
         else if (Runner.GetGroundCheck().Check()){
-            Runner.SetMainState(typeof(LandState));
+            Runner.SetMainState(typeof(LandState), Runner.GetRigidbody2D().velocity.y);
         }
         else if (verticalControl > 0 & canJump){
             Runner.SetMainState(typeof(WallJumpState));
         }
     }
 
-    public override void ExitState()
+    public override IEnumerator ExitState()
     {
         Runner.GetAnimator().SetBool(PlayerAnimation.isWallClingingBool, false);
+        yield break;
     }
 
     public override void FixedUpdateState()

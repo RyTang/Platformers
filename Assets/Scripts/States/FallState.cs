@@ -36,19 +36,16 @@ public class FallState : BaseState<PlayerController>
         if (dashControl > 0){
             Runner.SetMainState(typeof(DashState));
         }
-       
-        else if (Runner.GetGroundCheck().Check()){
-            Runner.SetMainState(typeof(LandState), Runner.GetRigidbody2D().velocity.y);
-        }
         else if (horizontalControl != 0 && Runner.GetWallCheck().Check()){
             Runner.SetMainState(typeof(WallClingState));
         }
     }
 
-    public override void ExitState()
+    public override IEnumerator ExitState()
     {
         rb2d.gravityScale = initialLocalGravity;
         Runner.GetAnimator().SetBool(PlayerAnimation.isFallingBool, false);
+        yield break;
     }
 
     public override void FixedUpdateState()
@@ -58,7 +55,9 @@ public class FallState : BaseState<PlayerController>
 
     public override void OnStateCollisionEnter(Collision2D collision)
     {
-        
+        if (Runner.GetGroundCheck()){
+            Runner.SetMainState(typeof(LandState), collision.relativeVelocity.y);
+        }
     }
 
     public override void UpdateState()
@@ -76,5 +75,4 @@ public class FallState : BaseState<PlayerController>
     public override void InitialiseSubState()
     {
     }
-
 }

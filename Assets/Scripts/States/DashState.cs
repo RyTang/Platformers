@@ -16,7 +16,7 @@ public class DashState : BaseState<PlayerController>
     {
         base.EnterState(parent);
 
-        _isRootState = false;
+        IsRootState = false;
 
         if (!canDash && currentDashDelay != null){
             Runner.SetMainState(typeof(IdleState));
@@ -57,6 +57,9 @@ public class DashState : BaseState<PlayerController>
         if (!dashing){
             Runner.SetMainState(typeof(WalkState));
         }
+        else if (Runner.GetWallCheck().Check() && !Runner.GetGroundCheck().Check()){
+            Runner.SetMainState(typeof(WallClingState));
+        }
     }
 
     public override void FixedUpdateState()
@@ -79,7 +82,4 @@ public class DashState : BaseState<PlayerController>
     {
     }
 
-    public override void ExitState()
-    {
-    }
 }

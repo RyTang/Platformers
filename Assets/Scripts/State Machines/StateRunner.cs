@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -23,21 +24,20 @@ public class StateRunner<T>: MonoBehaviour where T : MonoBehaviour
     /// </summary>
     /// <param name="newStateType">The new State type to be switched into</param>
     public void SetMainState(Type newStateType){
-
-        if (active_state != null){
-            active_state.ExitStates();
-        }
-        active_state = _states.First(s => s.GetType() == newStateType);
-        active_state.EnterState(GetComponent<T>());
+        SetMainState(newStateType, 0);
     }
 
     public void SetMainState(Type newStateType, float floatVariable){
+        StartCoroutine(CleanStates(newStateType, floatVariable));
+    }    
+
+    protected IEnumerator CleanStates(Type newStateType, float floatVariable){
         if (active_state != null){
-            active_state.ExitStates();
+            yield return StartCoroutine(active_state.ExitStates());
         }
         active_state = _states.First(s => s.GetType() == newStateType);
         active_state.EnterState(GetComponent<T>(), floatVariable);
-    }    
+    }
 
     public virtual void Update(){
         active_state.UpdateStates();

@@ -37,9 +37,10 @@ public class JumpState : BaseState<PlayerController>
         }
     }
 
-    public override void ExitState()
+    public override IEnumerator ExitState()
     {
         Runner.GetAnimator().SetBool(PlayerAnimation.isJumping, false);
+        yield break;
     }
 
     public override void FixedUpdateState()

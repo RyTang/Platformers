@@ -7,11 +7,15 @@ public abstract class BaseState<T> : ScriptableObject where T : MonoBehaviour
 {
     private T _runner;
     protected T Runner { get => _runner; set => _runner = value; }
+    protected bool IsStateActive { get => isStateActive; set => isStateActive = value; }
+    protected bool IsRootState { get => isRootState; set => isRootState = value; }
 
     protected BaseState<T> _currentSubState;
     protected BaseState<T> _currentSuperState;
 
-    protected bool _isRootState = false;
+
+    private bool isStateActive = true;
+    private bool isRootState = false;
 
     /// <summary>
     /// Enters state while setting Parent State Runner running the script
@@ -19,6 +23,7 @@ public abstract class BaseState<T> : ScriptableObject where T : MonoBehaviour
     /// <param name="parent">Parent State Runner running the script</param>
     public virtual void EnterState(T parent){
         Runner = parent;
+        IsStateActive = true;
     }
 
     /// <summary>
@@ -53,7 +58,7 @@ public abstract class BaseState<T> : ScriptableObject where T : MonoBehaviour
     /// <summary>
     /// Exit State is called when transitioning to the next State. Clean Up should happen here
     /// </summary>
-    public abstract void ExitState();
+    public virtual IEnumerator ExitState(){yield break;}
 
     /// <summary>
     /// Handles Collision Interaction
@@ -70,6 +75,8 @@ public abstract class BaseState<T> : ScriptableObject where T : MonoBehaviour
     /// Recursively Updates the Sub States
     /// </summary>
     public void UpdateStates(){
+        if (!isStateActive) return;
+
         CaptureInput();
         CheckStateTransition();
         UpdateState();
@@ -91,11 +98,12 @@ public abstract class BaseState<T> : ScriptableObject where T : MonoBehaviour
     /// <summary>
     /// Recursively Exits the Current State and Sub States
     /// </summary>
-    public virtual void ExitStates(){
+    public virtual IEnumerator ExitStates(){
+        IsStateActive = false;
         if (_currentSubState != null){
-            _currentSubState.ExitStates();
+            yield return Runner.StartCoroutine(_currentSubState.ExitStates());
         }
-        ExitState();
+        yield return Runner.StartCoroutine(ExitState());
     }
 
 

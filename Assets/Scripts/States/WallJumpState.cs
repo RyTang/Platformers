@@ -22,10 +22,7 @@ public class WallJumpState : BaseState<PlayerController>
         canMove = false;
         float wallJumpDirection = -Runner.transform.localScale.x;
         Vector2 jumpForce = new Vector2(wallJumpDirection * Runner.GetPlayerData().wallJumpForce.x, Runner.GetPlayerData().wallJumpForce.y);
-        Debug.Log(jumpForce);
         rb2d.AddForce(jumpForce, ForceMode2D.Impulse);
-        Debug.Log(rb2d.gravityScale);
-        Debug.Log(rb2d.velocity);
 
         Runner.GetAnimator().SetTrigger(PlayerAnimation.triggerWallJump);
         Runner.GetAnimator().SetBool(PlayerAnimation.isWallJumpingBool, true);
@@ -43,7 +40,6 @@ public class WallJumpState : BaseState<PlayerController>
 
     private IEnumerator WallJumpDelay(){
         yield return new WaitForSeconds(Runner.GetPlayerData().wallJumpDuration);
-        Debug.Log(rb2d.velocity);
         canMove = true;
     }
 
@@ -71,10 +67,11 @@ public class WallJumpState : BaseState<PlayerController>
         }
     }
 
-    public override void ExitState()
+    public override IEnumerator ExitState()
     {
         Runner.GetAnimator().SetBool(PlayerAnimation.isWallJumpingBool, false);
         currentWallDelay = null;
+        yield break;
     }
 
     public override void FixedUpdateState()

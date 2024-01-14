@@ -34,7 +34,7 @@ public class WalkState : BaseState<PlayerController>
             Runner.SetMainState(typeof(DashState));
         }
         else if (attackControl > 0) {
-            Runner.SetMainState(typeof(GroundAttackState));
+            Runner.SetMainState(typeof(GroundSubAttackOne));
         }
         else if (horizontalControl == 0){
             Runner.SetMainState(typeof(IdleState));
@@ -45,11 +45,15 @@ public class WalkState : BaseState<PlayerController>
         else if ((verticalControl < 0 && !Runner.GetGroundCheck().Check()) || (Runner.GetRigidbody2D().velocity.y < 0 && !canJump)){
             Runner.SetMainState(typeof(FallState));
         }
+        else if (horizontalControl != 0 && Runner.GetWallCheck().Check() && !Runner.GetGroundCheck().Check()){
+            Runner.SetMainState(typeof(WallClingState));
+        }
     }
     
-    public override void ExitState(){
+    public override IEnumerator ExitState(){
         canJump = false;
         Runner.GetAnimator().SetBool(PlayerAnimation.isRunningBool, false);
+        yield break;
     }
 
     public override void FixedUpdateState()

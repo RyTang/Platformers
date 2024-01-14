@@ -17,6 +17,7 @@ public class GroundSubAttackOne : BaseState<PlayerController>
         // Prevent from Moving  
         Runner.GetRigidbody2D().velocity = new Vector2(0, Runner.GetRigidbody2D().velocity.y);
 
+        Debug.Log("Sub Attack 1: attack Control:" + attackControl);
         Attack();
     }
 
@@ -50,32 +51,30 @@ public class GroundSubAttackOne : BaseState<PlayerController>
     private IEnumerator AttackDelay(){
         
         yield return new WaitForSeconds(Runner.GetPlayerData().attackTime);
-        
-        if (attackControl > 0){
-            Attack();
-        }
-        else{
-            Runner.GetAnimator().SetBool(PlayerAnimation.isAttackingBool, false);
-            _isAttacking = false;
-        }        
+
+        Runner.GetAnimator().SetBool(PlayerAnimation.isAttackingBool, false);
+        _isAttacking = false;       
     }
 
-    public override void ExitState()
+    public override IEnumerator ExitState()
     {
-        // while (_isAttacking) {
-        //     // FIXME: Change it
-        // }
+        while (_isAttacking) {
+            yield return null;
+        }
+        attackControl = 0;
     }
 
     public override void CaptureInput()
     {
+        // FIXME: Attack Controls continuosly staying as positive
         attackControl = Runner.GetAttackControls();        
     }
 
     public override void CheckStateTransition()
     {
         if (attackControl > 0 && _isAttacking){
-            _currentSuperState.SetSubState(Runner.GetState(typeof(GroundSubAttackTwo)));
+            Runner.SetMainState(typeof(GroundSubAttackTwo));
+            Debug.Log("Sub Attack 1: Changing to Attack 2:" + attackControl);
         }
         else if (attackControl <= 0 && !_isAttacking){
             Runner.SetMainState(typeof(IdleState));

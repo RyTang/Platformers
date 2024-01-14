@@ -17,6 +17,7 @@ public class GroundSubAttackTwo : BaseState<PlayerController>
         // Prevent from Moving  
         Runner.GetRigidbody2D().velocity = new Vector2(0, Runner.GetRigidbody2D().velocity.y);
 
+        Debug.Log("Sub Attack 2: attack Control:" + attackControl);
         Attack();
     }
 
@@ -64,18 +65,20 @@ public class GroundSubAttackTwo : BaseState<PlayerController>
     public override void CheckStateTransition()
     {
         if (attackControl > 0 && _isAttacking){
-            _currentSuperState.SetSubState(Runner.GetState(typeof(GroundSubAttackTwo)));
+            attackControl = 0;
+            Runner.SetMainState(typeof(GroundSubAttackOne));
         }
         else if (attackControl <= 0 && !_isAttacking){
             Runner.SetMainState(typeof(IdleState));
         }
     }
 
-    public override void ExitState()
+    public override IEnumerator ExitState()
     {
-        // while (_isAttacking) {
-        //     // FIXME: Change it
-        // }
+        while (_isAttacking) {
+            yield return null;
+        }
+        attackControl = 0;
     }
 
     public override void FixedUpdateState()

@@ -30,7 +30,7 @@ public class IdleState : BaseState<PlayerController>
             Runner.SetMainState(typeof(DashState));
         } 
         else if (attackControl > 0){
-            Runner.SetMainState(typeof(GroundAttackState));
+            Runner.SetMainState(typeof(GroundSubAttackOne));
         }
         else if (horizontalControl != 0){
             Runner.SetMainState(typeof(WalkState));
@@ -43,10 +43,11 @@ public class IdleState : BaseState<PlayerController>
         }
     }
 
-    public override void ExitState()
+    public override IEnumerator ExitState()
     {
         Runner.GetAnimator().SetBool(PlayerAnimation.isIdleBool, false);
         canJump = false;
+        yield break;
     }
 
     public override void FixedUpdateState()

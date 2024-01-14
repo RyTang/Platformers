@@ -4,26 +4,24 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "State/Land")]
 public class LandState : BaseState<PlayerController>
 {
-
     private bool canMove;
+    private float landVelocity;
 
     public override void EnterState(PlayerController parent, float floatVariable)
     {
+        landVelocity = Mathf.Abs(floatVariable);
         base.EnterState(parent, floatVariable);
-
-        canMove = !(floatVariable >= Runner.GetPlayerData().landVelocityThreshold);
-        LandCheck(canMove);
     }
 
     public override void EnterState(PlayerController parent)
     {
+        // FIXME: Double Calling Enter State when entering
         base.EnterState(parent);
-
         // FIXME: Velocity is 0 due to when entering the state, it has already touched the ground
 
-        Debug.Log("Landing Velocity: " + Runner.GetRigidbody2D().velocity.y);
-
-        canMove = !(Mathf.Abs(Runner.GetRigidbody2D().velocity.y) >= Runner.GetPlayerData().landVelocityThreshold);
+        landVelocity = landVelocity != 0 ? landVelocity : Mathf.Abs(Runner.GetRigidbody2D().velocity.y);
+        Debug.Log("Normal Entry - Landing Velocity: " + landVelocity);
+        canMove = !(landVelocity >= Runner.GetPlayerData().landVelocityThreshold);
         LandCheck(canMove);
     }
 
@@ -55,9 +53,10 @@ public class LandState : BaseState<PlayerController>
         }
     }
 
-    public override void ExitState()
+    public override IEnumerator ExitState()
     {
         Runner.GetAnimator().SetBool(PlayerAnimation.isLandingBool, false);
+        yield break;
     }
 
     public override void FixedUpdateState()
