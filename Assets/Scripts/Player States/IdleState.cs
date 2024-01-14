@@ -4,7 +4,7 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Player State/Idle")]
 public class IdleState : BaseState<PlayerController>
 {
-    private float horizontalControl, verticalControl, dashControl, attackControl;
+    private float horizontalControl, verticalControl, dashControl, attackControl, sprintControl;
     
     private bool canJump = false;
 
@@ -22,6 +22,7 @@ public class IdleState : BaseState<PlayerController>
         verticalControl = Runner.GetVerticalControls();
         dashControl = Runner.GetDashControls();
         attackControl = Runner.GetAttackControls();
+        sprintControl = Runner.GetSprintControls();
     }
 
     public override void CheckStateTransition()
@@ -29,6 +30,10 @@ public class IdleState : BaseState<PlayerController>
         if (dashControl > 0){
             Runner.SetMainState(typeof(DashState));
         } 
+        else if (horizontalControl != 0 && sprintControl > 0){
+            Debug.Log("Sprinting");
+            Runner.SetMainState(typeof(SprintState));
+        }
         else if (attackControl > 0){
             Runner.SetMainState(typeof(GroundSubAttackOne));
         }

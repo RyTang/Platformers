@@ -18,6 +18,7 @@ public class PlayerController : BaseCharacter<PlayerController>, IDamageable
     {
         base.Awake();
         playerData = Instantiate(playerData);
+        playerData.currentEnergy = playerData.maxEnergyBar;
     }
 
 
@@ -74,6 +75,11 @@ public class PlayerController : BaseCharacter<PlayerController>, IDamageable
         return GetSingularPress("Attack");
     }
 
+    public virtual float GetSprintControls()
+    {
+        return Input.GetAxisRaw("Sprint");
+    }
+
     private float GetSingularPress(string axisToCheck)
     {
         if (buttonReleasedStates.ContainsKey(axisToCheck))
@@ -97,4 +103,6 @@ public class PlayerController : BaseCharacter<PlayerController>, IDamageable
 
         buttonReleasedStates.Remove(buttonToRelease);
     }
+
+    
 }

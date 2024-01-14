@@ -8,9 +8,14 @@ public class EnemyWalkTowardsState : BaseState<BaseEnemy>
 {
     public GameObject objToChase;
 
+    private bool isChasing;
+
+    private float timer;
+
     public override void EnterState(BaseEnemy parent, object objToPass)
     {
         objToChase = (GameObject) objToPass;
+        isChasing = true;
         base.EnterState(parent, objToPass);
     }
 
@@ -20,14 +25,32 @@ public class EnemyWalkTowardsState : BaseState<BaseEnemy>
 
     public override void CheckStateTransition()
     {
-        List<GameObject> objsInRange = Runner.GetDetectCheck().GetObjectsInCheck();
-
-        if (!objsInRange.Contains(objToChase)){
+        if (!isChasing){
             Runner.SetMainState(typeof(EnemyDetectTargetState));
         }
         else if (Runner.GetAttackCheck().Check()){
             // TODO: Attempt to Attack
             Runner.SetMainState(typeof(EnemyAttackState));
+        }
+    }
+
+    public override void UpdateState()
+    {
+        List<GameObject> objsInRange = Runner.GetDetectCheck().GetObjectsInCheck(); 
+
+        bool objInRange = objsInRange.Contains(objToChase);
+
+        if (objInRange) {
+            timer = Runner.GetBasicEnemydata().chaseDuration;
+            isChasing = true;
+        }
+
+        else if (!objInRange){
+            timer -= Time.deltaTime;
+
+            if (timer <= 0){
+                isChasing = false;
+            }
         }
     }
 
@@ -51,7 +74,5 @@ public class EnemyWalkTowardsState : BaseState<BaseEnemy>
     {
     }
 
-    public override void UpdateState()
-    {
-    }
+    
 }

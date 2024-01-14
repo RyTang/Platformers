@@ -4,7 +4,7 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Player State/Walk")]
 public class WalkState : BaseState<PlayerController>
 {
-    private float horizontalControl, verticalControl, dashControl, attackControl;
+    private float horizontalControl, verticalControl, dashControl, attackControl, sprintControl;
 
     private Rigidbody2D rb2d;
 
@@ -26,12 +26,17 @@ public class WalkState : BaseState<PlayerController>
         verticalControl = Runner.GetVerticalControls();
         dashControl = Runner.GetDashControls();
         attackControl = Runner.GetAttackControls();
+        sprintControl = Runner.GetSprintControls();
     }
 
     public override void CheckStateTransition()
     {
         if (dashControl > 0){
             Runner.SetMainState(typeof(DashState));
+        }
+        else if (horizontalControl != 0 && sprintControl > 0){
+            Debug.Log("Sprinting");
+            Runner.SetMainState(typeof(SprintState));
         }
         else if (attackControl > 0) {
             Runner.SetMainState(typeof(GroundSubAttackOne));

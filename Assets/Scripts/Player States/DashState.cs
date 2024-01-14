@@ -54,8 +54,11 @@ public class DashState : BaseState<PlayerController>
 
     public override void CheckStateTransition()
     {
-        if (!dashing){
-            Runner.SetMainState(typeof(WalkState));
+        if (!dashing && !Runner.GetGroundCheck().Check()){
+            Runner.SetMainState(typeof(FallState));
+        }
+        else if (!dashing && Runner.GetGroundCheck().Check()){
+            Runner.SetMainState(typeof(IdleState));
         }
         else if (Runner.GetWallCheck().Check() && !Runner.GetGroundCheck().Check()){
             Runner.SetMainState(typeof(WallClingState));

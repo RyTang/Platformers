@@ -1772,7 +1772,7 @@ MonoBehaviour:
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
     GateFit: 2
-    m_SensorSize: {x: 1.7754492, y: 1}
+    m_SensorSize: {x: 1.7767296, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0
@@ -1877,7 +1877,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6019058279429399970, guid: d698417cf6257374d87f11faae9bedf8, type: 3}
       propertyPath: _states.Array.size
-      value: 11
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 6019058279429399970, guid: d698417cf6257374d87f11faae9bedf8, type: 3}
       propertyPath: testData.Array.size
@@ -1930,7 +1930,7 @@ PrefabInstance:
     - target: {fileID: 6019058279429399970, guid: d698417cf6257374d87f11faae9bedf8, type: 3}
       propertyPath: _states.Array.data[11]
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 11400000, guid: 38e60de1f0b626d439b1c7b9aab3bfd2, type: 2}
     - target: {fileID: 6019058279429399971, guid: d698417cf6257374d87f11faae9bedf8, type: 3}
       propertyPath: m_Sprite
       value: 

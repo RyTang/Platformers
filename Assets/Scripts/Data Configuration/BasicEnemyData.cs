@@ -12,4 +12,5 @@ public class BasicEnemyData : ScriptableObject
     public float attackTime;
     public int attackDamage;
     public float attackCooldown;
+    public float chaseDuration;
 }

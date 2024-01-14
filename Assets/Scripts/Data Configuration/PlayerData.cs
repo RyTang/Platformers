@@ -14,6 +14,15 @@ public class PlayerData : ScriptableObject
     public float dashForce = 5;
     public float dashCooldown = 1f;
 
+    [Header("Sprint State")]
+    public float maxEnergyBar = 100f;
+    public float currentEnergy = 100f;
+    public float maxSprintSpeed = 10f;
+    public float sprintDepletionRate = 10f;
+    public float energyRecoveryRate = 5f;
+    public float accelerationTime = 2.0f;
+    public float decelerationTime = 1.0f;
+
     [Header("Injured State")]
 
     public float injuredDuration = 0.5f;

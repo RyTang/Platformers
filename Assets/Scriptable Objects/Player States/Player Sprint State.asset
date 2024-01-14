@@ -9,13 +9,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e1e56263f5f859c45a98605a28aff232, type: 3}
-  m_Name: Enemy Grunt
+  m_Script: {fileID: 11500000, guid: b5591dec4e5fe3e4eb2ea2f6bb5d2b6c, type: 3}
+  m_Name: Player Sprint State
   m_EditorClassIdentifier: 
-  health: 2
-  moveSpeed: 3
-  jumpForce: 5
-  attackTime: 1
-  attackDamage: 1
-  attackCooldown: 1
-  chaseDuration: 1
