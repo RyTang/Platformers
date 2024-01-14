@@ -4,44 +4,77 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class StateRunner<T>: MonoBehaviour where T : MonoBehaviour
+public class StateRunner<T> : MonoBehaviour where T : MonoBehaviour
 {
     [SerializeField] private List<BaseState<T>> _states;
+    [SerializeField] Dictionary<Type, BaseState<T>> _cacheStates = new Dictionary<Type, BaseState<T>>();
     private BaseState<T> active_state;
 
-    protected virtual void Awake(){}
-    
-    protected virtual void Start(){
+    public Dictionary<Type, BaseState<T>> CacheStates { get => _cacheStates; set => _cacheStates = value; }
+
+    protected virtual void Awake() { }
+
+    protected virtual void Start()
+    {
         SetMainState(_states[0].GetType());
     }
 
-    public BaseState<T> GetState(Type stateTypeWanted){
-        return _states.First(s => s.GetType() == stateTypeWanted);
+    public BaseState<T> GetState(Type stateTypeWanted)
+    {
+        if (CacheStates.ContainsKey(stateTypeWanted)){
+            return CacheStates[stateTypeWanted];
+        }
+        else{
+            BaseState<T> newCacheState = Instantiate(_states.First(s => s.GetType() == stateTypeWanted));
+            CacheStates.Add(stateTypeWanted, newCacheState);
+            return newCacheState;
+        }
     }
 
     /// <summary>
-    /// Changes the current state to a new State
+    /// Sets the Next Main State
     /// </summary>
-    /// <param name="newStateType">The new State type to be switched into</param>
-    public void SetMainState(Type newStateType){
-        SetMainState(newStateType, 0);
+    /// <param name="newStateType">Type of State that should be added into</param>
+    public void SetMainState(Type newStateType)
+    {
+        StartCoroutine(CleanStates(newStateType, null));
     }
 
-    public void SetMainState(Type newStateType, float floatVariable){
-        StartCoroutine(CleanStates(newStateType, floatVariable));
-    }    
+    /// <summary>
+    /// Sets the Next Main State while allowing to pass through an object
+    /// </summary>
+    /// <param name="newStateType">Type of State that should be added into</param>
+    /// <param name="objToPass">Object to pass to the next State</param>
+    public void SetMainState(Type newStateType, object objToPass){
+        StartCoroutine(CleanStates(newStateType, objToPass));
+    }
 
-    protected IEnumerator CleanStates(Type newStateType, float floatVariable){
-        if (active_state != null){
+    private IEnumerator CleanStates(Type newStateType, object parameter)
+    {
+        if (active_state != null)
+        {
             yield return StartCoroutine(active_state.ExitStates());
         }
-        active_state = _states.First(s => s.GetType() == newStateType);
+
+        active_state = GetState(newStateType);
         Debug.Assert(active_state != null, gameObject + ": UNABLE TO FIND STATE " + newStateType);
 
-        active_state.EnterState(GetComponent<T>(), floatVariable);
+        if (parameter is float)
+        {
+            active_state.EnterState(GetComponent<T>(), (float) parameter);
+        }
+        else if (parameter is GameObject)
+        {
+            active_state.EnterState(GetComponent<T>(), (GameObject) parameter);
+        }
+        else{
+            active_state.EnterState(GetComponent<T>());
+        }
+
     }
 
-    public virtual void Update(){
+    public virtual void Update()
+    {
         active_state.UpdateStates();
     }
 

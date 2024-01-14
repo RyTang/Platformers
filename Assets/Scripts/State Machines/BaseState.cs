@@ -30,8 +30,17 @@ public abstract class BaseState<T> : ScriptableObject where T : MonoBehaviour
     /// Enters State while passing information regarding any variable that the State Requires
     /// </summary>
     /// <param name="parent">Parent State Runner that is running the script</param>
-    /// <param name="floatVariable">Data that should be passed</param>
-    public virtual void EnterState(T parent, float floatVariable){
+    /// <param name="floatToPass">Data that should be passed</param>
+    public virtual void EnterState(T parent, float floatToPass){
+        EnterState(parent);
+    }
+
+    /// <summary>
+    /// Enters State while passing information regarding any variable that the State Requires
+    /// </summary>
+    /// <param name="parent">Parent State Runner that is running the script</param>
+    /// <param name="objToPass">Data that should be passed</param>
+    public virtual void EnterState(T parent, object objToPass){
         EnterState(parent);
     }
 

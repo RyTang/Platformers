@@ -2,11 +2,29 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class BaseEnemy<T> : BaseCharacter<T>, IDamageable where T: MonoBehaviour
+public abstract class BaseEnemy : BaseCharacter<BaseEnemy>, IDamageable
 {
-    [SerializeField] private int health = 2;
+    [SerializeField] private LayerCheck _detectionArea; 
+    [SerializeField] private LayerCheck _attackArea;
+    [SerializeField] private int _health = 2;
 
-    protected int Health { get => health; set => health = value; }
+    [SerializeField] BasicEnemyData enemyData;
+
+    protected int Health { get => _health; set => _health = value; }
+
+    protected override void Awake()
+    {
+        base.Awake();
+
+        enemyData = Instantiate(enemyData);
+    }
+
+    protected override void Start()
+    {
+        base.Start();
+
+        Health = enemyData.health;
+    }
 
     public void Destroyed()
     {
@@ -21,5 +39,17 @@ public abstract class BaseEnemy<T> : BaseCharacter<T>, IDamageable where T: Mono
         if (Health <= 0){
             Destroyed();
         }
+    }
+
+    public LayerCheck GetDetectCheck(){
+        return _detectionArea;
+    }
+
+    public LayerCheck GetAttackCheck(){
+        return _attackArea;
+    }
+
+    public BasicEnemyData GetBasicEnemydata(){
+        return enemyData;
     }
 }

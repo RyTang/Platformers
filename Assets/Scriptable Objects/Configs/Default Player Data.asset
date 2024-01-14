@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a134b9b5a016f6444835fe189b9f9354, type: 3}
   m_Name: Default Player Data
   m_EditorClassIdentifier: 
-  health: 10
+  health: 5
   moveSpeed: 5
   jumpForce: 8
   coyoteTime: 0.3

@@ -11,7 +11,6 @@ public abstract class BaseCharacter<T> : StateRunner<T> where T: MonoBehaviour
 
     
     [SerializeField] protected LayerCheck groundCheck;
-    [SerializeField] protected LayerCheck wallCheck;
 
 
 
@@ -53,9 +52,7 @@ public abstract class BaseCharacter<T> : StateRunner<T> where T: MonoBehaviour
         return groundCheck;
     }
 
-    public LayerCheck GetWallCheck(){
-        return wallCheck;
-    }
+    
 
     public Animator GetAnimator(){
         return animator;
