@@ -17,7 +17,7 @@ MonoBehaviour:
   jumpForce: 8
   coyoteTime: 0.3
   dashDuration: 0.2
-  dashForce: 10
+  dashForce: 20
   dashCooldown: 1
   injuredDuration: 0.5
   horizontalFallSpeed: 5
@@ -27,6 +27,7 @@ MonoBehaviour:
   landVelocityThreshold: 20
   wallSlidingSpeed: 2
   wallJumpForce: {x: 5, y: 10}
-  wallJumpDuration: 0.15
-  attackTime: 0.3
+  wallJumpDuration: 0.3
+  clingDelay: 0.15
+  attackTime: 0.25
   attackDamage: 1

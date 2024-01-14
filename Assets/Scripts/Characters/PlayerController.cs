@@ -1,5 +1,8 @@
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Animations;
 
 /// <summary>
 /// Base Class that all characters in this game must inherit from
@@ -8,6 +11,9 @@ public class PlayerController : BaseCharacter<PlayerController>, IDamageable
 {
     [SerializeField] PlayerData playerData;
     [SerializeField] private LayerCheck attackCheck;
+    
+    private Dictionary<string, Coroutine> buttonReleasedStates = new Dictionary<string, Coroutine>();
+
 
     public PlayerData GetPlayerData(){
         return playerData;
@@ -23,7 +29,7 @@ public class PlayerController : BaseCharacter<PlayerController>, IDamageable
         if (damage < 0) return;
 
         playerData.health -= damage;
-        SetState(typeof(InjuredState));
+        SetMainState(typeof(InjuredState));
         if (playerData.health <= 0 ) Destroyed();
     }
 
@@ -50,10 +56,35 @@ public class PlayerController : BaseCharacter<PlayerController>, IDamageable
 
     public virtual float GetDashControls()
     {
-        return Input.GetAxisRaw("Dash");
+        return GetSingularPress("Dash");
     }
 
-    public virtual float GetAttackControls(){
-        return Input.GetAxisRaw("Attack");
+    public virtual float GetAttackControls()
+    {
+        return GetSingularPress("Attack");
+    }
+
+    private float GetSingularPress(string axisToCheck)
+    {
+        if (buttonReleasedStates.ContainsKey(axisToCheck))
+        {
+            return 0;
+        }
+        float axisValue = Input.GetAxisRaw(axisToCheck);
+
+        if (axisValue > 0){
+            buttonReleasedStates.Add(axisToCheck, StartCoroutine(ReleasedButtonPress(axisToCheck)));
+        }       
+        return axisValue; 
+    }
+
+    private IEnumerator ReleasedButtonPress(string buttonToRelease){
+        if (buttonReleasedStates.ContainsKey(buttonToRelease)) yield break;
+
+        while (Input.GetAxisRaw(buttonToRelease) != 0){
+            yield return null;
+        }
+
+        buttonReleasedStates.Remove(buttonToRelease);
     }
 }

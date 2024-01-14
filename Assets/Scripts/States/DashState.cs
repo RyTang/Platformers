@@ -3,7 +3,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "State/Dash")]
-public class DashState : State<PlayerController>
+public class DashState : BaseState<PlayerController>
 {
     private Rigidbody2D rb2d;
 
@@ -16,33 +16,35 @@ public class DashState : State<PlayerController>
     {
         base.EnterState(parent);
 
+        IsRootState = false;
+
         if (!canDash && currentDashDelay != null){
-            _runner.SetState(typeof(IdleState));
+            Runner.SetMainState(typeof(IdleState));
             return;
         }
 
         rb2d = parent.GetRigidbody2D();
 
         if (currentDashDelay != null) {
-            _runner.StopCoroutine(currentDashDelay);
+            Runner.StopCoroutine(currentDashDelay);
             currentDashDelay = null;
         }
         
         dashing = true;
-        _runner.GetAnimator().SetBool(PlayerAnimation.isDashingBool, true);
+        Runner.GetAnimator().SetBool(PlayerAnimation.isDashingBool, true);
         canDash = false;
-        dashDirection = Mathf.Clamp(_runner.transform.localScale.x, -1, 1);
+        dashDirection = Mathf.Clamp(Runner.transform.localScale.x, -1, 1);
 
         if (dashing){
-            currentDashDelay = _runner.StartCoroutine(WallDashDelay());
+            currentDashDelay = Runner.StartCoroutine(WallDashDelay());
         }
     }
 
     private IEnumerator WallDashDelay(){
-        yield return new WaitForSeconds(_runner.GetPlayerData().dashDuration);
-        _runner.GetAnimator().SetBool(PlayerAnimation.isDashingBool, false);
+        yield return new WaitForSeconds(Runner.GetPlayerData().dashDuration);
+        Runner.GetAnimator().SetBool(PlayerAnimation.isDashingBool, false);
         dashing = false;
-        yield return new WaitForSeconds(_runner.GetPlayerData().dashCooldown);
+        yield return new WaitForSeconds(Runner.GetPlayerData().dashCooldown);
         canDash = true;
     }
 
@@ -50,18 +52,17 @@ public class DashState : State<PlayerController>
     {
     }
 
-    public override void ChangeState()
+    public override void CheckStateTransition()
     {
         if (!dashing){
-            _runner.SetState(typeof(WalkState));
+            Runner.SetMainState(typeof(WalkState));
+        }
+        else if (Runner.GetWallCheck().Check() && !Runner.GetGroundCheck().Check()){
+            Runner.SetMainState(typeof(WallClingState));
         }
     }
 
-    public override void ExitState()
-    {
-    }
-
-    public override void FixedUpdate()
+    public override void FixedUpdateState()
     {
     }
 
@@ -69,10 +70,16 @@ public class DashState : State<PlayerController>
     {
     }
 
-    public override void Update()
+    public override void UpdateState()
     {
         if (dashing){
-            rb2d.velocity = new Vector2(dashDirection * _runner.GetPlayerData().dashForce, 0);
+            rb2d.velocity = new Vector2(dashDirection * Runner.GetPlayerData().dashForce, 0);
         }
     }
+
+
+    public override void InitialiseSubState()
+    {
+    }
+
 }

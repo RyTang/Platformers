@@ -3,7 +3,7 @@ using UnityEngine;
 
 
 [CreateAssetMenu(menuName = "State/Injured")]
-public class InjuredState : State<PlayerController>
+public class InjuredState : BaseState<PlayerController>
 {
     private bool injured;
 
@@ -11,12 +11,12 @@ public class InjuredState : State<PlayerController>
     {
         base.EnterState(parent);
         injured = true;
-        _runner.StopCoroutine(InjuredDelay());
-        _runner.StartCoroutine(InjuredDelay());
+        Runner.StopCoroutine(InjuredDelay());
+        Runner.StartCoroutine(InjuredDelay());
     }
 
     public IEnumerator InjuredDelay(){
-        yield return new WaitForSeconds(_runner.GetPlayerData().injuredDuration);
+        yield return new WaitForSeconds(Runner.GetPlayerData().injuredDuration);
         injured = false;
     }
 
@@ -24,18 +24,15 @@ public class InjuredState : State<PlayerController>
     {
     }
 
-    public override void ChangeState()
+    public override void CheckStateTransition()
     {
         if (!injured) {
-            _runner.SetState(typeof(IdleState));
+            Runner.SetMainState(typeof(IdleState));
         }
     }
 
-    public override void ExitState()
-    {
-    }
 
-    public override void FixedUpdate()
+    public override void FixedUpdateState()
     {
     }
 
@@ -43,7 +40,13 @@ public class InjuredState : State<PlayerController>
     {
     }
 
-    public override void Update()
+    public override void UpdateState()
     {
     }
+
+
+    public override void InitialiseSubState()
+    {
+    }
+
 }

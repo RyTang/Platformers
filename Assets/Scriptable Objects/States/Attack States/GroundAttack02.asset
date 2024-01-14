@@ -9,6 +9,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f5c392ed03cc071488bd2b1239177c70, type: 3}
-  m_Name: Player Ground Attack State
+  m_Script: {fileID: 11500000, guid: 29d2168d79cd7594ca3b234d9548b275, type: 3}
+  m_Name: GroundAttack02
   m_EditorClassIdentifier: 

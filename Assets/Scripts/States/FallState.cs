@@ -1,7 +1,9 @@
+using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "State/Fall")]
-public class FallState : State<PlayerController>
+public class FallState : BaseState<PlayerController>
 {
     private float horizontalControl, dashControl;
 
@@ -16,57 +18,61 @@ public class FallState : State<PlayerController>
         initialLocalGravity = rb2d.gravityScale;
 
 
-        rb2d.gravityScale = initialLocalGravity * _runner.GetPlayerData().fallGravityMultiplier;
+        rb2d.gravityScale = initialLocalGravity * Runner.GetPlayerData().fallGravityMultiplier;
 
-        _runner.GetAnimator().SetBool(PlayerAnimation.isFallingBool, true);
+        Runner.GetAnimator().SetBool(PlayerAnimation.isFallingBool, true);
 
         // TODO: Look into doing coyote Timing here. Need to figure out how to differentiate Wall Jump vs Jump
     }
 
     public override void CaptureInput()
     {
-        horizontalControl = _runner.GetHorizontalControls();
-        dashControl = _runner.GetDashControls();
+        horizontalControl = Runner.GetHorizontalControls();
+        dashControl = Runner.GetDashControls();
     }
 
-    public override void ChangeState()
+    public override void CheckStateTransition()
     {   
         if (dashControl > 0){
-            _runner.SetState(typeof(DashState));
+            Runner.SetMainState(typeof(DashState));
         }
-       
-        else if (_runner.GetGroundCheck().Check()){
-            _runner.SetState(typeof(LandState));
-        }
-        else if (horizontalControl != 0 && _runner.GetWallCheck().Check()){
-            _runner.SetState(typeof(WallClingState));
+        else if (horizontalControl != 0 && Runner.GetWallCheck().Check()){
+            Runner.SetMainState(typeof(WallClingState));
         }
     }
 
-    public override void ExitState()
+    public override IEnumerator ExitState()
     {
         rb2d.gravityScale = initialLocalGravity;
-        _runner.GetAnimator().SetBool(PlayerAnimation.isFallingBool, false);
+        Runner.GetAnimator().SetBool(PlayerAnimation.isFallingBool, false);
+        yield break;
     }
 
-    public override void FixedUpdate()
+    public override void FixedUpdateState()
     {
 
     }
 
     public override void OnStateCollisionEnter(Collision2D collision)
     {
-        
+        if (Runner.GetGroundCheck()){
+            Runner.SetMainState(typeof(LandState), collision.relativeVelocity.y);
+        }
     }
 
-    public override void Update()
+    public override void UpdateState()
     {
         float x_velocity = 0;
 
         if (horizontalControl != 0){
-            x_velocity = horizontalControl > 0 ? _runner.GetPlayerData().horizontalFallSpeed : -_runner.GetPlayerData().horizontalFallSpeed;
+            x_velocity = horizontalControl > 0 ? Runner.GetPlayerData().horizontalFallSpeed : -Runner.GetPlayerData().horizontalFallSpeed;
         }
         
-        rb2d.velocity = new Vector2(x_velocity, Mathf.Clamp(rb2d.velocity.y, -_runner.GetPlayerData().terminalFallSpeed, float.MaxValue));
+        rb2d.velocity = new Vector2(x_velocity, Mathf.Clamp(rb2d.velocity.y, -Runner.GetPlayerData().terminalFallSpeed, float.MaxValue));
+    }
+
+
+    public override void InitialiseSubState()
+    {
     }
 }
