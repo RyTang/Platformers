@@ -17,12 +17,8 @@ public class SprintState : BaseState<PlayerController>
     private Coroutine energyConsumption;
     private Coroutine energyRecovery;
 
-    private float currentDirection = 0;
+    private float currentSprintDirection = 0;
     private float currentSpeed = 0.0f;
-    private float initialSpeed = 0.0f;
-    private float accelerationTimer = 0f;
-    private float decelerationTimer = 0f;
-
     public override void EnterState(PlayerController parent)
     {
         base.EnterState(parent);
@@ -34,7 +30,9 @@ public class SprintState : BaseState<PlayerController>
         canJump = false;
         isSprinting = true;
         Runner.GetAnimator().SetBool(PlayerAnimation.isRunningBool, true);
-        initialSpeed = rb2d.velocity.x;
+
+        horizontalControl = Runner.GetHorizontalControls();
+        ResetSprint(horizontalControl);
     }
 
     public override void CaptureInput()
@@ -70,7 +68,7 @@ public class SprintState : BaseState<PlayerController>
     private IEnumerator EnergyRecovery(){
         while (Runner.GetPlayerData().currentEnergy < Runner.GetPlayerData().maxEnergyBar){
             Runner.GetPlayerData().currentEnergy += Runner.GetPlayerData().energyRecoveryRate;
-
+            Runner.GetPlayerData().currentEnergy = Mathf.Min(Runner.GetPlayerData().currentEnergy, Runner.GetPlayerData().maxEnergyBar);
             yield return new WaitForSeconds(1);
         }
     }
@@ -128,25 +126,34 @@ public class SprintState : BaseState<PlayerController>
     public override void UpdateState()
     {
         if (horizontalControl != 0){
-            AccelerateTowards(horizontalControl);
+            AccelerateTowards();
         }
         CheckGround();
     }
 
-    private void AccelerateTowards(float direction){
-        float velocityDirection = Mathf.Sign(rb2d.velocity.x);
-        float t = 0 ;
+    private void ResetSprint(float direction){
+        if (currentSprintDirection != direction){
+            currentSpeed = 0;
+            currentSprintDirection = direction;
+        }
+        else{
+            currentSpeed = Mathf.Abs(rb2d.velocity.x);
+        }
         
+    }
+
+    private void AccelerateTowards(){       
+        if (currentSprintDirection != horizontalControl){
+            ResetSprint(horizontalControl);
+        }
+        else if (currentSprintDirection == horizontalControl){
+            currentSpeed += Runner.GetPlayerData().accelerationSpeed * Time.deltaTime;
+
+            currentSpeed = Mathf.Clamp(currentSpeed, 0, Runner.GetPlayerData().maxSprintSpeed);
+        }
+
         // FIXME: BUG WHEN CHANGIN DIRECTION
         // Change of direction
-        if (currentDirection != direction){
-            Debug.Log("Changing Direction");
-            // initialSpeed = Mathf.Abs(rb2d.velocity.x);
-            initialSpeed = Mathf.Clamp(Mathf.Abs(rb2d.velocity.x), 0, Runner.GetPlayerData().maxSprintSpeed);
-            currentDirection = direction;
-            decelerationTimer = 0;
-            accelerationTimer = 0;
-        }
         // Decelerate if Change of Direction
         // else if (velocityDirection != direction){
         //     Debug.Log("Decelerating");
@@ -156,16 +163,8 @@ public class SprintState : BaseState<PlayerController>
         //     currentSpeed = Mathf.SmoothStep(initialSpeed, Runner.GetPlayerData().maxSprintSpeed, t);
         // }
         // Else Accelerate
-        else if (velocityDirection == direction){
-            Debug.Log("Accelerating");
-            accelerationTimer += Time.deltaTime;
-            t = accelerationTimer / Runner.GetPlayerData().accelerationTime;
-            currentSpeed = Mathf.SmoothStep(initialSpeed, Runner.GetPlayerData().maxSprintSpeed, t);
-        }
-
-        currentSpeed = Mathf.SmoothStep(initialSpeed, Runner.GetPlayerData().maxSprintSpeed, t);
-
-        rb2d.velocity = new Vector2(currentSpeed * direction, rb2d.velocity.y);
+        
+        rb2d.velocity = new Vector2(currentSpeed * currentSprintDirection, rb2d.velocity.y);
     }
 
     public void CheckGround(){

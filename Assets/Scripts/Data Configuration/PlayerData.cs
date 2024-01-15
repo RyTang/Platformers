@@ -20,8 +20,7 @@ public class PlayerData : ScriptableObject
     public float maxSprintSpeed = 10f;
     public float sprintDepletionRate = 10f;
     public float energyRecoveryRate = 5f;
-    public float accelerationTime = 2.0f;
-    public float decelerationTime = 1.0f;
+    public float accelerationSpeed = 2.0f;
 
     [Header("Injured State")]
 
