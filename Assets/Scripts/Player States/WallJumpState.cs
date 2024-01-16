@@ -83,6 +83,9 @@ public class WallJumpState : BaseState<PlayerController>
 
     public override void OnStateCollisionEnter(Collision2D collision)
     {
+        if (Runner.GetGroundCheck()){
+            Runner.SetMainState(typeof(LandState), collision.relativeVelocity.y);
+        }
     }
 
     public override void UpdateState()

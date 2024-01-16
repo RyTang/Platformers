@@ -88,7 +88,7 @@ public class SprintState : BaseState<PlayerController>
             Runner.SetMainState(typeof(IdleState));
         }
         else if (verticalControl > 0 && canJump) {
-            Runner.SetMainState(typeof(JumpState));
+            Runner.SetMainState(typeof(SprintJumpState), Runner.GetRigidbody2D().velocity.x);
         }
         else if ((verticalControl < 0 && !Runner.GetGroundCheck().Check()) || (Runner.GetRigidbody2D().velocity.y < 0 && !canJump)){
             Runner.SetMainState(typeof(FallState));

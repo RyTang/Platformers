@@ -19,6 +19,12 @@ MonoBehaviour:
   dashDuration: 0.2
   dashForce: 20
   dashCooldown: 1
+  maxEnergyBar: 100
+  currentEnergy: 100
+  maxSprintSpeed: 10
+  sprintDepletionRate: 10
+  energyRecoveryRate: 5
+  accelerationSpeed: 10
   injuredDuration: 0.5
   horizontalFallSpeed: 5
   fallGravityMultiplier: 3.5
