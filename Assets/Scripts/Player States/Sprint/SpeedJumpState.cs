@@ -2,8 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "Player State/Sprint Jump State")]
-public class SprintJumpState : BaseState<PlayerController>
+[CreateAssetMenu(menuName = "Player State/Speed State/Jump State")]
+public class SpeedJumpState : BaseState<PlayerController>
 {
     Rigidbody2D rb2d;
 
@@ -27,7 +27,6 @@ public class SprintJumpState : BaseState<PlayerController>
         Vector2 jumpVector = new Vector2(xVelocity, Runner.GetPlayerData().sprintJumpHeight);
         
         rb2d.AddForce(jumpVector, ForceMode2D.Impulse);
-        
         
         Runner.GetAnimator().SetBool(PlayerAnimation.isJumping, true);
         Runner.GetAnimator().SetTrigger(PlayerAnimation.triggerJump);

@@ -27,7 +27,7 @@ MonoBehaviour:
   accelerationSpeed: 10
   sprintJumpMultiplier: 0.5
   sprintJumpDuration: 1.5
-  sprintJumpHeight: 6
+  sprintJumpHeight: 7
   maxSprintJumpVelocity: 5
   injuredDuration: 0.5
   horizontalFallSpeed: 5

@@ -59,10 +59,12 @@ public abstract class BaseState<T> : ScriptableObject where T : MonoBehaviour
     /// </summary>
     public abstract void FixedUpdateState();
 
+
     /// <summary>
     /// Code that is run on Update to check if a transition needs to be changed
     /// </summary>
     public abstract void CheckStateTransition();
+
 
     /// <summary>
     /// Exit State is called when transitioning to the next State. Clean Up should happen here

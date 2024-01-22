@@ -55,7 +55,7 @@ public class FallState : BaseState<PlayerController>
 
     public override void OnStateCollisionEnter(Collision2D collision)
     {
-        if (Runner.GetGroundCheck()){
+        if (Runner.GetGroundCheck().Check()){
             Runner.SetMainState(typeof(LandState), collision.relativeVelocity.y);
         }
     }

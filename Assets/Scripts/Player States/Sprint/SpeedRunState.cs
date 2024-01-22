@@ -3,10 +3,10 @@ using System.Runtime.CompilerServices;
 using System.Threading;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "Player State/Sprint State")]
-public class SprintState : BaseState<PlayerController>
+[CreateAssetMenu(menuName = "Player State/Speed State/Run State")]
+public class SpeedRunState : BaseState<PlayerController>
 {
-     private float horizontalControl, verticalControl, dashControl, attackControl, sprintControl;
+    private float horizontalControl, verticalControl, dashControl, attackControl, sprintControl;
 
     private Rigidbody2D rb2d;
 
@@ -88,7 +88,7 @@ public class SprintState : BaseState<PlayerController>
             Runner.SetMainState(typeof(IdleState));
         }
         else if (verticalControl > 0 && canJump) {
-            Runner.SetMainState(typeof(SprintJumpState), Runner.GetRigidbody2D().velocity.x);
+            Runner.SetMainState(typeof(SpeedJumpState), Runner.GetRigidbody2D().velocity.x);
         }
         else if ((verticalControl < 0 && !Runner.GetGroundCheck().Check()) || (Runner.GetRigidbody2D().velocity.y < 0 && !canJump)){
             Runner.SetMainState(typeof(FallState));

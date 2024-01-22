@@ -36,7 +36,7 @@ public class WalkState : BaseState<PlayerController>
         }
         else if (horizontalControl != 0 && sprintControl > 0){
             Debug.Log("Sprinting");
-            Runner.SetMainState(typeof(SprintState));
+            Runner.SetMainState(typeof(SpeedRunState));
         }
         else if (attackControl > 0) {
             Runner.SetMainState(typeof(GroundSubAttackOne));
