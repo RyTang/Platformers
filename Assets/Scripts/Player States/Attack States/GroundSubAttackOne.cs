@@ -76,7 +76,7 @@ public class GroundSubAttackOne : BaseState<PlayerController>
             Debug.Log("Sub Attack 1: Changing to Attack 2:" + attackControl);
         }
         else if (attackControl <= 0 && !_isAttacking){
-            Runner.SetMainState(typeof(IdleState));
+            Runner.SetMainState(typeof(NormalMainState));
         }
     }
 

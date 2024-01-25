@@ -27,8 +27,10 @@ public class InjuredState : BaseState<PlayerController>
     public override void CheckStateTransition()
     {
         if (!injured) {
-            Runner.SetMainState(typeof(IdleState));
+            Runner.SetMainState(typeof(NormalMainState));
         }
+
+        // TODO: Need to change this to adjust for multiple injured moments
     }
 
 

@@ -6,7 +6,8 @@ using UnityEngine;
 
 public class StateRunner<T> : MonoBehaviour where T : MonoBehaviour
 {
-    [SerializeField] private List<BaseState<T>> _states;
+    [SerializeField] private List<BaseState<T>> _mainStates;
+    [SerializeField] private List<BaseState<T>> _substates;
     [SerializeField] Dictionary<Type, BaseState<T>> _cacheStates = new Dictionary<Type, BaseState<T>>();
     private BaseState<T> active_state;
 
@@ -16,7 +17,7 @@ public class StateRunner<T> : MonoBehaviour where T : MonoBehaviour
 
     protected virtual void Start()
     {
-        SetMainState(_states[0].GetType());
+        SetMainState(_mainStates[0].GetType());
     }
 
     public BaseState<T> GetState(Type stateTypeWanted)
@@ -25,7 +26,13 @@ public class StateRunner<T> : MonoBehaviour where T : MonoBehaviour
             return CacheStates[stateTypeWanted];
         }
         else{
-            BaseState<T> newCacheState = Instantiate(_states.First(s => s.GetType() == stateTypeWanted));
+            BaseState<T> newCacheState;
+            if (_mainStates.Any(s => s.GetType() == stateTypeWanted)){
+                newCacheState = Instantiate(_mainStates.First(s => s.GetType() == stateTypeWanted));
+            }
+            else{
+                newCacheState = Instantiate(_substates.First(s => s.GetType() == stateTypeWanted));
+            }
             CacheStates.Add(stateTypeWanted, newCacheState);
             return newCacheState;
         }
@@ -85,6 +92,6 @@ public class StateRunner<T> : MonoBehaviour where T : MonoBehaviour
 
     public virtual void OnCollisionEnter2D(Collision2D other)
     {
-        active_state.OnStateCollisionEnter(other);
+        active_state.OnStatesCollisionEnter(other);
     }
 }

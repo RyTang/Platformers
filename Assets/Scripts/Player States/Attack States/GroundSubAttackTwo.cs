@@ -68,7 +68,7 @@ public class GroundSubAttackTwo : BaseState<PlayerController>
             Runner.SetMainState(typeof(GroundSubAttackOne));
         }
         else if (attackControl <= 0 && !_isAttacking){
-            Runner.SetMainState(typeof(IdleState));
+            Runner.SetMainState(typeof(NormalMainState));
         }
     }
 

@@ -9,9 +9,11 @@ public abstract class BaseState<T> : ScriptableObject where T : MonoBehaviour
     protected T Runner { get => _runner; set => _runner = value; }
     protected bool IsStateActive { get => isStateActive; set => isStateActive = value; }
     protected bool IsRootState { get => isRootState; set => isRootState = value; }
+    protected BaseState<T> CurrentSubState { get => currentSubState; set => currentSubState = value; }
+    protected BaseState<T> CurrentSuperState { get => currentSuperState; set => currentSuperState = value; }
 
-    protected BaseState<T> _currentSubState;
-    protected BaseState<T> _currentSuperState;
+    private BaseState<T> currentSubState;
+    private BaseState<T> currentSuperState;
 
 
     private bool isStateActive = true;
@@ -24,15 +26,6 @@ public abstract class BaseState<T> : ScriptableObject where T : MonoBehaviour
     public virtual void EnterState(T parent){
         Runner = parent;
         IsStateActive = true;
-    }
-
-    /// <summary>
-    /// Enters State while passing information regarding any variable that the State Requires
-    /// </summary>
-    /// <param name="parent">Parent State Runner that is running the script</param>
-    /// <param name="floatToPass">Data that should be passed</param>
-    public virtual void EnterState(T parent, float floatToPass){
-        EnterState(parent);
     }
 
     /// <summary>
@@ -76,6 +69,7 @@ public abstract class BaseState<T> : ScriptableObject where T : MonoBehaviour
     /// </summary>
     /// <param name="collision"></param>
     public abstract void OnStateCollisionEnter(Collision2D collision);
+
     
     /// <summary>
     /// Checks the Sub State taht should be defaulted transitioned into
@@ -91,8 +85,8 @@ public abstract class BaseState<T> : ScriptableObject where T : MonoBehaviour
         CaptureInput();
         CheckStateTransition();
         UpdateState();
-        if (_currentSubState != null){
-            _currentSubState.UpdateStates();
+        if (CurrentSubState != null){
+            CurrentSubState.UpdateStates();
         }
     }
 
@@ -101,8 +95,8 @@ public abstract class BaseState<T> : ScriptableObject where T : MonoBehaviour
     /// </summary>
     public void FixedUpdateStates(){
         FixedUpdateState();
-        if (_currentSubState != null){
-            _currentSubState.FixedUpdateStates();
+        if (CurrentSubState != null){
+            CurrentSubState.FixedUpdateStates();
         }
     }
 
@@ -111,10 +105,21 @@ public abstract class BaseState<T> : ScriptableObject where T : MonoBehaviour
     /// </summary>
     public virtual IEnumerator ExitStates(){
         IsStateActive = false;
-        if (_currentSubState != null){
-            yield return Runner.StartCoroutine(_currentSubState.ExitStates());
+        if (CurrentSubState != null){
+            yield return Runner.StartCoroutine(CurrentSubState.ExitStates());
         }
         yield return Runner.StartCoroutine(ExitState());
+    }
+
+    /// <summary>
+    /// Handles Collision Interaction for all states within this state
+    /// </summary>
+    /// <param name="collision"></param>
+    public void OnStatesCollisionEnter(Collision2D collision){
+        OnStateCollisionEnter(collision);
+        if (CurrentSubState != null){
+            currentSubState.OnStateCollisionEnter(collision);
+        }
     }
 
 
@@ -123,7 +128,7 @@ public abstract class BaseState<T> : ScriptableObject where T : MonoBehaviour
     /// </summary>
     /// <param name="newSuperState">Parent State</param>
     protected void SetSuperState(BaseState<T> newSuperState){
-        _currentSuperState = newSuperState;
+        CurrentSuperState = newSuperState;
     }
 
     /// <summary>
@@ -131,9 +136,29 @@ public abstract class BaseState<T> : ScriptableObject where T : MonoBehaviour
     /// </summary>
     /// <param name="newSubState">Sub State</param>
     public void SetSubState(BaseState<T> newSubState){
-        if (_currentSubState != null) _currentSubState.ExitStates();
-        _currentSubState = newSubState;
+        Runner.StartCoroutine(CleanSubStates(newSubState, null));
+    }
+
+    /// <summary>
+    /// Child Sub State attached to this State
+    /// </summary>
+    /// <param name="newSubState">Sub State</param>
+    public void SetSubState(BaseState<T> newSubState, object objToPass){
+        Runner.StartCoroutine(CleanSubStates(newSubState, objToPass));
+    }
+
+    public IEnumerator CleanSubStates(BaseState<T> newSubState, object objToPass){
+        if (currentSubState != null){
+            yield return Runner.StartCoroutine(CurrentSubState.ExitStates());
+        }
+        CurrentSubState = newSubState;
         newSubState.SetSuperState(this);
-        _currentSubState.EnterState(Runner);
+
+        if (objToPass != null){
+            CurrentSubState.EnterState(Runner, objToPass);
+        }
+        else{
+            CurrentSubState.EnterState(Runner);
+        }
     }
 }
