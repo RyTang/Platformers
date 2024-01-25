@@ -80,6 +80,7 @@ public class PlayerController : BaseCharacter<PlayerController>, IDamageable
         return Input.GetAxisRaw("Sprint");
     }
 
+    // FIXME: PROBLEM WHERE IF CALLING FROM MAIN STATE AND SUB STATE, MAIN STATE WILL BE PRIOTISED
     private float GetSingularPress(string axisToCheck)
     {
         if (buttonReleasedStates.ContainsKey(axisToCheck))

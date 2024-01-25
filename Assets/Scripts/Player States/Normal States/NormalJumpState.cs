@@ -12,6 +12,7 @@ public class NormalJumpState : BaseState<PlayerController>
     {
         base.EnterState(parent);
         rb2d = Runner.GetRigidbody2D();
+        rb2d.velocity = new Vector2(rb2d.velocity.x, 0);
         rb2d.AddForce(new Vector2(0f, Runner.GetPlayerData().jumpForce), ForceMode2D.Impulse);
         Runner.GetAnimator().SetBool(PlayerAnimation.isJumping, true);
         Runner.GetAnimator().SetTrigger(PlayerAnimation.triggerJump);

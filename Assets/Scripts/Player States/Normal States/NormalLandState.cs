@@ -22,6 +22,7 @@ public class NormalLandState : BaseState<PlayerController>
         landVelocity = landVelocity != 0 ? landVelocity : Mathf.Abs(Runner.GetRigidbody2D().velocity.y);
         canMove = !(landVelocity >= Runner.GetPlayerData().landVelocityThreshold);
         LandCheck(canMove);
+
     }
 
     private void LandCheck(bool canMove)

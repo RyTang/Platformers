@@ -2,17 +2,19 @@ using System.Collections;
 using Unity.VisualScripting;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "Player State/Normal State/Fall")]
-public class NormalFallState : BaseState<PlayerController>
+[CreateAssetMenu(menuName = "Player State/Normal State/Coyote Fall")]
+public class NormalFallCoyoteState : BaseState<PlayerController>
 {
-    private float horizontalControl, dashControl;
+    private float horizontalControl, verticalControl, dashControl;
 
     private float initialLocalGravity;
 
     Rigidbody2D rb2d;
 
+    private bool stillCoyote;
 
     private Coroutine coyoteTimer;
+
 
     public override void EnterState(PlayerController parent)
     {
@@ -20,6 +22,8 @@ public class NormalFallState : BaseState<PlayerController>
         rb2d = parent.GetRigidbody2D();
         initialLocalGravity = rb2d.gravityScale;
 
+        stillCoyote = true;
+        coyoteTimer = Runner.StartCoroutine(CoyoteTimer());
 
 
         rb2d.gravityScale = initialLocalGravity * Runner.GetPlayerData().fallGravityMultiplier;
@@ -32,12 +36,19 @@ public class NormalFallState : BaseState<PlayerController>
     public override void CaptureInput()
     {
         horizontalControl = Runner.GetHorizontalControls();
+        verticalControl = Runner.GetVerticalControls();
         dashControl = Runner.GetDashControls();
     }
 
     public override void CheckStateTransition()
     {   
-        if (dashControl > 0){
+        if (!stillCoyote){
+            CurrentSuperState.SetSubState(Runner.GetState(typeof(NormalFallState)));
+        }
+        else if (verticalControl > 0 && stillCoyote){
+            CurrentSuperState.SetSubState(Runner.GetState(typeof(NormalJumpState)));
+        }
+        else if (dashControl > 0){
             CurrentSuperState.SetSubState(Runner.GetState(typeof(NormalDashState)));
         }
         else if (horizontalControl != 0 && Runner.GetWallCheck().Check()){
@@ -82,5 +93,11 @@ public class NormalFallState : BaseState<PlayerController>
 
     public override void InitialiseSubState()
     {
+    }
+
+    public IEnumerator CoyoteTimer(){
+        yield return new WaitForSeconds(Runner.GetPlayerData().coyoteTime);
+        stillCoyote = false;
+        coyoteTimer = null;
     }
 }

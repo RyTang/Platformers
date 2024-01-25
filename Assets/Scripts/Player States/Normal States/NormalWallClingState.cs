@@ -45,7 +45,7 @@ public class NormalWallClingState : BaseState<PlayerController>
         }
         
         else if (!Runner.GetWallCheck().Check() || (horizontalControl != Runner.transform.localScale.x && horizontalControl != 0)){
-            CurrentSuperState.SetSubState(Runner.GetState(typeof(NormalFallState)));
+            CurrentSuperState.SetSubState(Runner.GetState(typeof(NormalFallCoyoteState)));
         }
         else if (verticalControl > 0 & canJump){
             CurrentSuperState.SetSubState(Runner.GetState(typeof(NormalWallJumpState)));

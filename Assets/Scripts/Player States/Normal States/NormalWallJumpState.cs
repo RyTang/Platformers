@@ -23,7 +23,6 @@ public class NormalWallJumpState : BaseState<PlayerController>
         float wallJumpDirection = -Runner.transform.localScale.x;
         Vector2 jumpForce = new Vector2(wallJumpDirection * Runner.GetPlayerData().wallJumpForce.x, Runner.GetPlayerData().wallJumpForce.y);
         rb2d.AddForce(jumpForce, ForceMode2D.Impulse);
-        Debug.Log(jumpForce);
 
         Runner.GetAnimator().SetTrigger(PlayerAnimation.triggerWallJump);
         Runner.GetAnimator().SetBool(PlayerAnimation.isWallJumpingBool, true);

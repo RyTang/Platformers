@@ -21,8 +21,6 @@ public class NormalMainState : BaseState<PlayerController>
     {
         horizontalControl = Runner.GetHorizontalControls();
         verticalControl = Runner.GetVerticalControls();
-        dashControl = Runner.GetDashControls();
-        attackControl = Runner.GetAttackControls();
         sprintControl = Runner.GetSprintControls();
     }
 
@@ -31,9 +29,9 @@ public class NormalMainState : BaseState<PlayerController>
         if (sprintControl > 0){
             Runner.SetMainState(typeof(SpeedMainState));
         }
-        else if (attackControl > 0){
-            Runner.SetMainState(typeof(GroundSubAttackOne));
-        }
+        // else if (attackControl > 0){
+        //     Runner.SetMainState(typeof(GroundSubAttackOne));
+        // }
 
         // if (dashControl > 0){
         //     Runner.SetMainState(typeof(NormalDashState));

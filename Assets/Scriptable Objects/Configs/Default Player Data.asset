@@ -15,7 +15,7 @@ MonoBehaviour:
   health: 5
   moveSpeed: 5
   jumpForce: 8
-  coyoteTime: 0.3
+  coyoteTime: 0.15
   dashDuration: 0.2
   dashForce: 20
   dashCooldown: 1

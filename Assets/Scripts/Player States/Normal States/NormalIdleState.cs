@@ -4,12 +4,8 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Player State/Normal State/Idle")]
 public class NormalIdleState : BaseState<PlayerController>
 {
-    private float horizontalControl, verticalControl, dashControl, attackControl, sprintControl;
+    private float horizontalControl, verticalControl, dashControl, attackControl;
     
-    private bool canJump = false;
-
-    private Coroutine coyoteTimer;
-
     public override void EnterState(PlayerController parent)
     {
         base.EnterState(parent);
@@ -22,7 +18,8 @@ public class NormalIdleState : BaseState<PlayerController>
         verticalControl = Runner.GetVerticalControls();
         dashControl = Runner.GetDashControls();
         attackControl = Runner.GetAttackControls();
-        sprintControl = Runner.GetSprintControls();
+
+        // FIXME: FIGURE OUT WHY ATTACK AND DASH CONTROLS NOT BEING PASSED TO SUB STATES
     }
 
     public override void CheckStateTransition()
@@ -37,18 +34,17 @@ public class NormalIdleState : BaseState<PlayerController>
         else if (horizontalControl != 0){
             CurrentSuperState.SetSubState(Runner.GetState(typeof(NormalRunState)));
         }
-        else if (verticalControl > 0 && canJump){
+        else if (verticalControl > 0){
             CurrentSuperState.SetSubState(Runner.GetState(typeof(NormalJumpState)));
         }
-        else if ((verticalControl < 0 && !Runner.GetGroundCheck().Check()) || (Runner.GetRigidbody2D().velocity.y < 0 && !canJump)){
-            CurrentSuperState.SetSubState(Runner.GetState(typeof(NormalFallState)));
+        else if ((verticalControl < 0 && !Runner.GetGroundCheck().Check()) || Runner.GetRigidbody2D().velocity.y < 0){
+            CurrentSuperState.SetSubState(Runner.GetState(typeof(NormalFallCoyoteState)));
         }
     }
 
     public override IEnumerator ExitState()
     {
         Runner.GetAnimator().SetBool(PlayerAnimation.isIdleBool, false);
-        canJump = false;
         yield break;
     }
 
@@ -63,28 +59,7 @@ public class NormalIdleState : BaseState<PlayerController>
     public override void UpdateState()
     {
         Runner.GetRigidbody2D().velocity = new Vector2(0, Runner.GetRigidbody2D().velocity.y);
-        
-        CheckGround();
     }
-
-    public void CheckGround(){
-        if (Runner.GetGroundCheck().Check()){
-            canJump = true;
-            if (coyoteTimer != null){
-                Runner.StopCoroutine(coyoteTimer);
-                coyoteTimer = null;
-            }
-        }   
-        else {
-            coyoteTimer = Runner.StartCoroutine(CoyoteTimer());
-        }
-    }
-
-    public IEnumerator CoyoteTimer(){
-        yield return new WaitForSeconds(Runner.GetPlayerData().coyoteTime);
-        canJump = false;
-    }
-
 
     public override void InitialiseSubState()
     {

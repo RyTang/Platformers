@@ -12,10 +12,11 @@ public class NormalDashState : BaseState<PlayerController>
     private bool canDash = true;
     private bool dashing;
     private float dashDirection;
+    
+
     public override void EnterState(PlayerController parent)
     {
         base.EnterState(parent);
-
         IsRootState = false;
 
         if (!canDash && currentDashDelay != null){
@@ -47,7 +48,6 @@ public class NormalDashState : BaseState<PlayerController>
         yield return new WaitForSeconds(Runner.GetPlayerData().dashCooldown);
         canDash = true;
     }
-
     public override void CaptureInput()
     {
     }
@@ -85,4 +85,5 @@ public class NormalDashState : BaseState<PlayerController>
     {
     }
 
+    
 }
