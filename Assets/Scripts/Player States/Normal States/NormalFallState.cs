@@ -83,4 +83,15 @@ public class NormalFallState : BaseState<PlayerController>
     public override void InitialiseSubState()
     {
     }
+
+    public override void OnStateCollisionStay(Collision2D collision)
+    {
+        if (Runner.GetGroundCheck().Check()){
+            CurrentSuperState.SetSubState(Runner.GetState(typeof(NormalLandState)), collision.relativeVelocity.y);
+        }
+    }
+
+    public override void OnStateCollisionExit(Collision2D collision)
+    {
+    }
 }

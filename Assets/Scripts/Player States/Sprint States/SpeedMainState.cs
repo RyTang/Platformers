@@ -6,14 +6,13 @@ using UnityEngine.AI;
 [CreateAssetMenu(menuName = "Player State/Speed State/Main State")]
 public class SpeedMainState : BaseState<PlayerController>
 {
-    private float horizontalControl, verticalControl, attackControl, sprintControl;
+    private float horizontalControl, verticalControl, sprintControl;
 
     private Rigidbody2D rb2d;
 
     private bool sprintMode = true;
 
     private bool canJump = false;
-    private Coroutine coyoteTimer;
     private Coroutine energyConsumption;
     private Coroutine energyRecovery;
 
@@ -30,7 +29,6 @@ public class SpeedMainState : BaseState<PlayerController>
     {
         horizontalControl = Runner.GetHorizontalControls();
         verticalControl = Runner.GetVerticalControls();
-        attackControl = Runner.GetAttackControls();
         sprintControl = Runner.GetSprintControls();
 
         if (sprintControl > 0){
@@ -46,25 +44,6 @@ public class SpeedMainState : BaseState<PlayerController>
         if (!sprintMode){
             Runner.SetMainState(typeof(NormalMainState));
         }
-
-        // if (!sprintMode && horizontalControl != 0){
-        //     Runner.SetMainState(typeof(SpeedRunState));
-        // }
-        // else if (attackControl > 0) {
-        //     Runner.SetMainState(typeof(GroundSubAttackOne));
-        // }
-        // else if (horizontalControl == 0){
-        //     Runner.SetMainState(typeof(SpeedIdleState));
-        // }
-        // else if (verticalControl > 0 && canJump) {
-        //     Runner.SetMainState(typeof(SpeedJumpState), Runner.GetRigidbody2D().velocity.x);
-        // }
-        // else if ((verticalControl < 0 && !Runner.GetGroundCheck().Check()) || (Runner.GetRigidbody2D().velocity.y < 0 && !canJump)){
-        //     Runner.SetMainState(typeof(SpeedFallState));
-        // }
-        // else if (horizontalControl != 0 && Runner.GetWallCheck().Check() && !Runner.GetGroundCheck().Check()){
-        //     Runner.SetMainState(typeof(SpeedWallClingState));
-        // }
     }
 
     public override void FixedUpdateState()
@@ -119,9 +98,6 @@ public class SpeedMainState : BaseState<PlayerController>
         else if (horizontalControl == 0){
             SetSubState(Runner.GetState(typeof(SpeedIdleState)));
         }
-        else if (attackControl > 0) {
-            Runner.SetMainState(typeof(GroundSubAttackOne));
-        }
         else if (verticalControl > 0 && canJump) {
             SetSubState(Runner.GetState(typeof(SpeedJumpState)));
         }
@@ -135,6 +111,14 @@ public class SpeedMainState : BaseState<PlayerController>
     }
 
     public override void UpdateState()
+    {
+    }
+
+    public override void OnStateCollisionStay(Collision2D collision)
+    {
+    }
+
+    public override void OnStateCollisionExit(Collision2D collision)
     {
     }
 }

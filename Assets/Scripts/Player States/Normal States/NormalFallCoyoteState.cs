@@ -100,4 +100,12 @@ public class NormalFallCoyoteState : BaseState<PlayerController>
         stillCoyote = false;
         coyoteTimer = null;
     }
+    
+    public override void OnStateCollisionStay(Collision2D collision)
+    {
+    }
+
+    public override void OnStateCollisionExit(Collision2D collision)
+    {
+    }
 }

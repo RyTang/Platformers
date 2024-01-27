@@ -79,13 +79,16 @@ public class NormalWallClingState : BaseState<PlayerController>
         canJump = true;
     }
 
-    public IEnumerator CoyoteTimer(){
-        yield return new WaitForSeconds(Runner.GetPlayerData().coyoteTime);
-        canJump = false;
-    }
-
 
     public override void InitialiseSubState()
+    {
+    }
+
+    public override void OnStateCollisionStay(Collision2D collision)
+    {
+    }
+
+    public override void OnStateCollisionExit(Collision2D collision)
     {
     }
 }

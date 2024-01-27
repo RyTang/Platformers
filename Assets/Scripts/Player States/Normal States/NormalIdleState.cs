@@ -28,7 +28,6 @@ public class NormalIdleState : BaseState<PlayerController>
             CurrentSuperState.SetSubState(Runner.GetState(typeof(NormalDashState)));
         } 
         else if (attackControl > 0){
-            Debug.Log("Attacking");
             CurrentSuperState.SetSubState(Runner.GetState(typeof(GroundSubAttackOne)));
         }
         else if (horizontalControl != 0){
@@ -37,7 +36,7 @@ public class NormalIdleState : BaseState<PlayerController>
         else if (verticalControl > 0){
             CurrentSuperState.SetSubState(Runner.GetState(typeof(NormalJumpState)));
         }
-        else if ((verticalControl < 0 && !Runner.GetGroundCheck().Check()) || Runner.GetRigidbody2D().velocity.y < 0){
+        else if (!Runner.GetGroundCheck().Check() && (verticalControl < 0 || Runner.GetRigidbody2D().velocity.y < 0)){
             CurrentSuperState.SetSubState(Runner.GetState(typeof(NormalFallCoyoteState)));
         }
     }
@@ -62,6 +61,14 @@ public class NormalIdleState : BaseState<PlayerController>
     }
 
     public override void InitialiseSubState()
+    {
+    }
+
+    public override void OnStateCollisionStay(Collision2D collision)
+    {
+    }
+
+    public override void OnStateCollisionExit(Collision2D collision)
     {
     }
 }

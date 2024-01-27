@@ -29,25 +29,6 @@ public class NormalMainState : BaseState<PlayerController>
         if (sprintControl > 0){
             Runner.SetMainState(typeof(SpeedMainState));
         }
-        // else if (attackControl > 0){
-        //     Runner.SetMainState(typeof(GroundSubAttackOne));
-        // }
-
-        // if (dashControl > 0){
-        //     Runner.SetMainState(typeof(NormalDashState));
-        // } 
-        // else if (attackControl > 0){
-        //     Runner.SetMainState(typeof(GroundSubAttackOne));
-        // }
-        // else if (horizontalControl != 0){
-        //     Runner.SetMainState(typeof(NormalRunState));
-        // }
-        // else if (verticalControl > 0 && canJump){
-        //     Runner.SetMainState(typeof(NormalJumpState));
-        // }
-        // else if ((verticalControl < 0 && !Runner.GetGroundCheck().Check()) || (Runner.GetRigidbody2D().velocity.y < 0 && !canJump)){
-        //     Runner.SetMainState(typeof(NormalFallState));
-        // }
     }
 
     public override void FixedUpdateState()
@@ -84,4 +65,11 @@ public class NormalMainState : BaseState<PlayerController>
     {        
     }
     
+    public override void OnStateCollisionStay(Collision2D collision)
+    {
+    }
+
+    public override void OnStateCollisionExit(Collision2D collision)
+    {
+    }
 }

@@ -17,7 +17,6 @@ public class NormalLandState : BaseState<PlayerController>
     {
         // FIXME: Double Calling Enter State when entering
         base.EnterState(parent);
-        // FIXME: Velocity is 0 due to when entering the state, it has already touched the ground
 
         landVelocity = landVelocity != 0 ? landVelocity : Mathf.Abs(Runner.GetRigidbody2D().velocity.y);
         canMove = !(landVelocity >= Runner.GetPlayerData().landVelocityThreshold);
@@ -73,6 +72,14 @@ public class NormalLandState : BaseState<PlayerController>
 
 
     public override void InitialiseSubState()
+    {
+    }
+
+    public override void OnStateCollisionStay(Collision2D collision)
+    {
+    }
+
+    public override void OnStateCollisionExit(Collision2D collision)
     {
     }
 }

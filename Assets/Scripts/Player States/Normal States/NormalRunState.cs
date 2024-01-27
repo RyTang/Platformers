@@ -38,7 +38,7 @@ public class NormalRunState : BaseState<PlayerController>
         else if (verticalControl > 0) {
             CurrentSuperState.SetSubState(Runner.GetState(typeof(NormalJumpState)));
         }
-        else if ((verticalControl < 0 && !Runner.GetGroundCheck().Check()) || Runner.GetRigidbody2D().velocity.y < 0){
+        else if (!Runner.GetGroundCheck().Check() && (verticalControl < 0 || Runner.GetRigidbody2D().velocity.y < 0)){
             CurrentSuperState.SetSubState(Runner.GetState(typeof(NormalFallCoyoteState)));
         }
         else if (horizontalControl != 0 && Runner.GetWallCheck().Check() && !Runner.GetGroundCheck().Check()){
@@ -70,6 +70,14 @@ public class NormalRunState : BaseState<PlayerController>
 
 
     public override void InitialiseSubState()
+    {
+    }
+
+    public override void OnStateCollisionStay(Collision2D collision)
+    {
+    }
+
+    public override void OnStateCollisionExit(Collision2D collision)
     {
     }
 }

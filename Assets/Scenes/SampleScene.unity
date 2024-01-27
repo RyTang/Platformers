@@ -2036,7 +2036,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6019058279429399970, guid: d698417cf6257374d87f11faae9bedf8, type: 3}
       propertyPath: _substates.Array.size
-      value: 18
+      value: 19
       objectReference: {fileID: 0}
     - target: {fileID: 6019058279429399970, guid: d698417cf6257374d87f11faae9bedf8, type: 3}
       propertyPath: _mainStates.Array.size
@@ -2129,9 +2129,13 @@ PrefabInstance:
     - target: {fileID: 6019058279429399970, guid: d698417cf6257374d87f11faae9bedf8, type: 3}
       propertyPath: _substates.Array.data[16]
       value: 
-      objectReference: {fileID: 11400000, guid: a8dba484a7c44ce47acb9bf4ab1e794a, type: 2}
+      objectReference: {fileID: 11400000, guid: 6c3b27e162ae52b4198550f5e12ead01, type: 2}
     - target: {fileID: 6019058279429399970, guid: d698417cf6257374d87f11faae9bedf8, type: 3}
       propertyPath: _substates.Array.data[17]
+      value: 
+      objectReference: {fileID: 11400000, guid: a8dba484a7c44ce47acb9bf4ab1e794a, type: 2}
+    - target: {fileID: 6019058279429399970, guid: d698417cf6257374d87f11faae9bedf8, type: 3}
+      propertyPath: _substates.Array.data[18]
       value: 
       objectReference: {fileID: 11400000, guid: 54ba82acea472c8438a6bee44ebf00e7, type: 2}
     - target: {fileID: 6019058279429399971, guid: d698417cf6257374d87f11faae9bedf8, type: 3}

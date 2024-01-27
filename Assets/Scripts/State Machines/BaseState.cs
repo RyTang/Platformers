@@ -65,10 +65,22 @@ public abstract class BaseState<T> : ScriptableObject where T : MonoBehaviour
     public virtual IEnumerator ExitState(){yield break;}
 
     /// <summary>
-    /// Handles Collision Interaction
+    /// Handles Collision Enter Interaction
     /// </summary>
     /// <param name="collision"></param>
     public abstract void OnStateCollisionEnter(Collision2D collision);
+
+    /// <summary>
+    /// Handles Collision Stay Interaction
+    /// </summary>
+    /// <param name="collision"></param>
+    public abstract void OnStateCollisionStay(Collision2D collision);
+
+    /// <summary>
+    /// Handles Collision Exit Interaction
+    /// </summary>
+    /// <param name="collision"></param>
+    public abstract void OnStateCollisionExit(Collision2D collision);
 
     
     /// <summary>
@@ -118,7 +130,29 @@ public abstract class BaseState<T> : ScriptableObject where T : MonoBehaviour
     public void OnStatesCollisionEnter(Collision2D collision){
         OnStateCollisionEnter(collision);
         if (CurrentSubState != null){
-            currentSubState.OnStateCollisionEnter(collision);
+            currentSubState.OnStatesCollisionEnter(collision);
+        }
+    }
+
+    /// <summary>
+    /// Handles Collision Interaction Stay for all states within this state
+    /// </summary>
+    /// <param name="collision"></param>
+    public void OnStatesCollisionStay(Collision2D collision){
+        OnStateCollisionStay(collision);
+        if (CurrentSubState != null){
+            currentSubState.OnStatesCollisionStay(collision);
+        }
+    }
+
+    /// <summary>
+    /// Handles Collision Interaction for all states within this state
+    /// </summary>
+    /// <param name="collision"></param>
+    public void OnStatesCollisionExit(Collision2D collision){
+        OnStateCollisionExit(collision);
+        if (CurrentSubState != null){
+            currentSubState.OnStatesCollisionExit(collision);
         }
     }
 

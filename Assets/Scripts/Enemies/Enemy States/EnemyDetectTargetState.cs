@@ -33,4 +33,12 @@ public class EnemyDetectTargetState : BaseState<BaseEnemy>
     public override void UpdateState()
     {
     }
+
+    public override void OnStateCollisionStay(Collision2D collision)
+    {
+    }
+
+    public override void OnStateCollisionExit(Collision2D collision)
+    {
+    }
 }

@@ -19,7 +19,6 @@ public class EnemyAttackState : BaseState<BaseEnemy>
 
         if (IsAttacking) return;
         
-        Debug.Log(this + " is Attacking");
         // Prevent from Moving  
         Runner.GetRigidbody2D().velocity = new Vector2(0, Runner.GetRigidbody2D().velocity.y);
         
@@ -78,6 +77,14 @@ public class EnemyAttackState : BaseState<BaseEnemy>
     }
 
     public override void UpdateState()
+    {
+    }
+    
+    public override void OnStateCollisionStay(Collision2D collision)
+    {
+    }
+
+    public override void OnStateCollisionExit(Collision2D collision)
     {
     }
 }

@@ -1,19 +1,20 @@
 using System.Collections;
-using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.AI;
 
-[CreateAssetMenu(menuName = "Player State/Speed State/Fall State")]
-public class SpeedFallState : BaseState<PlayerController>
+[CreateAssetMenu(menuName = "Player State/Speed State/Coyote Fall State")]
+public class SpeedFallCoyoteState : BaseState<PlayerController>
 {
-    private float horizontalControl;
+    private float horizontalControl, verticalControl;
 
     private float initialLocalGravity;
 
     Rigidbody2D rb2d;
 
+    private bool stillCoyote;
 
     private Coroutine coyoteTimer;
+
 
     public override void EnterState(PlayerController parent)
     {
@@ -21,6 +22,8 @@ public class SpeedFallState : BaseState<PlayerController>
         rb2d = parent.GetRigidbody2D();
         initialLocalGravity = rb2d.gravityScale;
 
+        stillCoyote = true;
+        coyoteTimer = Runner.StartCoroutine(CoyoteTimer());
 
 
         rb2d.gravityScale = initialLocalGravity * Runner.GetPlayerData().fallGravityMultiplier;
@@ -33,11 +36,18 @@ public class SpeedFallState : BaseState<PlayerController>
     public override void CaptureInput()
     {
         horizontalControl = Runner.GetHorizontalControls();
+        verticalControl = Runner.GetVerticalControls();
     }
 
     public override void CheckStateTransition()
     {   
-        if (horizontalControl != 0 && Runner.GetWallCheck().Check()){
+        if (!stillCoyote){
+            CurrentSuperState.SetSubState(Runner.GetState(typeof(SpeedFallState)));
+        }
+        else if (verticalControl > 0 && stillCoyote){
+            CurrentSuperState.SetSubState(Runner.GetState(typeof(SpeedJumpState)));
+        }
+        else if (horizontalControl != 0 && Runner.GetWallCheck().Check()){
             CurrentSuperState.SetSubState(Runner.GetState(typeof(SpeedWallClingState)));
         }
     }
@@ -81,11 +91,14 @@ public class SpeedFallState : BaseState<PlayerController>
     {
     }
 
+    public IEnumerator CoyoteTimer(){
+        yield return new WaitForSeconds(Runner.GetPlayerData().coyoteTime);
+        stillCoyote = false;
+        coyoteTimer = null;
+    }
+
     public override void OnStateCollisionStay(Collision2D collision)
     {
-        if (Runner.GetGroundCheck().Check()){
-            CurrentSuperState.SetSubState(Runner.GetState(typeof(SpeedLandState)), collision.relativeVelocity.y);
-        }
     }
 
     public override void OnStateCollisionExit(Collision2D collision)

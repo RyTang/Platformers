@@ -94,4 +94,12 @@ public class StateRunner<T> : MonoBehaviour where T : MonoBehaviour
     {
         active_state.OnStatesCollisionEnter(other);
     }
+
+    public virtual void OnCollisionStay2D(Collision2D other) {
+        active_state.OnStatesCollisionStay(other);
+    }
+
+    public virtual void OnCollisionExit2D(Collision2D other) {
+        active_state.OnStatesCollisionExit(other);
+    }
 }

@@ -50,5 +50,12 @@ public class InjuredState : BaseState<PlayerController>
     public override void InitialiseSubState()
     {
     }
+    
+    public override void OnStateCollisionStay(Collision2D collision)
+    {
+    }
 
+    public override void OnStateCollisionExit(Collision2D collision)
+    {
+    }
 }

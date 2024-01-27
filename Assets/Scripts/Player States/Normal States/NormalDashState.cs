@@ -20,7 +20,7 @@ public class NormalDashState : BaseState<PlayerController>
         IsRootState = false;
 
         if (!canDash && currentDashDelay != null){
-            Runner.SetMainState(typeof(NormalIdleState));
+            CurrentSuperState.SetSubState(Runner.GetState(typeof(NormalIdleState)));
             return;
         }
 
@@ -85,5 +85,11 @@ public class NormalDashState : BaseState<PlayerController>
     {
     }
 
-    
+    public override void OnStateCollisionStay(Collision2D collision)
+    {
+    }
+
+    public override void OnStateCollisionExit(Collision2D collision)
+    {
+    }
 }
