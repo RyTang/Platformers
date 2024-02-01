@@ -27,7 +27,8 @@ public class NormalMainState : BaseState<PlayerController>
 
     public override void CheckStateTransition()
     {
-        if (sprintControl > 0){
+        // TODO: need to set a min energy recovery, if depletes the entire bar
+        if (sprintControl > 0 && Runner.GetPlayerData().currentEnergy > 0){
             Runner.SetMainState(typeof(SpeedMainState));
         }
     }

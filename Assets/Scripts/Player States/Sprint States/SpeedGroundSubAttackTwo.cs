@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "Player State/GroundAttackState/Sub Attack 2")]
-public class GroundSubAttackTwo : BaseState<PlayerController>
+[CreateAssetMenu(menuName = "Player State/Speed State/Sub Attack 2")]
+public class SpeedGroundSubAttackTwo : BaseState<PlayerController>
 {
     private bool _isAttacking;
     private float attackControl;
@@ -64,11 +64,10 @@ public class GroundSubAttackTwo : BaseState<PlayerController>
     public override void CheckStateTransition()
     {
         if (attackControl > 0 && _isAttacking){
-            attackControl = 0;
-            Runner.SetMainState(typeof(GroundSubAttackOne));
+            CurrentSuperState.SetSubState(Runner.GetState(typeof(SpeedGroundSubAttackOne)));
         }
         else if (attackControl <= 0 && !_isAttacking){
-            Runner.SetMainState(typeof(NormalMainState));
+            CurrentSuperState.SetSubState(Runner.GetState(typeof(SpeedIdleState)));
         }
     }
 

@@ -18,6 +18,7 @@ public class SpeedMainState : BaseState<PlayerController>
     public override void EnterState(PlayerController parent)
     {
         base.EnterState(parent);
+        sprintMode = true;
 
         if (energyRecovery != null ){
             Runner.StopCoroutine(energyRecovery);
@@ -35,7 +36,7 @@ public class SpeedMainState : BaseState<PlayerController>
         verticalControl = Runner.GetVerticalControls();
         sprintControl = Runner.GetSprintControls();
 
-        if (sprintControl > 0){
+        if (sprintControl > 0 && Runner.GetPlayerData().currentEnergy > 0){
             sprintMode = true;
         } 
         else{
@@ -74,14 +75,9 @@ public class SpeedMainState : BaseState<PlayerController>
     }
 
     private IEnumerator EnergyConsumption(){
-        while (sprintMode){
+        while (Runner.GetPlayerData().currentEnergy > 0){
             Runner.GetPlayerData().currentEnergy -= Runner.GetPlayerData().sprintDepletionRate;
             Debug.Log(Runner.GetPlayerData().currentEnergy);
-
-            if (Runner.GetPlayerData().currentEnergy <= 0){
-                sprintMode = false;
-                yield break;
-            }
 
             yield return new WaitForSeconds(1);
         }

@@ -26,7 +26,7 @@ public class SpeedIdleState : BaseState<PlayerController>
     public override void CheckStateTransition()
     {
         if (attackControl > 0){
-            CurrentSuperState.SetSubState(Runner.GetState(typeof(GroundSubAttackOne)));
+            CurrentSuperState.SetSubState(Runner.GetState(typeof(SpeedGroundSubAttackOne)));
         }
         else if (horizontalControl != 0){
             CurrentSuperState.SetSubState(Runner.GetState(typeof(SpeedRunState)));

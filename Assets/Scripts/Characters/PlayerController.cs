@@ -99,7 +99,7 @@ public class PlayerController : BaseCharacter<PlayerController>, IDamageable
     
 
     private IEnumerator ReleasedButtonPress(string buttonToRelease){
-        if (!buttonReleasedStates.ContainsKey(buttonToRelease)) yield break;
+        if (buttonReleasedStates.ContainsKey(buttonToRelease)) yield break;
 
         while (Input.GetAxisRaw(buttonToRelease) != 0){
             yield return null;

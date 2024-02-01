@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "Player State/GroundAttackState/Sub Attack 1")]
+[CreateAssetMenu(menuName = "Player State/Normal State/Sub Attack 1")]
 public class GroundSubAttackOne : BaseState<PlayerController>
 {
     private bool _isAttacking;
@@ -13,6 +13,7 @@ public class GroundSubAttackOne : BaseState<PlayerController>
     public override void EnterState(PlayerController parent)
     {
         base.EnterState(parent);
+        Debug.Log("Attacking");
 
         // Prevent from Moving  
         Runner.GetRigidbody2D().velocity = new Vector2(0, Runner.GetRigidbody2D().velocity.y);
@@ -72,11 +73,10 @@ public class GroundSubAttackOne : BaseState<PlayerController>
     public override void CheckStateTransition()
     {
         if (attackControl > 0 && _isAttacking){
-            Runner.SetMainState(typeof(GroundSubAttackTwo));
-            Debug.Log("Sub Attack 1: Changing to Attack 2:" + attackControl);
+            CurrentSuperState.SetSubState(Runner.GetState(typeof(GroundSubAttackTwo)));
         }
         else if (attackControl <= 0 && !_isAttacking){
-            Runner.SetMainState(typeof(NormalMainState));
+            CurrentSuperState.SetSubState(Runner.GetState(typeof(NormalIdleState)));
         }
     }
 
