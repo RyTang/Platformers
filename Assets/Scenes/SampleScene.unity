@@ -2036,7 +2036,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6019058279429399970, guid: d698417cf6257374d87f11faae9bedf8, type: 3}
       propertyPath: _substates.Array.size
-      value: 19
+      value: 21
       objectReference: {fileID: 0}
     - target: {fileID: 6019058279429399970, guid: d698417cf6257374d87f11faae9bedf8, type: 3}
       propertyPath: _mainStates.Array.size
@@ -2138,6 +2138,14 @@ PrefabInstance:
       propertyPath: _substates.Array.data[18]
       value: 
       objectReference: {fileID: 11400000, guid: 54ba82acea472c8438a6bee44ebf00e7, type: 2}
+    - target: {fileID: 6019058279429399970, guid: d698417cf6257374d87f11faae9bedf8, type: 3}
+      propertyPath: _substates.Array.data[19]
+      value: 
+      objectReference: {fileID: 11400000, guid: f68d233c004b67e4598754c11569c419, type: 2}
+    - target: {fileID: 6019058279429399970, guid: d698417cf6257374d87f11faae9bedf8, type: 3}
+      propertyPath: _substates.Array.data[20]
+      value: 
+      objectReference: {fileID: 11400000, guid: 84ec14cec9161464eb603d6a974d1340, type: 2}
     - target: {fileID: 6019058279429399971, guid: d698417cf6257374d87f11faae9bedf8, type: 3}
       propertyPath: m_Sprite
       value: 
