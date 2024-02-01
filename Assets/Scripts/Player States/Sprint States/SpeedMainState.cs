@@ -12,13 +12,17 @@ public class SpeedMainState : BaseState<PlayerController>
 
     private bool sprintMode = true;
 
-    private bool canJump = false;
     private Coroutine energyConsumption;
     private Coroutine energyRecovery;
 
     public override void EnterState(PlayerController parent)
     {
         base.EnterState(parent);
+
+        if (energyRecovery != null ){
+            Runner.StopCoroutine(energyRecovery);
+            energyRecovery = null;
+        }
 
         rb2d = parent.GetRigidbody2D();   
         energyConsumption = Runner.StartCoroutine(EnergyConsumption());
@@ -34,7 +38,7 @@ public class SpeedMainState : BaseState<PlayerController>
         if (sprintControl > 0){
             sprintMode = true;
         } 
-        else if (sprintControl <= 0) {
+        else{
             sprintMode = false;
         }
     }
@@ -72,9 +76,11 @@ public class SpeedMainState : BaseState<PlayerController>
     private IEnumerator EnergyConsumption(){
         while (sprintMode){
             Runner.GetPlayerData().currentEnergy -= Runner.GetPlayerData().sprintDepletionRate;
+            Debug.Log(Runner.GetPlayerData().currentEnergy);
 
             if (Runner.GetPlayerData().currentEnergy <= 0){
                 sprintMode = false;
+                yield break;
             }
 
             yield return new WaitForSeconds(1);
@@ -95,14 +101,14 @@ public class SpeedMainState : BaseState<PlayerController>
                 SetSubState(Runner.GetState(typeof(SpeedRunState)));
             }
         }
-        else if (horizontalControl == 0){
-            SetSubState(Runner.GetState(typeof(SpeedIdleState)));
-        }
-        else if (verticalControl > 0 && canJump) {
+        else if (verticalControl > 0) {
             SetSubState(Runner.GetState(typeof(SpeedJumpState)));
         }
-        else if ((verticalControl < 0 && !Runner.GetGroundCheck().Check()) || (Runner.GetRigidbody2D().velocity.y < 0 && !canJump)){
+        else if (!Runner.GetGroundCheck().Check() || (Runner.GetRigidbody2D().velocity.y < 0)){
             SetSubState(Runner.GetState(typeof(SpeedFallState)));
+        }
+        else {
+            SetSubState(Runner.GetState(typeof(SpeedIdleState)));
         }
     }
 

@@ -22,9 +22,12 @@ public class PlayerData : ScriptableObject
     public float energyRecoveryRate = 5f;
     public float accelerationSpeed = 2.0f;
     public float sprintJumpMultiplier = 2.0f;
+    public float sprintWallJumpMultiplier = 2f;
     public float sprintJumpDuration = 1.5f;
     public float sprintJumpHeight = 6f;
     public float maxSprintJumpVelocity = 5;
+    public float minSprintXFallSpeed = 3;
+    public float sprintWallSlowdown = 3.0f;
 
     [Header("Injured State")]
 

@@ -72,14 +72,8 @@ public class SpeedRunState : BaseState<PlayerController>
         }
     }
 
-    private void ResetSprint(float direction){
-        
-        
-    }
-
     private void AccelerateTowards(){       
 
-        // TODO: Need to fix acceleration
         if (currentVelocityDirection != horizontalControl){
             currentSpeed = 0;
             currentVelocityDirection = horizontalControl;
@@ -89,18 +83,7 @@ public class SpeedRunState : BaseState<PlayerController>
 
             currentSpeed = Mathf.Clamp(currentSpeed, 0, Runner.GetPlayerData().maxSprintSpeed);
         }
-
-        // FIXME: BUG WHEN CHANGIN DIRECTION
-        // Change of direction
-        // Decelerate if Change of Direction
-        // else if (velocityDirection != direction){
-        //     Debug.Log("Decelerating");
-        //     decelerationTimer += Time.deltaTime;
-        //     t = decelerationTimer / Runner.GetPlayerData().decelerationTime;
-
-        //     currentSpeed = Mathf.SmoothStep(initialSpeed, Runner.GetPlayerData().maxSprintSpeed, t);
-        // }
-        // Else Accelerate
+        // TODO: Should make it so that it stops (like drifting) for a moment when shifting directions
         
         rb2d.velocity = new Vector2(currentSpeed * currentVelocityDirection, rb2d.velocity.y);
     }

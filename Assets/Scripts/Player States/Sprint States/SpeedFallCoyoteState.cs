@@ -29,8 +29,6 @@ public class SpeedFallCoyoteState : BaseState<PlayerController>
         rb2d.gravityScale = initialLocalGravity * Runner.GetPlayerData().fallGravityMultiplier;
 
         Runner.GetAnimator().SetBool(PlayerAnimation.isFallingBool, true);
-
-        // TODO: Look into doing coyote Timing here. Need to figure out how to differentiate Wall Jump vs Jump
     }
 
     public override void CaptureInput()
@@ -44,7 +42,7 @@ public class SpeedFallCoyoteState : BaseState<PlayerController>
         if (!stillCoyote){
             CurrentSuperState.SetSubState(Runner.GetState(typeof(SpeedFallState)));
         }
-        else if (verticalControl > 0 && stillCoyote){
+        else if (verticalControl > 0){
             CurrentSuperState.SetSubState(Runner.GetState(typeof(SpeedJumpState)));
         }
         else if (horizontalControl != 0 && Runner.GetWallCheck().Check()){

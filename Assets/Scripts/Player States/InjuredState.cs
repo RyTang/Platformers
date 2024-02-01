@@ -9,6 +9,7 @@ public class InjuredState : BaseState<PlayerController>
 
     public override void EnterState(PlayerController parent)
     {
+        Debug.Log("Injured");
         base.EnterState(parent);
         injured = true;
         Runner.StopCoroutine(InjuredDelay());
@@ -30,7 +31,7 @@ public class InjuredState : BaseState<PlayerController>
             Runner.SetMainState(typeof(NormalMainState));
         }
 
-        // TODO: Need to change this to adjust for multiple injured moments
+        // TODO: Need to change this to adjust for multiple injured states
     }
 
 

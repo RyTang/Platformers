@@ -58,6 +58,7 @@ public class StateRunner<T> : MonoBehaviour where T : MonoBehaviour
 
     private IEnumerator CleanStates(Type newStateType, object parameter)
     {
+
         if (active_state != null)
         {
             yield return StartCoroutine(active_state.ExitStates());
@@ -65,14 +66,15 @@ public class StateRunner<T> : MonoBehaviour where T : MonoBehaviour
 
         active_state = GetState(newStateType);
         Debug.Assert(active_state != null, gameObject + ": UNABLE TO FIND STATE " + newStateType);
+        if (active_state == null) yield break;
 
-        if (parameter is float)
+        if (parameter is float floatToPass)
         {
-            active_state.EnterState(GetComponent<T>(), (float) parameter);
+            active_state.EnterState(GetComponent<T>(), floatToPass);
         }
-        else if (parameter is GameObject)
+        else if (parameter is GameObject gameObject)
         {
-            active_state.EnterState(GetComponent<T>(), (GameObject) parameter);
+            active_state.EnterState(GetComponent<T>(), gameObject);
         }
         else{
             active_state.EnterState(GetComponent<T>());

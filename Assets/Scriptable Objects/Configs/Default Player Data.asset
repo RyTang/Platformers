@@ -23,12 +23,15 @@ MonoBehaviour:
   currentEnergy: 100
   maxSprintSpeed: 10
   sprintDepletionRate: 10
-  energyRecoveryRate: 5
+  energyRecoveryRate: 10
   accelerationSpeed: 10
   sprintJumpMultiplier: 0.5
+  sprintWallJumpMultiplier: 1
   sprintJumpDuration: 1.5
   sprintJumpHeight: 7
   maxSprintJumpVelocity: 5
+  minSprintXFallSpeed: 3
+  sprintWallSlowdown: 10
   injuredDuration: 0.5
   horizontalFallSpeed: 5
   fallGravityMultiplier: 3.5

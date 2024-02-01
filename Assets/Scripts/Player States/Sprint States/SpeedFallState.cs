@@ -1,16 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.AI;
 
 [CreateAssetMenu(menuName = "Player State/Speed State/Fall State")]
 public class SpeedFallState : BaseState<PlayerController>
 {
-    private float horizontalControl;
-
     private float initialLocalGravity;
 
     Rigidbody2D rb2d;
+
+    private float xVelocity;
 
 
     private Coroutine coyoteTimer;
@@ -21,23 +22,20 @@ public class SpeedFallState : BaseState<PlayerController>
         rb2d = parent.GetRigidbody2D();
         initialLocalGravity = rb2d.gravityScale;
 
-
+        xVelocity = rb2d.velocity.x;
 
         rb2d.gravityScale = initialLocalGravity * Runner.GetPlayerData().fallGravityMultiplier;
 
         Runner.GetAnimator().SetBool(PlayerAnimation.isFallingBool, true);
-
-        // TODO: Look into doing coyote Timing here. Need to figure out how to differentiate Wall Jump vs Jump
     }
 
     public override void CaptureInput()
     {
-        horizontalControl = Runner.GetHorizontalControls();
     }
 
     public override void CheckStateTransition()
     {   
-        if (horizontalControl != 0 && Runner.GetWallCheck().Check()){
+        if (Runner.GetWallCheck().Check()){
             CurrentSuperState.SetSubState(Runner.GetState(typeof(SpeedWallClingState)));
         }
     }
@@ -67,13 +65,9 @@ public class SpeedFallState : BaseState<PlayerController>
 
     public override void UpdateState()
     {
-        float x_velocity = 0;
+        xVelocity -= Runner.GetPlayerData().attackDamage * Time.deltaTime;
 
-        if (horizontalControl != 0){
-            x_velocity = horizontalControl > 0 ? Runner.GetPlayerData().horizontalFallSpeed : -Runner.GetPlayerData().horizontalFallSpeed;
-        }
-        
-        rb2d.velocity = new Vector2(x_velocity, Mathf.Clamp(rb2d.velocity.y, -Runner.GetPlayerData().terminalFallSpeed, float.MaxValue));
+        xVelocity = Mathf.Clamp(xVelocity, Runner.GetPlayerData().minSprintXFallSpeed, Mathf.Infinity);
     }
 
 

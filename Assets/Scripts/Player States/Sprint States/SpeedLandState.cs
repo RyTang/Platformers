@@ -6,26 +6,30 @@ using UnityEngine.AI;
 [CreateAssetMenu(menuName = "Player State/Speed State/Land State")]
 public class SpeedLandState : BaseState<PlayerController>
 {
-
-    public override void EnterState(PlayerController parent, object objToPass)
-    {
-        base.EnterState(parent, objToPass);
-    }
-
+    Rigidbody2D rb2d;
+    float horizontalControl;
     public override void EnterState(PlayerController parent)
     {
-        // FIXME: Double Calling Enter State when entering
         base.EnterState(parent);
 
+        // TODO: Enters State while slowing down -> Carries forward momentum
+        
+        rb2d = Runner.GetRigidbody2D();
     }
 
     public override void CaptureInput()
     {
+        horizontalControl = Runner.GetHorizontalControls();
     }
  
     public override void CheckStateTransition()
-    {
-        CurrentSuperState.SetSubState(Runner.GetState(typeof(SpeedIdleState)));
+    {  
+        if (horizontalControl != 0){
+            CurrentSuperState.SetSubState(Runner.GetState(typeof(SpeedRunState)));    
+        }
+        else if (rb2d.velocity.x == 0){
+            CurrentSuperState.SetSubState(Runner.GetState(typeof(SpeedIdleState)));
+        }
     }
 
     public override IEnumerator ExitState()

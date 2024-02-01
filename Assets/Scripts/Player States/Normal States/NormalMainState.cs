@@ -1,12 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.IO.LowLevel.Unsafe;
 using UnityEngine;
 using UnityEngine.AI;
 
 [CreateAssetMenu(menuName = "Player State/Normal State/Main State")]
 public class NormalMainState : BaseState<PlayerController>
 {
-    private float horizontalControl, verticalControl, dashControl, attackControl, sprintControl;
+    private float horizontalControl, verticalControl, sprintControl;
     
     private bool canJump = false;
 
@@ -37,20 +38,14 @@ public class NormalMainState : BaseState<PlayerController>
 
     public override void InitialiseSubState()
     {
-        if (dashControl > 0){
-            SetSubState(Runner.GetState(typeof(NormalDashState)));
-        } 
-        else if (attackControl > 0){
-            SetSubState(Runner.GetState(typeof(GroundSubAttackOne)));
+        if ((verticalControl < 0 && !Runner.GetGroundCheck().Check()) || (Runner.GetRigidbody2D().velocity.y < 0 && !canJump)){
+            SetSubState(Runner.GetState(typeof(NormalFallState)));
         }
         else if (horizontalControl != 0){
             SetSubState(Runner.GetState(typeof(NormalRunState)));
         }
         else if (verticalControl > 0 && Runner.GetGroundCheck().Check()){
             SetSubState(Runner.GetState(typeof(NormalJumpState)));
-        }
-        else if ((verticalControl < 0 && !Runner.GetGroundCheck().Check()) || (Runner.GetRigidbody2D().velocity.y < 0 && !canJump)){
-            SetSubState(Runner.GetState(typeof(NormalFallState)));
         }
         else {
             SetSubState(Runner.GetState(typeof(NormalIdleState)));
@@ -72,4 +67,6 @@ public class NormalMainState : BaseState<PlayerController>
     public override void OnStateCollisionExit(Collision2D collision)
     {
     }
+
+    
 }

@@ -6,8 +6,10 @@ using UnityEngine.AI;
 [CreateAssetMenu(menuName = "Player State/Speed State/Wall Cling State")]
 public class SpeedWallClingState : BaseState<PlayerController>
 {
-    private float horizontalControl, verticalControl, dashControl;
+    private float horizontalControl, verticalControl;
     private Rigidbody2D rb2d;
+
+    private float currentSpeed;
 
     private bool canJump = false;
 
@@ -17,6 +19,13 @@ public class SpeedWallClingState : BaseState<PlayerController>
     {
         base.EnterState(parent);
         rb2d = parent.GetRigidbody2D();
+
+        Vector2 initialVelocity = rb2d.velocity;
+        
+        currentSpeed = initialVelocity.y > 0 ? initialVelocity.magnitude : currentSpeed;
+
+        // Calculate currentSpeed coming in
+        // TODO: Need to test if this will work or not
 
         if (clingDelay != null){
             Runner.StopCoroutine(clingDelay);
@@ -33,7 +42,6 @@ public class SpeedWallClingState : BaseState<PlayerController>
     {
         verticalControl = Runner.GetVerticalControls();
         horizontalControl = Runner.GetHorizontalControls();
-        dashControl = Runner.GetDashControls();
     }
 
     public override void CheckStateTransition()
@@ -65,7 +73,11 @@ public class SpeedWallClingState : BaseState<PlayerController>
 
     public override void UpdateState()
     {
-        rb2d.velocity = new Vector2(rb2d.velocity.x, Mathf.Clamp(rb2d.velocity.y, -Runner.GetPlayerData().wallSlidingSpeed, Runner.GetPlayerData().wallSlidingSpeed));
+        currentSpeed -= Runner.GetPlayerData().sprintWallSlowdown * Time.deltaTime;
+
+        currentSpeed = Mathf.Clamp(currentSpeed, -Runner.GetPlayerData().wallSlidingSpeed, Mathf.Infinity);
+
+        rb2d.velocity = new Vector2(rb2d.velocity.x, currentSpeed);
     }
 
     public IEnumerator ClingDelay(){

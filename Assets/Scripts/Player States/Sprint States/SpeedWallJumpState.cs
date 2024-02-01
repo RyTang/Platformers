@@ -6,7 +6,7 @@ using UnityEngine.AI;
 [CreateAssetMenu(menuName = "Player State/Speed State/Wall Jump State")]
 public class SpeedWallJumpState : BaseState<PlayerController>
 {
-    private float horizontalControl, verticalControl, dashControl;
+    private float horizontalControl, verticalControl;
     private Rigidbody2D rb2d;
     private bool canMove;
     private Coroutine currentWallDelay;
@@ -20,9 +20,31 @@ public class SpeedWallJumpState : BaseState<PlayerController>
             Runner.StopCoroutine(currentWallDelay);
             currentWallDelay = null;
         }
+        
         canMove = false;
         float wallJumpDirection = -Runner.transform.localScale.x;
-        Vector2 jumpForce = new Vector2(wallJumpDirection * Runner.GetPlayerData().wallJumpForce.x, Runner.GetPlayerData().wallJumpForce.y);
+
+        Vector2 normalWallJumpForce = Runner.GetPlayerData().wallJumpForce;
+        Vector2 sprintWallJumpForceCap = normalWallJumpForce * Runner.GetPlayerData().sprintWallJumpMultiplier;
+        Debug.Log("Sprint Wall Jump Cap: " + sprintWallJumpForceCap);
+
+        float initialMagnitude = normalWallJumpForce.magnitude;
+        initialMagnitude = rb2d.velocity.y > 0 ? initialMagnitude + rb2d.velocity.magnitude : initialMagnitude;
+        
+
+        Vector2 jumpForce = initialMagnitude * normalWallJumpForce.normalized;
+
+        // TODO: Need to figure out if a Player Speed Cap is needed
+        
+        jumpForce.x = wallJumpDirection * jumpForce.x;
+
+        jumpForce.x = Mathf.Clamp(jumpForce.x, -sprintWallJumpForceCap.x, sprintWallJumpForceCap.x);
+        jumpForce.y = Mathf.Clamp(jumpForce.y, -sprintWallJumpForceCap.y, sprintWallJumpForceCap.y);
+        
+        Debug.Log("Sprint Wall Jump Force: " + jumpForce);
+
+        // TODO: NEED TO CHANGE TO ACCOMODATE FORCES
+        rb2d.velocity = Vector2.zero;
         rb2d.AddForce(jumpForce, ForceMode2D.Impulse);
 
         Runner.GetAnimator().SetTrigger(PlayerAnimation.triggerWallJump);
@@ -34,9 +56,7 @@ public class SpeedWallJumpState : BaseState<PlayerController>
             Runner.transform.localScale = localScale;
         }
 
-        if (!canMove){
-            currentWallDelay = Runner.StartCoroutine(WallJumpDelay());
-        }
+        currentWallDelay = Runner.StartCoroutine(WallJumpDelay());
     }
 
     private IEnumerator WallJumpDelay(){
@@ -48,12 +68,10 @@ public class SpeedWallJumpState : BaseState<PlayerController>
     {   
         verticalControl = Runner.GetVerticalControls();
         horizontalControl = Runner.GetHorizontalControls();
-        dashControl = Runner.GetDashControls();
     }
 
     public override void CheckStateTransition()
     {
-
         // FIXME: If Crashing into top wall, velocity will drop to 0 hence becomes falling state
         if (canMove){
             if (verticalControl <= 0 || rb2d.velocity.y <= 0){
