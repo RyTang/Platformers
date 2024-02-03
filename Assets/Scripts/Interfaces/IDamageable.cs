@@ -1,9 +1,14 @@
 
+using System;
+using UnityEngine;
+
 /// <summary>
 /// Interface any object that can be affected by damaged should be interfacing this
 /// </summary>
 public interface IDamageable
 {
+    event Action<GameObject> OnDestroyEvent;
+
     /// <summary>
     /// Damage to be taken and what will happen to the person/object
     /// </summary>

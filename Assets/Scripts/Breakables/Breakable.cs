@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,9 +7,11 @@ public class Breakable : MonoBehaviour, IDamageable
 {
     [SerializeField] private int health;
 
+    public event Action<GameObject> OnDestroyEvent;
+
     public virtual void Destroyed()
     {
-        
+        OnDestroyEvent(gameObject);
         Destroy(transform.root.gameObject);
     }
 
