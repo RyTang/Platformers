@@ -22,13 +22,13 @@ public class StateRunner<T> : MonoBehaviour where T : MonoBehaviour
 
     public BaseState<T> GetState(Type stateTypeWanted)
     {
-        Debug.Log("Looking for State: " + stateTypeWanted);
+        // Debug.Log("Looking for State: " + stateTypeWanted);
         if (CacheStates.ContainsKey(stateTypeWanted)){
-            Debug.Log("Found Cache State: " + stateTypeWanted);
+            // Debug.Log("Found Cache State: " + stateTypeWanted);
             return CacheStates[stateTypeWanted];
         }
         else{
-            Debug.Log("Creating new Cache State for State: " + stateTypeWanted);
+            // Debug.Log("Creating new Cache State for State: " + stateTypeWanted);
             BaseState<T> newCacheState;
             if (_mainStates.Any(s => s.GetType() == stateTypeWanted)){
                 newCacheState = Instantiate(_mainStates.First(s => s.GetType() == stateTypeWanted));

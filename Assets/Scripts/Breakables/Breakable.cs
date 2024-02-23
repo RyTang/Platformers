@@ -11,7 +11,7 @@ public class Breakable : MonoBehaviour, IDamageable
 
     public virtual void Destroyed()
     {
-        OnDestroyEvent(gameObject);
+        OnDestroyEvent?.Invoke(gameObject);
         Destroy(transform.root.gameObject);
     }
 

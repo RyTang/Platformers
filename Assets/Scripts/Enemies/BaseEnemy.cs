@@ -31,7 +31,7 @@ public abstract class BaseEnemy : BaseCharacter<BaseEnemy>, IDamageable
 
     public void Destroyed()
     {
-        OnDestroyEvent.Invoke(gameObject);
+        OnDestroyEvent?.Invoke(gameObject);
         Destroy(gameObject);
     }
 

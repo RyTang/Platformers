@@ -9,16 +9,24 @@ public class SpawnRoom : MonoBehaviour
     [SerializeField] protected int numberOfObjsToSpawn;
     [SerializeField] protected int numberOfItemsToSpawn;
 
+    [SerializeField] protected BaseDoor[] entrances;
     [SerializeField] protected GameObject[] objsToSpawn;
     [SerializeField] protected GameObject[] itemsToSpawnAtEnd;
     [SerializeField] protected Transform[] positionsToSpawnObjs;
     [SerializeField] protected Transform[] positionsToSpawnItem;
-    public List<GameObject> ObjsSpawned { get; set; } = new List<GameObject>();
+    [SerializeField] public List<GameObject> ObjsSpawned { get; set; } = new List<GameObject>();
+
+    protected bool triggeredRoom = false;
+
+
 
     protected virtual void Start() {
-        StartSpawnRoom();
+        triggeredRoom = false;
     }
 
+    public void OnCharacterEnterRoom(){
+        StartSpawnRoom();
+    }
 
     protected virtual void Update(){
     }
@@ -26,7 +34,13 @@ public class SpawnRoom : MonoBehaviour
     protected virtual void FixedUpdate() {
         
     }
-    public virtual void StartSpawnRoom(){
+
+    protected virtual void StartSpawnRoom(){
+        // Close Entrances if any
+        foreach (BaseDoor entrance in entrances){
+            entrance.DoorOpened(false);
+        }
+
         // TODO: Spawn multiple objects idepending on what is needed
         for (int number = 1; number <= numberOfObjsToSpawn; number++){
             int objIndex = UnityEngine.Random.Range(0, objsToSpawn.Length);
@@ -39,11 +53,12 @@ public class SpawnRoom : MonoBehaviour
 
             IDamageable damageable = objSpawned.GetComponent<IDamageable>();
 
+            // Add Listener to onDestroy Event
             damageable.OnDestroyEvent += HandleObjDestroyed;
         }
     }
 
-    public virtual void HandleObjDestroyed(GameObject objDestroyed){
+    protected virtual void HandleObjDestroyed(GameObject objDestroyed){
         ObjsSpawned.Remove(objDestroyed);
 
         if (ObjsSpawned.Count <= 0){
@@ -51,23 +66,31 @@ public class SpawnRoom : MonoBehaviour
         }
     }
 
-    public virtual void EndSpawnRoom(){
+    protected virtual void EndSpawnRoom(){
         SpawnItems();
         // When condition met = when all enemies are dead -> End Spawn Room and Spawn Items
+        
+        // Open Entrances if any
+        foreach (BaseDoor entrance in entrances){
+            entrance.DoorOpened(true);
+        }
     }
 
-    public virtual void SpawnItems(){
+    protected virtual void SpawnItems(){
         // Spawn items at the spawn room
         for (int number = 1; number <= numberOfItemsToSpawn; number++){
             int objIndex = UnityEngine.Random.Range(0, itemsToSpawnAtEnd.Length);
             Vector2 spawnPosition = positionsToSpawnItem[UnityEngine.Random.Range(0, positionsToSpawnItem.Length)].position;
 
-
             GameObject objSpawned = Instantiate(itemsToSpawnAtEnd[objIndex], spawnPosition, Quaternion.identity, transform);
         }
     }
 
-    public void OnCharacterEnterRoom(){
-        StartSpawnRoom();
+    private void OnTriggerEnter2D(Collider2D other) {
+        if (!triggeredRoom && other.gameObject.layer == (int) GameLayers.PLAYER){
+            triggeredRoom = true;
+            OnCharacterEnterRoom();
+        }
     }
+
 }

@@ -47,7 +47,7 @@ public class PlayerController : BaseCharacter<PlayerController>, IDamageable
     /// </summary>
     public virtual void Destroyed(){
         // TODO: Perform Death Animation
-        OnDestroyEvent.Invoke(gameObject);
+        OnDestroyEvent?.Invoke(gameObject);
         Destroy(transform.root.gameObject);
     }
 
