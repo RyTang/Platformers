@@ -6,12 +6,12 @@ using UnityEngine;
 
 public abstract class BaseDoor : MonoBehaviour
 {
-    protected bool opened;
+    protected bool closed;
 
-    public virtual void DoorOpened(bool opened){
-        this.opened = opened;
-        OpenDoorAnimation();
+    public virtual void DoorClosed(bool closed){
+        this.closed = closed;
+        CloseDoorAnimation();
     }
 
-    protected abstract void OpenDoorAnimation();
+    protected abstract void CloseDoorAnimation();
 }

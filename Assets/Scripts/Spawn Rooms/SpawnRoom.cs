@@ -22,9 +22,17 @@ public class SpawnRoom : MonoBehaviour
 
     protected virtual void Start() {
         triggeredRoom = false;
+        
+        // Possibly invert this so that doors only close by nature
+        // Open Entrances if any
+        foreach (BaseDoor entrance in entrances){
+            entrance.DoorClosed(false);
+        }
     }
 
     public void OnCharacterEnterRoom(){
+        if (triggeredRoom) return;
+        triggeredRoom = true;
         StartSpawnRoom();
     }
 
@@ -38,7 +46,7 @@ public class SpawnRoom : MonoBehaviour
     protected virtual void StartSpawnRoom(){
         // Close Entrances if any
         foreach (BaseDoor entrance in entrances){
-            entrance.DoorOpened(false);
+            entrance.DoorClosed(true);
         }
 
         // TODO: Spawn multiple objects idepending on what is needed
@@ -72,7 +80,7 @@ public class SpawnRoom : MonoBehaviour
         
         // Open Entrances if any
         foreach (BaseDoor entrance in entrances){
-            entrance.DoorOpened(true);
+            entrance.DoorClosed(false);
         }
     }
 
@@ -83,13 +91,6 @@ public class SpawnRoom : MonoBehaviour
             Vector2 spawnPosition = positionsToSpawnItem[UnityEngine.Random.Range(0, positionsToSpawnItem.Length)].position;
 
             GameObject objSpawned = Instantiate(itemsToSpawnAtEnd[objIndex], spawnPosition, Quaternion.identity, transform);
-        }
-    }
-
-    private void OnTriggerEnter2D(Collider2D other) {
-        if (!triggeredRoom && other.gameObject.layer == (int) GameLayers.PLAYER){
-            triggeredRoom = true;
-            OnCharacterEnterRoom();
         }
     }
 
