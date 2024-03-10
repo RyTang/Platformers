@@ -42,6 +42,20 @@ public class PlayerController : BaseCharacter<PlayerController>, IDamageable
         if (playerData.health <= 0 ) Destroyed();
     }
 
+    protected override void SpriteDirection()
+    {
+        // Overrided Player to ensure that it is not being pushed around
+        Vector3 localScale =  spriteRenderer.transform.localScale;
+        float velocityDirection = GetHorizontalControls();
+
+        if (velocityDirection > 0) {
+            spriteRenderer.transform.localScale = new Vector3(Mathf.Abs(localScale.x), localScale.y, localScale.z);
+        }
+        else if (velocityDirection < 0){
+            spriteRenderer.transform.localScale = new Vector3(-Mathf.Abs(localScale.x), localScale.y, localScale.z);
+        }
+    }
+
     /// <summary>
     /// Cause the Character to die
     /// </summary>
@@ -57,6 +71,11 @@ public class PlayerController : BaseCharacter<PlayerController>, IDamageable
 
     public LayerCheck GetWallCheck(){
         return wallCheck;
+    }
+
+    public virtual float GetGrappleControls()
+    {
+        return Input.GetAxisRaw("Grapple");
     }
 
     public virtual float GetHorizontalControls(){

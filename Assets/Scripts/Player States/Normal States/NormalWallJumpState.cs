@@ -45,15 +45,19 @@ public class NormalWallJumpState : BaseState<PlayerController>
 
     public override void CaptureInput()
     {   
-        verticalControl = Runner.GetVerticalControls();
-        horizontalControl = Runner.GetHorizontalControls();
-        dashControl = Runner.GetDashControls();
+        if (!canMove){
+            verticalControl = Runner.GetVerticalControls();
+            horizontalControl = Runner.GetHorizontalControls();
+            dashControl = Runner.GetDashControls();
+        }
     }
 
     public override void CheckStateTransition()
     {
 
         // FIXME: If Crashing into top wall, velocity will drop to 0 hence becomes falling state
+        // FIXME: Need to fix issue where spriteDirection is messing with the 
+        // Transition to a jump state for some reason;
         if (canMove){
             if (dashControl > 0){
                 CurrentSuperState.SetSubState(Runner.GetState(typeof(NormalDashState)));
@@ -83,7 +87,7 @@ public class NormalWallJumpState : BaseState<PlayerController>
 
     public override void OnStateCollisionEnter(Collision2D collision)
     {
-        if (Runner.GetGroundCheck()){
+        if (Runner.GetGroundCheck() && rb2d.velocity.y <= 0){
             CurrentSuperState.SetSubState(Runner.GetState(typeof(NormalLandState)), collision.relativeVelocity.y);
         }
     }

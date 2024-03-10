@@ -64,7 +64,7 @@ public class NormalWallClingState : BaseState<PlayerController>
 
     public override void OnStateCollisionEnter(Collision2D collision)
     {
-        if (Runner.GetGroundCheck().Check()){
+        if (Runner.GetGroundCheck().Check() && rb2d.velocity.y <= 0){
             CurrentSuperState.SetSubState(Runner.GetState(typeof(NormalLandState)), collision.relativeVelocity.y);
         }
     }

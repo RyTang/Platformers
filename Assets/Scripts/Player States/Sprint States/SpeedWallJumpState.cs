@@ -66,8 +66,10 @@ public class SpeedWallJumpState : BaseState<PlayerController>
 
     public override void CaptureInput()
     {   
-        verticalControl = Runner.GetVerticalControls();
-        horizontalControl = Runner.GetHorizontalControls();
+        if (canMove){
+            verticalControl = Runner.GetVerticalControls();
+            horizontalControl = Runner.GetHorizontalControls();
+        }
     }
 
     public override void CheckStateTransition()
