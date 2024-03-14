@@ -50,10 +50,10 @@ public class SpeedJumpState : BaseState<PlayerController>
     public override void CheckStateTransition()
     {
         if (verticalControl <= 0 || rb2d.velocity.y <= 0){
-            CurrentSuperState.SetSubState(Runner.GetState(typeof(SpeedFallState)));
+            CurrentSuperState.SetSubState(CurrentSuperState.GetState(typeof(SpeedFallState)));
         }     
         else if (horizontalControl != 0 && Runner.GetWallCheck().Check()){
-            CurrentSuperState.SetSubState(Runner.GetState(typeof(SpeedWallClingState)));
+            CurrentSuperState.SetSubState(CurrentSuperState.GetState(typeof(SpeedWallClingState)));
         } 
     }
     public override IEnumerator ExitState()
@@ -73,7 +73,7 @@ public class SpeedJumpState : BaseState<PlayerController>
     public override void OnStateCollisionEnter(Collision2D collision)
     {
         if (Runner.GetGroundCheck()){
-            CurrentSuperState.SetSubState(Runner.GetState(typeof(SpeedLandState)), collision.relativeVelocity.y);
+            CurrentSuperState.SetSubState(CurrentSuperState.GetState(typeof(SpeedLandState)), collision.relativeVelocity.y);
         }
     }
 

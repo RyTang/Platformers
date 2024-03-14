@@ -26,16 +26,16 @@ public class SpeedIdleState : BaseState<PlayerController>
     public override void CheckStateTransition()
     {
         if (attackControl > 0){
-            CurrentSuperState.SetSubState(Runner.GetState(typeof(SpeedGroundSubAttackOne)));
+            CurrentSuperState.SetSubState(CurrentSuperState.GetState(typeof(SpeedGroundSubAttackOne)));
         }
         else if (horizontalControl != 0){
-            CurrentSuperState.SetSubState(Runner.GetState(typeof(SpeedRunState)));
+            CurrentSuperState.SetSubState(CurrentSuperState.GetState(typeof(SpeedRunState)));
         }
         else if (verticalControl > 0){
-            CurrentSuperState.SetSubState(Runner.GetState(typeof(SpeedJumpState)), Runner.GetRigidbody2D().velocity.x);
+            CurrentSuperState.SetSubState(CurrentSuperState.GetState(typeof(SpeedJumpState)), Runner.GetRigidbody2D().velocity.x);
         }
         else if (!Runner.GetGroundCheck().Check() && (verticalControl < 0 || Runner.GetRigidbody2D().velocity.y < 0)){
-            CurrentSuperState.SetSubState(Runner.GetState(typeof(SpeedFallCoyoteState)));
+            CurrentSuperState.SetSubState(CurrentSuperState.GetState(typeof(SpeedFallCoyoteState)));
         }
     }
 

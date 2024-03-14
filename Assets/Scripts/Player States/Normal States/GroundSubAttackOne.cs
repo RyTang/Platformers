@@ -73,10 +73,10 @@ public class GroundSubAttackOne : BaseState<PlayerController>
     public override void CheckStateTransition()
     {
         if (attackControl > 0 && _isAttacking){
-            CurrentSuperState.SetSubState(Runner.GetState(typeof(GroundSubAttackTwo)));
+            CurrentSuperState.SetSubState(CurrentSuperState.GetState(typeof(GroundSubAttackTwo)));
         }
         else if (attackControl <= 0 && !_isAttacking){
-            CurrentSuperState.SetSubState(Runner.GetState(typeof(NormalIdleState)));
+            CurrentSuperState.SetSubState(CurrentSuperState.GetState(typeof(NormalIdleState)));
         }
     }
 

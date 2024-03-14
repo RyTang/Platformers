@@ -38,10 +38,10 @@ public class NormalFallState : BaseState<PlayerController>
     public override void CheckStateTransition()
     {   
         if (dashControl > 0){
-            CurrentSuperState.SetSubState(Runner.GetState(typeof(NormalDashState)));
+            CurrentSuperState.SetSubState(CurrentSuperState.GetState(typeof(NormalDashState)));
         }
         else if (horizontalControl != 0 && Runner.GetWallCheck().Check()){
-            CurrentSuperState.SetSubState(Runner.GetState(typeof(NormalWallClingState)));
+            CurrentSuperState.SetSubState(CurrentSuperState.GetState(typeof(NormalWallClingState)));
         }
     }
 
@@ -64,7 +64,7 @@ public class NormalFallState : BaseState<PlayerController>
     public override void OnStateCollisionEnter(Collision2D collision)
     {
         if (Runner.GetGroundCheck().Check()){
-            CurrentSuperState.SetSubState(Runner.GetState(typeof(NormalLandState)), collision.relativeVelocity.y);
+            CurrentSuperState.SetSubState(CurrentSuperState.GetState(typeof(NormalLandState)), collision.relativeVelocity.y);
         }
     }
 
@@ -87,7 +87,7 @@ public class NormalFallState : BaseState<PlayerController>
     public override void OnStateCollisionStay(Collision2D collision)
     {
         if (Runner.GetGroundCheck().Check()){
-            CurrentSuperState.SetSubState(Runner.GetState(typeof(NormalLandState)), collision.relativeVelocity.y);
+            CurrentSuperState.SetSubState(CurrentSuperState.GetState(typeof(NormalLandState)), collision.relativeVelocity.y);
         }
     }
 

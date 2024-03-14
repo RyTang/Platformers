@@ -7,7 +7,6 @@ using UnityEngine;
 public class StateRunner<T> : MonoBehaviour where T : MonoBehaviour
 {
     [SerializeField] private List<BaseState<T>> _mainStates;
-    [SerializeField] private List<BaseState<T>> _substates;
     [SerializeField] Dictionary<Type, BaseState<T>> _cacheStates = new Dictionary<Type, BaseState<T>>();
     private BaseState<T> active_state;
 
@@ -30,9 +29,6 @@ public class StateRunner<T> : MonoBehaviour where T : MonoBehaviour
             try {
                 if (_mainStates.Any(s => s.GetType() == stateTypeWanted)){
                     newCacheState = Instantiate(_mainStates.First(s => s.GetType() == stateTypeWanted));
-                }
-                else{
-                    newCacheState = Instantiate(_substates.First(s => s.GetType() == stateTypeWanted));
                 }
                 CacheStates.Add(stateTypeWanted, newCacheState);
             }                

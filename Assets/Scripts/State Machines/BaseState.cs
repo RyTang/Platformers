@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -11,6 +13,8 @@ public abstract class BaseState<T> : ScriptableObject where T : MonoBehaviour
     protected bool IsRootState { get => isRootState; set => isRootState = value; }
     protected BaseState<T> CurrentSubState { get => currentSubState; set => currentSubState = value; }
     protected BaseState<T> CurrentSuperState { get => currentSuperState; set => currentSuperState = value; }
+    [SerializeField] protected List<BaseState<T>> availableSubStates = new List<BaseState<T>>();
+    protected Dictionary<Type, BaseState<T>> cachedSubStates = new Dictionary<Type, BaseState<T>>();
 
     private BaseState<T> currentSubState;
     private BaseState<T> currentSuperState;
@@ -18,6 +22,27 @@ public abstract class BaseState<T> : ScriptableObject where T : MonoBehaviour
 
     private bool isStateActive = true;
     private bool isRootState = false;
+
+    public BaseState<T> GetState(Type stateTypeWanted){
+        if (cachedSubStates.ContainsKey(stateTypeWanted)){
+            return cachedSubStates[stateTypeWanted];
+        }
+        else {
+            BaseState<T> newCacheState = null;
+            try {
+                newCacheState = Instantiate(availableSubStates.First(s => s.GetType() == stateTypeWanted));
+
+                cachedSubStates.Add(stateTypeWanted, newCacheState);
+            }
+            catch {
+                Debug.LogError("Unable to find state Wanted: " + stateTypeWanted.Name + " in object: " + this);
+                // Default to first state if unable to find state but flag error
+                newCacheState = cachedSubStates.FirstOrDefault().Value;
+            }
+            return newCacheState;
+        }
+    }
+    
 
     /// <summary>
     /// Enters state while setting Parent State Runner running the script
