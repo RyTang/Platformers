@@ -91,20 +91,20 @@ public class SpeedMainState : BaseState<PlayerController>
         
         if (horizontalControl != 0){
             if (Runner.GetWallCheck().Check() && !Runner.GetGroundCheck().Check()){
-                SetSubState(Runner.GetState(typeof(SpeedWallClingState)));
+                SetSubState(GetState(typeof(SpeedWallClingState)));
             }
             else {
-                SetSubState(Runner.GetState(typeof(SpeedRunState)));
+                SetSubState(GetState(typeof(SpeedRunState)));
             }
         }
         else if (verticalControl > 0) {
-            SetSubState(Runner.GetState(typeof(SpeedJumpState)));
+            SetSubState(GetState(typeof(SpeedJumpState)));
         }
         else if (!Runner.GetGroundCheck().Check() || (Runner.GetRigidbody2D().velocity.y < 0)){
-            SetSubState(Runner.GetState(typeof(SpeedFallState)));
+            SetSubState(GetState(typeof(SpeedFallState)));
         }
         else {
-            SetSubState(Runner.GetState(typeof(SpeedIdleState)));
+            SetSubState(GetState(typeof(SpeedIdleState)));
         }
     }
 

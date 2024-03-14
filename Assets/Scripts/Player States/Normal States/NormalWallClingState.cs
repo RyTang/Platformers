@@ -41,14 +41,14 @@ public class NormalWallClingState : BaseState<PlayerController>
             Vector3 localScale = Runner.transform.localScale;
             localScale.x *= -1f;
             Runner.transform.localScale = localScale;
-            CurrentSuperState.SetSubState(Runner.GetState(typeof(NormalDashState)));
+            CurrentSuperState.SetSubState(CurrentSuperState.GetState(typeof(NormalDashState)));
         }
         
         else if (!Runner.GetWallCheck().Check() || (horizontalControl != Runner.transform.localScale.x && horizontalControl != 0)){
-            CurrentSuperState.SetSubState(Runner.GetState(typeof(NormalFallCoyoteState)));
+            CurrentSuperState.SetSubState(CurrentSuperState.GetState(typeof(NormalFallCoyoteState)));
         }
         else if (verticalControl > 0 & canJump){
-            CurrentSuperState.SetSubState(Runner.GetState(typeof(NormalWallJumpState)));
+            CurrentSuperState.SetSubState(CurrentSuperState.GetState(typeof(NormalWallJumpState)));
         }
     }
 

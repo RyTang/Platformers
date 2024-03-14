@@ -20,7 +20,7 @@ public class NormalDashState : BaseState<PlayerController>
         IsRootState = false;
 
         if (!canDash && currentDashDelay != null){
-            CurrentSuperState.SetSubState(Runner.GetState(typeof(NormalIdleState)));
+            CurrentSuperState.SetSubState(CurrentSuperState.GetState(typeof(NormalIdleState)));
             return;
         }
 
@@ -55,13 +55,13 @@ public class NormalDashState : BaseState<PlayerController>
     public override void CheckStateTransition()
     {
         if (!dashing && !Runner.GetGroundCheck().Check()){
-            CurrentSuperState.SetSubState(Runner.GetState(typeof(NormalFallState)));
+            CurrentSuperState.SetSubState(CurrentSuperState.GetState(typeof(NormalFallState)));
         }
         else if (!dashing && Runner.GetGroundCheck().Check()){
-            CurrentSuperState.SetSubState(Runner.GetState(typeof(NormalIdleState)));
+            CurrentSuperState.SetSubState(CurrentSuperState.GetState(typeof(NormalIdleState)));
         }
         else if (Runner.GetWallCheck().Check() && !Runner.GetGroundCheck().Check()){
-            CurrentSuperState.SetSubState(Runner.GetState(typeof(NormalWallClingState)));
+            CurrentSuperState.SetSubState(CurrentSuperState.GetState(typeof(NormalWallClingState)));
         }
     }
 

@@ -43,16 +43,16 @@ public class NormalFallCoyoteState : BaseState<PlayerController>
     public override void CheckStateTransition()
     {   
         if (!stillCoyote){
-            CurrentSuperState.SetSubState(Runner.GetState(typeof(NormalFallState)));
+            CurrentSuperState.SetSubState(CurrentSuperState.GetState(typeof(NormalFallState)));
         }
         else if (verticalControl > 0 && stillCoyote){
-            CurrentSuperState.SetSubState(Runner.GetState(typeof(NormalJumpState)));
+            CurrentSuperState.SetSubState(CurrentSuperState.GetState(typeof(NormalJumpState)));
         }
         else if (dashControl > 0){
-            CurrentSuperState.SetSubState(Runner.GetState(typeof(NormalDashState)));
+            CurrentSuperState.SetSubState(CurrentSuperState.GetState(typeof(NormalDashState)));
         }
         else if (horizontalControl != 0 && Runner.GetWallCheck().Check()){
-            CurrentSuperState.SetSubState(Runner.GetState(typeof(NormalWallClingState)));
+            CurrentSuperState.SetSubState(CurrentSuperState.GetState(typeof(NormalWallClingState)));
         }
     }
 
@@ -75,7 +75,7 @@ public class NormalFallCoyoteState : BaseState<PlayerController>
     public override void OnStateCollisionEnter(Collision2D collision)
     {
         if (Runner.GetGroundCheck().Check()){
-            CurrentSuperState.SetSubState(Runner.GetState(typeof(NormalLandState)), collision.relativeVelocity.y);
+            CurrentSuperState.SetSubState(CurrentSuperState.GetState(typeof(NormalLandState)), collision.relativeVelocity.y);
         }
     }
 

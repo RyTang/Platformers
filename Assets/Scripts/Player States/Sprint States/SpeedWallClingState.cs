@@ -49,10 +49,10 @@ public class SpeedWallClingState : BaseState<PlayerController>
     public override void CheckStateTransition()
     {        
         if (!Runner.GetWallCheck().Check() || (horizontalControl != Runner.transform.localScale.x && horizontalControl != 0)){
-            CurrentSuperState.SetSubState(Runner.GetState(typeof(SpeedFallCoyoteState)));
+            CurrentSuperState.SetSubState(CurrentSuperState.GetState(typeof(SpeedFallCoyoteState)));
         }
         else if (verticalControl > 0 & canJump){
-            CurrentSuperState.SetSubState(Runner.GetState(typeof(SpeedWallJumpState)));
+            CurrentSuperState.SetSubState(CurrentSuperState.GetState(typeof(SpeedWallJumpState)));
         }
     }
 
@@ -69,7 +69,7 @@ public class SpeedWallClingState : BaseState<PlayerController>
     public override void OnStateCollisionEnter(Collision2D collision)
     {
         if (Runner.GetGroundCheck().Check()){
-            CurrentSuperState.SetSubState(Runner.GetState(typeof(SpeedLandState)), collision.relativeVelocity.y);
+            CurrentSuperState.SetSubState(CurrentSuperState.GetState(typeof(SpeedLandState)), collision.relativeVelocity.y);
         }
     }
 

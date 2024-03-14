@@ -25,10 +25,10 @@ public class SpeedLandState : BaseState<PlayerController>
     public override void CheckStateTransition()
     {  
         if (horizontalControl != 0){
-            CurrentSuperState.SetSubState(Runner.GetState(typeof(SpeedRunState)));    
+            CurrentSuperState.SetSubState(CurrentSuperState.GetState(typeof(SpeedRunState)));    
         }
         else if (rb2d.velocity.x == 0){
-            CurrentSuperState.SetSubState(Runner.GetState(typeof(SpeedIdleState)));
+            CurrentSuperState.SetSubState(CurrentSuperState.GetState(typeof(SpeedIdleState)));
         }
     }
 

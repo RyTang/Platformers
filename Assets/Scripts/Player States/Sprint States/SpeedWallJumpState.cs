@@ -77,11 +77,11 @@ public class SpeedWallJumpState : BaseState<PlayerController>
         // FIXME: If Crashing into top wall, velocity will drop to 0 hence becomes falling state
         if (canMove){
             if (verticalControl <= 0 || rb2d.velocity.y <= 0){
-                CurrentSuperState.SetSubState(Runner.GetState(typeof(SpeedFallState)));
+                CurrentSuperState.SetSubState(CurrentSuperState.GetState(typeof(SpeedFallState)));
             }
         }
         else if (Runner.GetWallCheck().Check()){
-            CurrentSuperState.SetSubState(Runner.GetState(typeof(SpeedWallClingState)));
+            CurrentSuperState.SetSubState(CurrentSuperState.GetState(typeof(SpeedWallClingState)));
         }
     }
 
@@ -102,7 +102,7 @@ public class SpeedWallJumpState : BaseState<PlayerController>
     public override void OnStateCollisionEnter(Collision2D collision)
     {
         if (Runner.GetGroundCheck()){
-            CurrentSuperState.SetSubState(Runner.GetState(typeof(SpeedLandState)), collision.relativeVelocity.y);
+            CurrentSuperState.SetSubState(CurrentSuperState.GetState(typeof(SpeedLandState)), collision.relativeVelocity.y);
         }
     }
 

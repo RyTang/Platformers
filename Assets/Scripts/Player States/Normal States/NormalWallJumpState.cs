@@ -60,14 +60,14 @@ public class NormalWallJumpState : BaseState<PlayerController>
         // Transition to a jump state for some reason;
         if (canMove){
             if (dashControl > 0){
-                CurrentSuperState.SetSubState(Runner.GetState(typeof(NormalDashState)));
+                CurrentSuperState.SetSubState(CurrentSuperState.GetState(typeof(NormalDashState)));
             }
             else if (verticalControl <= 0 || rb2d.velocity.y <= 0){
-                CurrentSuperState.SetSubState(Runner.GetState(typeof(NormalFallState)));
+                CurrentSuperState.SetSubState(CurrentSuperState.GetState(typeof(NormalFallState)));
             }
         }
         else if (Runner.GetWallCheck().Check()){
-            CurrentSuperState.SetSubState(Runner.GetState(typeof(NormalWallClingState)));
+            CurrentSuperState.SetSubState(CurrentSuperState.GetState(typeof(NormalWallClingState)));
         }
     }
 
@@ -88,7 +88,7 @@ public class NormalWallJumpState : BaseState<PlayerController>
     public override void OnStateCollisionEnter(Collision2D collision)
     {
         if (Runner.GetGroundCheck() && rb2d.velocity.y <= 0){
-            CurrentSuperState.SetSubState(Runner.GetState(typeof(NormalLandState)), collision.relativeVelocity.y);
+            CurrentSuperState.SetSubState(CurrentSuperState.GetState(typeof(NormalLandState)), collision.relativeVelocity.y);
         }
     }
 
