@@ -29,9 +29,12 @@ public abstract class BaseCharacter<T> : StateRunner<T> where T: MonoBehaviour
     }
 
 
+    /// <summary>
+    /// Faces the direction of the rb2d velocity, override it to prevent animation that is based on this
+    /// </summary>
     protected virtual void SpriteDirection(){
         Vector3 localScale =  spriteRenderer.transform.localScale;
-
+        
         if (rb2d.velocity.x > 0) {
             spriteRenderer.transform.localScale = new Vector3(Mathf.Abs(localScale.x), localScale.y, localScale.z);
         }

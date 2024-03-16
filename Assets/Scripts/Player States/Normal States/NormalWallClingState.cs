@@ -41,14 +41,14 @@ public class NormalWallClingState : BaseState<PlayerController>
             Vector3 localScale = Runner.transform.localScale;
             localScale.x *= -1f;
             Runner.transform.localScale = localScale;
-            CurrentSuperState.SetSubState(Runner.GetState(typeof(NormalDashState)));
+            CurrentSuperState.SetSubState(CurrentSuperState.GetState(typeof(NormalDashState)));
         }
         
         else if (!Runner.GetWallCheck().Check() || (horizontalControl != Runner.transform.localScale.x && horizontalControl != 0)){
-            CurrentSuperState.SetSubState(Runner.GetState(typeof(NormalFallCoyoteState)));
+            CurrentSuperState.SetSubState(CurrentSuperState.GetState(typeof(NormalFallCoyoteState)));
         }
         else if (verticalControl > 0 & canJump){
-            CurrentSuperState.SetSubState(Runner.GetState(typeof(NormalWallJumpState)));
+            CurrentSuperState.SetSubState(CurrentSuperState.GetState(typeof(NormalWallJumpState)));
         }
     }
 
@@ -64,7 +64,7 @@ public class NormalWallClingState : BaseState<PlayerController>
 
     public override void OnStateCollisionEnter(Collision2D collision)
     {
-        if (Runner.GetGroundCheck().Check()){
+        if (Runner.GetGroundCheck().Check() && rb2d.velocity.y <= 0){
             CurrentSuperState.SetSubState(Runner.GetState(typeof(NormalLandState)), collision.relativeVelocity.y);
         }
     }

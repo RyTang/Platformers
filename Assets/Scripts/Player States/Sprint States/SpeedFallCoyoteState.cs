@@ -40,13 +40,13 @@ public class SpeedFallCoyoteState : BaseState<PlayerController>
     public override void CheckStateTransition()
     {   
         if (!stillCoyote){
-            CurrentSuperState.SetSubState(Runner.GetState(typeof(SpeedFallState)));
+            CurrentSuperState.SetSubState(CurrentSuperState.GetState(typeof(SpeedFallState)));
         }
         else if (verticalControl > 0){
-            CurrentSuperState.SetSubState(Runner.GetState(typeof(SpeedJumpState)));
+            CurrentSuperState.SetSubState(CurrentSuperState.GetState(typeof(SpeedJumpState)));
         }
         else if (horizontalControl != 0 && Runner.GetWallCheck().Check()){
-            CurrentSuperState.SetSubState(Runner.GetState(typeof(SpeedWallClingState)));
+            CurrentSuperState.SetSubState(CurrentSuperState.GetState(typeof(SpeedWallClingState)));
         }
     }
 
@@ -69,7 +69,7 @@ public class SpeedFallCoyoteState : BaseState<PlayerController>
     public override void OnStateCollisionEnter(Collision2D collision)
     {
         if (Runner.GetGroundCheck().Check()){
-            CurrentSuperState.SetSubState(Runner.GetState(typeof(SpeedLandState)), collision.relativeVelocity.y);
+            CurrentSuperState.SetSubState(CurrentSuperState.GetState(typeof(SpeedLandState)), collision.relativeVelocity.y);
         }
     }
 

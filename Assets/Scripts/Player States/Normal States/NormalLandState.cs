@@ -15,6 +15,7 @@ public class NormalLandState : BaseState<PlayerController>
 
     public override void EnterState(PlayerController parent)
     {
+        Debug.Log("Entering Land State");
         // FIXME: Double Calling Enter State when entering
         base.EnterState(parent);
 
@@ -48,7 +49,7 @@ public class NormalLandState : BaseState<PlayerController>
     public override void CheckStateTransition()
     {
         if (canMove) {
-            CurrentSuperState.SetSubState(Runner.GetState(typeof(NormalIdleState)));
+            CurrentSuperState.SetSubState(CurrentSuperState.GetState(typeof(NormalIdleState)));
         }
     }
 

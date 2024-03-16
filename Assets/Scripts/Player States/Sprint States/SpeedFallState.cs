@@ -36,7 +36,7 @@ public class SpeedFallState : BaseState<PlayerController>
     public override void CheckStateTransition()
     {   
         if (Runner.GetWallCheck().Check()){
-            CurrentSuperState.SetSubState(Runner.GetState(typeof(SpeedWallClingState)));
+            CurrentSuperState.SetSubState(CurrentSuperState.GetState(typeof(SpeedWallClingState)));
         }
     }
 
@@ -59,7 +59,7 @@ public class SpeedFallState : BaseState<PlayerController>
     public override void OnStateCollisionEnter(Collision2D collision)
     {
         if (Runner.GetGroundCheck().Check()){
-            CurrentSuperState.SetSubState(Runner.GetState(typeof(SpeedLandState)), collision.relativeVelocity.y);
+            CurrentSuperState.SetSubState(CurrentSuperState.GetState(typeof(SpeedLandState)), collision.relativeVelocity.y);
         }
     }
 
@@ -78,7 +78,7 @@ public class SpeedFallState : BaseState<PlayerController>
     public override void OnStateCollisionStay(Collision2D collision)
     {
         if (Runner.GetGroundCheck().Check()){
-            CurrentSuperState.SetSubState(Runner.GetState(typeof(SpeedLandState)), collision.relativeVelocity.y);
+            CurrentSuperState.SetSubState(CurrentSuperState.GetState(typeof(SpeedLandState)), collision.relativeVelocity.y);
         }
     }
 

@@ -9,6 +9,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 66a91a593ac4c1a4db8e7ab5f8ab37bf, type: 3}
-  m_Name: Speed Main State
+  m_Script: {fileID: 11500000, guid: cc2782c20b46c1049b8ea4bb125e346d, type: 3}
+  m_Name: Player Injured State
   m_EditorClassIdentifier: 

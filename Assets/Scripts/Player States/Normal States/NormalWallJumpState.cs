@@ -24,14 +24,16 @@ public class NormalWallJumpState : BaseState<PlayerController>
         Vector2 jumpForce = new Vector2(wallJumpDirection * Runner.GetPlayerData().wallJumpForce.x, Runner.GetPlayerData().wallJumpForce.y);
         rb2d.AddForce(jumpForce, ForceMode2D.Impulse);
 
-        Runner.GetAnimator().SetTrigger(PlayerAnimation.triggerWallJump);
-        Runner.GetAnimator().SetBool(PlayerAnimation.isWallJumpingBool, true);
-
         if (Runner.transform.localScale.x * wallJumpDirection <= 0){
             Vector3 localScale = Runner.transform.localScale;
             localScale.x *= -1f;
             Runner.transform.localScale = localScale;
         }
+
+        Runner.GetAnimator().SetTrigger(PlayerAnimation.triggerWallJump);
+        Runner.GetAnimator().SetBool(PlayerAnimation.isWallJumpingBool, true);
+
+        
 
         if (!canMove){
             currentWallDelay = Runner.StartCoroutine(WallJumpDelay());
@@ -45,25 +47,29 @@ public class NormalWallJumpState : BaseState<PlayerController>
 
     public override void CaptureInput()
     {   
-        verticalControl = Runner.GetVerticalControls();
-        horizontalControl = Runner.GetHorizontalControls();
-        dashControl = Runner.GetDashControls();
+        if (canMove){
+            verticalControl = Runner.GetVerticalControls();
+            horizontalControl = Runner.GetHorizontalControls();
+            dashControl = Runner.GetDashControls();
+        }
     }
 
     public override void CheckStateTransition()
     {
 
         // FIXME: If Crashing into top wall, velocity will drop to 0 hence becomes falling state
+        // FIXME: Need to fix issue where spriteDirection is messing with the 
+        // Transition to a jump state for some reason;
         if (canMove){
             if (dashControl > 0){
-                CurrentSuperState.SetSubState(Runner.GetState(typeof(NormalDashState)));
+                CurrentSuperState.SetSubState(CurrentSuperState.GetState(typeof(NormalDashState)));
             }
             else if (verticalControl <= 0 || rb2d.velocity.y <= 0){
-                CurrentSuperState.SetSubState(Runner.GetState(typeof(NormalFallState)));
+                CurrentSuperState.SetSubState(CurrentSuperState.GetState(typeof(NormalFallState)));
             }
         }
         else if (Runner.GetWallCheck().Check()){
-            CurrentSuperState.SetSubState(Runner.GetState(typeof(NormalWallClingState)));
+            CurrentSuperState.SetSubState(CurrentSuperState.GetState(typeof(NormalWallClingState)));
         }
     }
 
@@ -83,8 +89,8 @@ public class NormalWallJumpState : BaseState<PlayerController>
 
     public override void OnStateCollisionEnter(Collision2D collision)
     {
-        if (Runner.GetGroundCheck()){
-            CurrentSuperState.SetSubState(Runner.GetState(typeof(NormalLandState)), collision.relativeVelocity.y);
+        if (Runner.GetGroundCheck() && rb2d.velocity.y <= 0){
+            CurrentSuperState.SetSubState(CurrentSuperState.GetState(typeof(NormalLandState)), collision.relativeVelocity.y);
         }
     }
 

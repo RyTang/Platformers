@@ -35,19 +35,19 @@ public class SpeedRunState : BaseState<PlayerController>
     public override void CheckStateTransition()
     {
         if (attackControl > 0) {
-            CurrentSuperState.SetSubState(Runner.GetState(typeof(SpeedGroundSubAttackOne)));
+            CurrentSuperState.SetSubState(CurrentSuperState.GetState(typeof(SpeedGroundSubAttackOne)));
         }
         else if (horizontalControl == 0){
-            CurrentSuperState.SetSubState(Runner.GetState(typeof(SpeedIdleState)));
+            CurrentSuperState.SetSubState(CurrentSuperState.GetState(typeof(SpeedIdleState)));
         }
         else if (verticalControl > 0) {
-            CurrentSuperState.SetSubState(Runner.GetState(typeof(SpeedJumpState)), Runner.GetRigidbody2D().velocity.x);
+            CurrentSuperState.SetSubState(CurrentSuperState.GetState(typeof(SpeedJumpState)), Runner.GetRigidbody2D().velocity.x);
         }
         else if (!Runner.GetGroundCheck().Check() && (verticalControl < 0 || Runner.GetRigidbody2D().velocity.y < 0)){
-            CurrentSuperState.SetSubState(Runner.GetState(typeof(SpeedFallCoyoteState)));
+            CurrentSuperState.SetSubState(CurrentSuperState.GetState(typeof(SpeedFallCoyoteState)));
         }
         else if (horizontalControl != 0 && Runner.GetWallCheck().Check() && !Runner.GetGroundCheck().Check()){
-            CurrentSuperState.SetSubState(Runner.GetState(typeof(SpeedWallClingState)));
+            CurrentSuperState.SetSubState(CurrentSuperState.GetState(typeof(SpeedWallClingState)));
         }
     }
     

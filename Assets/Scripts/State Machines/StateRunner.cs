@@ -7,7 +7,6 @@ using UnityEngine;
 public class StateRunner<T> : MonoBehaviour where T : MonoBehaviour
 {
     [SerializeField] private List<BaseState<T>> _mainStates;
-    [SerializeField] private List<BaseState<T>> _substates;
     [SerializeField] Dictionary<Type, BaseState<T>> _cacheStates = new Dictionary<Type, BaseState<T>>();
     private BaseState<T> active_state;
 
@@ -22,21 +21,23 @@ public class StateRunner<T> : MonoBehaviour where T : MonoBehaviour
 
     public BaseState<T> GetState(Type stateTypeWanted)
     {
-        Debug.Log("Looking for State: " + stateTypeWanted);
         if (CacheStates.ContainsKey(stateTypeWanted)){
-            Debug.Log("Found Cache State: " + stateTypeWanted);
             return CacheStates[stateTypeWanted];
         }
         else{
-            Debug.Log("Creating new Cache State for State: " + stateTypeWanted);
-            BaseState<T> newCacheState;
-            if (_mainStates.Any(s => s.GetType() == stateTypeWanted)){
-                newCacheState = Instantiate(_mainStates.First(s => s.GetType() == stateTypeWanted));
+            BaseState<T> newCacheState = null;
+            try {
+                if (_mainStates.Any(s => s.GetType() == stateTypeWanted)){
+                    newCacheState = Instantiate(_mainStates.First(s => s.GetType() == stateTypeWanted));
+                }
+                CacheStates.Add(stateTypeWanted, newCacheState);
+            }                
+            catch {
+                Debug.LogError("Unable to find state Wanted: " + stateTypeWanted.Name + " in object: " + gameObject);
+                // Default to first state if unable to find state but flag error
+                newCacheState = CacheStates.FirstOrDefault().Value;
             }
-            else{
-                newCacheState = Instantiate(_substates.First(s => s.GetType() == stateTypeWanted));
-            }
-            CacheStates.Add(stateTypeWanted, newCacheState);
+
             return newCacheState;
         }
     }

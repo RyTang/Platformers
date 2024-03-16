@@ -14,6 +14,8 @@ public class PlayerController : BaseCharacter<PlayerController>, IDamageable
     
     private Dictionary<string, Coroutine> buttonReleasedStates = new Dictionary<string, Coroutine>();
 
+    public event Action<GameObject> OnDestroyEvent;
+
     protected override void Awake()
     {
         base.Awake();
@@ -45,7 +47,7 @@ public class PlayerController : BaseCharacter<PlayerController>, IDamageable
     /// </summary>
     public virtual void Destroyed(){
         // TODO: Perform Death Animation
-
+        OnDestroyEvent?.Invoke(gameObject);
         Destroy(transform.root.gameObject);
     }
 
@@ -55,6 +57,11 @@ public class PlayerController : BaseCharacter<PlayerController>, IDamageable
 
     public LayerCheck GetWallCheck(){
         return wallCheck;
+    }
+
+    public virtual float GetGrappleControls()
+    {
+        return Input.GetAxisRaw("Grapple");
     }
 
     public virtual float GetHorizontalControls(){

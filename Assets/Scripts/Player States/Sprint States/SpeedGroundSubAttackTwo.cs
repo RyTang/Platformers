@@ -64,10 +64,10 @@ public class SpeedGroundSubAttackTwo : BaseState<PlayerController>
     public override void CheckStateTransition()
     {
         if (attackControl > 0 && _isAttacking){
-            CurrentSuperState.SetSubState(Runner.GetState(typeof(SpeedGroundSubAttackOne)));
+            CurrentSuperState.SetSubState(CurrentSuperState.GetState(typeof(SpeedGroundSubAttackOne)));
         }
         else if (attackControl <= 0 && !_isAttacking){
-            CurrentSuperState.SetSubState(Runner.GetState(typeof(SpeedIdleState)));
+            CurrentSuperState.SetSubState(CurrentSuperState.GetState(typeof(SpeedIdleState)));
         }
     }
 

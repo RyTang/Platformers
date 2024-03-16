@@ -148,10 +148,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f19762e4192fb87418904ad4cf119c11, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _states:
+  _mainStates:
   - {fileID: 11400000, guid: e0fedfd31b514b641b59dd48ec33971e, type: 2}
-  - {fileID: 11400000, guid: cd98a3c513134504e911c0b5167fe661, type: 2}
   - {fileID: 11400000, guid: f56a9fd9296a40248a8c1c113c92b008, type: 2}
+  - {fileID: 11400000, guid: cd98a3c513134504e911c0b5167fe661, type: 2}
+  _substates: []
   groundCheck: {fileID: 526986437454717625}
   _detectionArea: {fileID: 526986437085738503}
   _attackArea: {fileID: 526986435779339601}

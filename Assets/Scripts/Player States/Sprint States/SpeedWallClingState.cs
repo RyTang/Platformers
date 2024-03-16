@@ -24,6 +24,8 @@ public class SpeedWallClingState : BaseState<PlayerController>
         
         currentSpeed = initialVelocity.y > 0 ? initialVelocity.magnitude : currentSpeed;
 
+        // TODO: Need to Cap current Speed;
+
         // Calculate currentSpeed coming in
         // TODO: Need to test if this will work or not
 
@@ -47,10 +49,10 @@ public class SpeedWallClingState : BaseState<PlayerController>
     public override void CheckStateTransition()
     {        
         if (!Runner.GetWallCheck().Check() || (horizontalControl != Runner.transform.localScale.x && horizontalControl != 0)){
-            CurrentSuperState.SetSubState(Runner.GetState(typeof(SpeedFallCoyoteState)));
+            CurrentSuperState.SetSubState(CurrentSuperState.GetState(typeof(SpeedFallCoyoteState)));
         }
         else if (verticalControl > 0 & canJump){
-            CurrentSuperState.SetSubState(Runner.GetState(typeof(SpeedWallJumpState)));
+            CurrentSuperState.SetSubState(CurrentSuperState.GetState(typeof(SpeedWallJumpState)));
         }
     }
 
@@ -67,7 +69,7 @@ public class SpeedWallClingState : BaseState<PlayerController>
     public override void OnStateCollisionEnter(Collision2D collision)
     {
         if (Runner.GetGroundCheck().Check()){
-            CurrentSuperState.SetSubState(Runner.GetState(typeof(SpeedLandState)), collision.relativeVelocity.y);
+            CurrentSuperState.SetSubState(CurrentSuperState.GetState(typeof(SpeedLandState)), collision.relativeVelocity.y);
         }
     }
 
@@ -75,6 +77,7 @@ public class SpeedWallClingState : BaseState<PlayerController>
     {
         currentSpeed -= Runner.GetPlayerData().sprintWallSlowdown * Time.deltaTime;
 
+        // TODO: Need to adjust speed curve 
         currentSpeed = Mathf.Clamp(currentSpeed, -Runner.GetPlayerData().wallSlidingSpeed, Mathf.Infinity);
 
         rb2d.velocity = new Vector2(rb2d.velocity.x, currentSpeed);

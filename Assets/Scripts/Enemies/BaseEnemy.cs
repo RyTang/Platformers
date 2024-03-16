@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,6 +10,8 @@ public abstract class BaseEnemy : BaseCharacter<BaseEnemy>, IDamageable
     [SerializeField] private int _health = 2;
 
     [SerializeField] BasicEnemyData enemyData;
+
+    public event Action<GameObject> OnDestroyEvent;
 
     protected int Health { get => _health; set => _health = value; }
 
@@ -28,6 +31,7 @@ public abstract class BaseEnemy : BaseCharacter<BaseEnemy>, IDamageable
 
     public void Destroyed()
     {
+        OnDestroyEvent?.Invoke(gameObject);
         Destroy(gameObject);
     }
 

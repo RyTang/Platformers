@@ -40,16 +40,16 @@ public class NormalMainState : BaseState<PlayerController>
     public override void InitialiseSubState()
     {
         if ((verticalControl < 0 && !Runner.GetGroundCheck().Check()) || (Runner.GetRigidbody2D().velocity.y < 0 && !canJump)){
-            SetSubState(Runner.GetState(typeof(NormalFallState)));
+            SetSubState(GetState(typeof(NormalFallState)));
         }
         else if (horizontalControl != 0){
-            SetSubState(Runner.GetState(typeof(NormalRunState)));
+            SetSubState(GetState(typeof(NormalRunState)));
         }
         else if (verticalControl > 0 && Runner.GetGroundCheck().Check()){
-            SetSubState(Runner.GetState(typeof(NormalJumpState)));
+            SetSubState(GetState(typeof(NormalJumpState)));
         }
         else {
-            SetSubState(Runner.GetState(typeof(NormalIdleState)));
+            SetSubState(GetState(typeof(NormalIdleState)));
         }
     }
 

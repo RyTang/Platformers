@@ -25,19 +25,19 @@ public class NormalIdleState : BaseState<PlayerController>
     public override void CheckStateTransition()
     {
         if (dashControl > 0){
-            CurrentSuperState.SetSubState(Runner.GetState(typeof(NormalDashState)));
+            CurrentSuperState.SetSubState(CurrentSuperState.GetState(typeof(NormalDashState)));
         } 
         else if (attackControl > 0){
-            CurrentSuperState.SetSubState(Runner.GetState(typeof(GroundSubAttackOne)));
+            CurrentSuperState.SetSubState(CurrentSuperState.GetState(typeof(GroundSubAttackOne)));
         }
         else if (horizontalControl != 0){
-            CurrentSuperState.SetSubState(Runner.GetState(typeof(NormalRunState)));
+            CurrentSuperState.SetSubState(CurrentSuperState.GetState(typeof(NormalRunState)));
         }
         else if (verticalControl > 0){
-            CurrentSuperState.SetSubState(Runner.GetState(typeof(NormalJumpState)));
+            CurrentSuperState.SetSubState(CurrentSuperState.GetState(typeof(NormalJumpState)));
         }
         else if (!Runner.GetGroundCheck().Check() && (verticalControl < 0 || Runner.GetRigidbody2D().velocity.y < 0)){
-            CurrentSuperState.SetSubState(Runner.GetState(typeof(NormalFallCoyoteState)));
+            CurrentSuperState.SetSubState(CurrentSuperState.GetState(typeof(NormalFallCoyoteState)));
         }
     }
 

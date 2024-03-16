@@ -28,13 +28,13 @@ public class NormalJumpState : BaseState<PlayerController>
     public override void CheckStateTransition()
     {
         if (dashControl > 0){
-            CurrentSuperState.SetSubState(Runner.GetState(typeof(NormalDashState)));
+            CurrentSuperState.SetSubState(CurrentSuperState.GetState(typeof(NormalDashState)));
         }
         else if (verticalControl <= 0 || rb2d.velocity.y <= 0){
-            CurrentSuperState.SetSubState(Runner.GetState(typeof(NormalFallState)));
+            CurrentSuperState.SetSubState(CurrentSuperState.GetState(typeof(NormalFallState)));
         }
         else if (horizontalControl != 0 && Runner.GetWallCheck().Check()){
-            CurrentSuperState.SetSubState(Runner.GetState(typeof(NormalWallClingState)));
+            CurrentSuperState.SetSubState(CurrentSuperState.GetState(typeof(NormalWallClingState)));
         }
     }
 
