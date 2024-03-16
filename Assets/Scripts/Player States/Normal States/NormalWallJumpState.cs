@@ -24,14 +24,16 @@ public class NormalWallJumpState : BaseState<PlayerController>
         Vector2 jumpForce = new Vector2(wallJumpDirection * Runner.GetPlayerData().wallJumpForce.x, Runner.GetPlayerData().wallJumpForce.y);
         rb2d.AddForce(jumpForce, ForceMode2D.Impulse);
 
-        Runner.GetAnimator().SetTrigger(PlayerAnimation.triggerWallJump);
-        Runner.GetAnimator().SetBool(PlayerAnimation.isWallJumpingBool, true);
-
         if (Runner.transform.localScale.x * wallJumpDirection <= 0){
             Vector3 localScale = Runner.transform.localScale;
             localScale.x *= -1f;
             Runner.transform.localScale = localScale;
         }
+
+        Runner.GetAnimator().SetTrigger(PlayerAnimation.triggerWallJump);
+        Runner.GetAnimator().SetBool(PlayerAnimation.isWallJumpingBool, true);
+
+        
 
         if (!canMove){
             currentWallDelay = Runner.StartCoroutine(WallJumpDelay());
@@ -45,7 +47,7 @@ public class NormalWallJumpState : BaseState<PlayerController>
 
     public override void CaptureInput()
     {   
-        if (!canMove){
+        if (canMove){
             verticalControl = Runner.GetVerticalControls();
             horizontalControl = Runner.GetHorizontalControls();
             dashControl = Runner.GetDashControls();
