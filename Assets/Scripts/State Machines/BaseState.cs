@@ -19,6 +19,8 @@ public abstract class BaseState<T> : ScriptableObject where T : MonoBehaviour
     private BaseState<T> currentSubState;
     private BaseState<T> currentSuperState;
 
+    private bool switchingState = false;
+
 
     private bool isStateActive = true;
     private bool isRootState = false;
@@ -195,6 +197,7 @@ public abstract class BaseState<T> : ScriptableObject where T : MonoBehaviour
     /// </summary>
     /// <param name="newSubState">Sub State</param>
     public void SetSubState(BaseState<T> newSubState){
+        if (switchingState) return;
         Runner.StartCoroutine(CleanSubStates(newSubState, null));
     }
 
@@ -203,13 +206,16 @@ public abstract class BaseState<T> : ScriptableObject where T : MonoBehaviour
     /// </summary>
     /// <param name="newSubState">Sub State</param>
     public void SetSubState(BaseState<T> newSubState, object objToPass){
+        if (switchingState) return;
         Runner.StartCoroutine(CleanSubStates(newSubState, objToPass));
     }
 
     public IEnumerator CleanSubStates(BaseState<T> newSubState, object objToPass){
+        switchingState = true;
         if (currentSubState != null){
             yield return Runner.StartCoroutine(CurrentSubState.ExitStates());
         }
+        Debug.Assert(newSubState != null, $"Experienced Error in Clean Sub States, missing Sub State: {newSubState}");
         CurrentSubState = newSubState;
         newSubState.SetSuperState(this);
 
@@ -219,5 +225,6 @@ public abstract class BaseState<T> : ScriptableObject where T : MonoBehaviour
         else{
             CurrentSubState.EnterState(Runner);
         }
+        switchingState = false;
     }
 }
