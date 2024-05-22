@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f072a57a647ef7d459ab9b5eeb510030, type: 3}
+  m_Name: Room Templates
+  m_EditorClassIdentifier: 
+  roomTypeTemplatesDatas:
+  - name: Start Room
+    roomType: 0
+    isMultipleRoomType: 0
+    singleRoomTemplates: []
+    multipleRoomTemplate: {fileID: 0}
+  - name: Normal Rooms
+    roomType: 2
+    isMultipleRoomType: 0
+    singleRoomTemplates:
+    - {fileID: 2553903550265186433, guid: 3f82ea97720677945a1c2e5d081db3ef, type: 3}
+    - {fileID: 2553903550265186433, guid: 4d511403c169c904ba3b87276073e2ae, type: 3}
+    - {fileID: 2553903550265186433, guid: 18a6ce8332e3ea348bed449ca5c8179f, type: 3}
+    multipleRoomTemplate: {fileID: 11400000, guid: 8e8e1839148002840a2971cdeb2a3319, type: 2}
+  - name: End Room
+    roomType: 1
+    isMultipleRoomType: 0
+    singleRoomTemplates: []
+    multipleRoomTemplate: {fileID: 0}

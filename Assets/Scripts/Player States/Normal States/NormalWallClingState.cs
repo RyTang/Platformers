@@ -43,12 +43,18 @@ public class NormalWallClingState : BaseState<PlayerController>
             Runner.transform.localScale = localScale;
             CurrentSuperState.SetSubState(CurrentSuperState.GetState(typeof(NormalDashState)));
         }
-        
-        else if (!Runner.GetWallCheck().Check() || (horizontalControl != Runner.transform.localScale.x && horizontalControl != 0)){
+        // In the case of not in contact with wall 
+        else if (!Runner.GetWallCheck().Check() || (Mathf.Sign(horizontalControl) != Mathf.Sign(Runner.transform.localScale.x) && horizontalControl != 0)){
+            Debug.Log("Going into Fall Coyote State");
+            Debug.Log($"Touching Wall {Runner.GetWallCheck().Check()}");
+            Debug.Log($"Facing Same Direction Check: {(Mathf.Sign(horizontalControl) != Mathf.Sign(Runner.transform.localScale.x))}");
             CurrentSuperState.SetSubState(CurrentSuperState.GetState(typeof(NormalFallCoyoteState)));
         }
-        else if (verticalControl > 0 & canJump){
+        else if (verticalControl > 0 && canJump){
             CurrentSuperState.SetSubState(CurrentSuperState.GetState(typeof(NormalWallJumpState)));
+        }
+        else if (verticalControl < 0) {
+            CurrentSuperState.SetSubState(CurrentSuperState.GetState(typeof(NormalFallState)));
         }
     }
 
@@ -71,7 +77,7 @@ public class NormalWallClingState : BaseState<PlayerController>
 
     public override void UpdateState()
     {
-        rb2d.velocity = new Vector2(rb2d.velocity.x, Mathf.Clamp(rb2d.velocity.y, -Runner.GetPlayerData().wallSlidingSpeed, Runner.GetPlayerData().wallSlidingSpeed));
+        rb2d.velocity = new Vector2(0, Mathf.Clamp(rb2d.velocity.y, -Runner.GetPlayerData().wallSlidingSpeed, Runner.GetPlayerData().wallSlidingSpeed));
     }
 
     public IEnumerator ClingDelay(){

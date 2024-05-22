@@ -9,6 +9,7 @@ using UnityEngine;
 public class PlayerController : BaseCharacter<PlayerController>, IDamageable
 {
     [SerializeField] PlayerData playerData;
+    [SerializeField] protected GameEvent playerHurtEvent;
     [SerializeField] private LayerCheck attackCheck;
     [SerializeField] protected LayerCheck wallCheck;
     
@@ -19,8 +20,7 @@ public class PlayerController : BaseCharacter<PlayerController>, IDamageable
     protected override void Awake()
     {
         base.Awake();
-        playerData = Instantiate(playerData);
-        playerData.currentEnergy = playerData.maxEnergyBar;
+        playerData.ResetPlayerStats();
     }
 
 
@@ -38,6 +38,7 @@ public class PlayerController : BaseCharacter<PlayerController>, IDamageable
         if (damage < 0) return;
 
         playerData.health -= damage;
+        playerHurtEvent.TriggerEvent();
         SetMainState(typeof(InjuredState));
         if (playerData.health <= 0 ) Destroyed();
     }
