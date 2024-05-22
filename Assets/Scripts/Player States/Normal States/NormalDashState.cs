@@ -61,6 +61,10 @@ public class NormalDashState : BaseState<PlayerController>
             CurrentSuperState.SetSubState(CurrentSuperState.GetState(typeof(NormalIdleState)));
         }
         else if (Runner.GetWallCheck().Check() && !Runner.GetGroundCheck().Check()){
+            Runner.StopCoroutine(currentDashDelay);
+            currentDashDelay = null;
+            Runner.GetAnimator().SetBool(PlayerAnimation.isDashingBool, false);
+            canDash = true;
             CurrentSuperState.SetSubState(CurrentSuperState.GetState(typeof(NormalWallClingState)));
         }
     }

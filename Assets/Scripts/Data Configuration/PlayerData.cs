@@ -1,13 +1,19 @@
+using System;
 using UnityEngine;
+using UnityEngine.PlayerLoop;
 
 [CreateAssetMenu(menuName = "Configs/PlayerData")]
 public class PlayerData : ScriptableObject
 {
     [Header("Basic Information")]
+    public int maxHealth = 10;
     public int health = 10; 
     public float moveSpeed = 5f;
     public float jumpForce = 10f;
     public float coyoteTime = 0.3f;
+    // TODO: add player Gravity Scale to affect Physics Models
+    public float gravityScale = 1;
+    public float mass = 1;
 
     [Header("Dash Information")]
     public float dashDuration = 0.3f;
@@ -51,4 +57,41 @@ public class PlayerData : ScriptableObject
     [Header("Attack Information")]
     public float attackTime;
     public int attackDamage;
+
+
+    // Player Inate Data
+    private float maxJumpHeight;
+
+    private float maxJumpDistance;
+
+    public float GetMaxJumpHeight(){
+        float g = gravityScale * Physics2D.gravity.magnitude;
+        float v0 = jumpForce / mass;
+        maxJumpHeight = (v0 * v0)/(2*g);
+
+        return maxJumpHeight;
+    }
+
+    public float GetMaxJumpDistance(){
+        // Require Max Jump Height to calculate maximum distance
+        if (maxJumpHeight == 0) GetMaxJumpHeight();
+
+        // Need to bear in mind of Fall Velocity Increasing Speed
+        float jumpGravity = gravityScale * Physics2D.gravity.magnitude;        
+        float timeToPeak = jumpForce / jumpGravity;
+
+
+        float fallGravity = fallGravityMultiplier * Physics2D.gravity.magnitude;
+        
+        float fallTime = Mathf.Sqrt((2 * maxJumpHeight) / fallGravity);
+
+        maxJumpDistance = (timeToPeak + fallTime) * moveSpeed;
+
+        return maxJumpDistance;
+    }
+
+    public void ResetPlayerStats(){
+        currentEnergy = maxEnergyBar;
+        health = maxHealth;
+    }
 }
