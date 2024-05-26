@@ -4,8 +4,8 @@ using System.Collections.Generic;
 using System.Reflection;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "Enemy State/Enemy Attack State")]
-public class EnemyAttackState : BaseState<BaseEnemy>
+[CreateAssetMenu(menuName = "Enemy State/Enemy Melee Attack State")]
+public class EnemyMeleeAttackState : EnemyAttackState
 {
     private bool _isAttacking;
 

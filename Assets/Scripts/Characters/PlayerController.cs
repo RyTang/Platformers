@@ -10,10 +10,13 @@ public class PlayerController : BaseCharacter<PlayerController>, IDamageable
 {
     [SerializeField] PlayerData playerData;
     [SerializeField] protected GameEvent playerHurtEvent;
+    [SerializeField] protected GameEvent playerDeathEvent;
     [SerializeField] private LayerCheck attackCheck;
     [SerializeField] protected LayerCheck wallCheck;
     
     private Dictionary<string, Coroutine> buttonReleasedStates = new Dictionary<string, Coroutine>();
+
+    private bool damageInvulnerability = false;
 
     public event Action<GameObject> OnDestroyEvent;
 
@@ -21,6 +24,7 @@ public class PlayerController : BaseCharacter<PlayerController>, IDamageable
     {
         base.Awake();
         playerData.ResetPlayerStats();
+        damageInvulnerability = false;
     }
 
 
@@ -33,12 +37,17 @@ public class PlayerController : BaseCharacter<PlayerController>, IDamageable
     /// </summary>
     /// <param name="damage">Damage to be Done</param>
     public virtual void TakeDamage(int damage){
+        if (damageInvulnerability) return;
+        
         Debug.Assert(damage >= 0, "Damage is less than 0 for some reason: " + this);
 
         if (damage < 0) return;
-
+        
         playerData.health -= damage;
         playerHurtEvent.TriggerEvent();
+
+        StartCoroutine(DamageInvulnerability());
+        
         SetMainState(typeof(InjuredState));
         if (playerData.health <= 0 ) Destroyed();
     }
@@ -49,7 +58,9 @@ public class PlayerController : BaseCharacter<PlayerController>, IDamageable
     public virtual void Destroyed(){
         // TODO: Perform Death Animation
         OnDestroyEvent?.Invoke(gameObject);
-        Destroy(transform.root.gameObject);
+        // Destroy(transform.root.gameObject);
+        Debug.Log("Got Destroyed");
+        playerDeathEvent.TriggerEvent();
     }
 
     public LayerCheck GetAttackCheck(){
@@ -114,6 +125,14 @@ public class PlayerController : BaseCharacter<PlayerController>, IDamageable
         }
 
         buttonReleasedStates.Remove(buttonToRelease);
+    }
+
+    private IEnumerator DamageInvulnerability(){
+        damageInvulnerability = true;
+
+        yield return new WaitForSeconds(playerData.injuredDuration);
+
+        damageInvulnerability = false;
     }
 
     

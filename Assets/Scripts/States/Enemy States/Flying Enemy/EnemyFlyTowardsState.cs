@@ -3,10 +3,10 @@ using System.Linq;
 using System.Reflection;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "Enemy State/Enemy Chase")]
-public class EnemyWalkTowardsState : BaseState<BaseEnemy>
+[CreateAssetMenu(menuName = "Enemy State/Enemy Fly Chase")]
+public class EnemyFlyTowardsState : EnemyMoveState
 {
-    public GameObject objToChase;
+    private GameObject objToChase;
 
     private bool isChasing;
 
@@ -14,6 +14,8 @@ public class EnemyWalkTowardsState : BaseState<BaseEnemy>
 
     public override void EnterState(BaseEnemy parent, object objToPass)
     {
+        Debug.Log("Entering Enemy Walk State ");
+
         objToChase = (GameObject) objToPass;
         isChasing = true;
         base.EnterState(parent, objToPass);
@@ -56,13 +58,9 @@ public class EnemyWalkTowardsState : BaseState<BaseEnemy>
 
     public override void FixedUpdateState()
     {
-
         Vector2 targetDirection = (objToChase.transform.position - Runner.transform.position).normalized;
-        float xDirection = targetDirection.x > 0 ? 1 : -1;
         
-
-        Runner.GetRigidbody2D().velocity = new Vector2(xDirection * Runner.GetBasicEnemydata().moveSpeed, Runner.GetRigidbody2D().velocity.y);
-
+        Runner.GetRigidbody2D().velocity = targetDirection * Runner.GetBasicEnemydata().moveSpeed;
         // TODO: Consider if Jumping is an option;
     }
 

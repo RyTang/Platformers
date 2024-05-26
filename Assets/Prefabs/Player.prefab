@@ -156,6 +156,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 79cb133b9ccaed649bab580e2f3146c0, type: 2}
   groundCheck: {fileID: 7681025421175671650}
   playerData: {fileID: 11400000, guid: c764ce250c9386a4da0c2e2331aa21fa, type: 2}
+  playerHurtEvent: {fileID: 11400000, guid: 1cb7a09e2a9e3904797f6ca1210bcb72, type: 2}
+  playerDeathEvent: {fileID: 11400000, guid: 515b39c96bbd08648a20e59d7287c49c, type: 2}
   attackCheck: {fileID: 4777856694764989848}
   wallCheck: {fileID: 2180066061103716309}
 --- !u!50 &6818691641368730274

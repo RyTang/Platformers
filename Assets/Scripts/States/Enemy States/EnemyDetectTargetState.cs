@@ -14,7 +14,7 @@ public class EnemyDetectTargetState : BaseState<BaseEnemy>
         if (Runner.GetDetectCheck().Check()){
             List<GameObject> objsDetected =  Runner.GetDetectCheck().GetObjectsInCheck();
             
-            Runner.SetMainState(typeof(EnemyWalkTowardsState), objsDetected[0].gameObject);
+            Runner.SetMainState(typeof(EnemyMoveState), objsDetected[0].gameObject);
         }
     }
 
