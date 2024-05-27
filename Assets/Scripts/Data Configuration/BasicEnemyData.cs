@@ -7,6 +7,7 @@ public class BasicEnemyData : ScriptableObject
     public int health = 10; 
     public float moveSpeed = 5f;
     public float jumpForce = 5f;
+    public Vector3 startingPosition;
 
     [Header("Attack Information")]
     public float attackTime;

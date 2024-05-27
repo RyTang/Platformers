@@ -27,6 +27,7 @@ public abstract class BaseEnemy : BaseCharacter<BaseEnemy>, IDamageable
         base.Start();
 
         Health = enemyData.health;
+        enemyData.startingPosition = transform.position;
     }
 
     public void Destroyed()

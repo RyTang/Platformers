@@ -67,7 +67,7 @@ public abstract class BaseState<T> : ScriptableObject where T : MonoBehaviour
     /// <summary>
     /// What Inputs to look and control
     /// </summary>
-    public abstract void CaptureInput();
+    public virtual void CaptureInput(){}
     
     /// <summary>
     /// Code that should be run in Update
@@ -95,25 +95,25 @@ public abstract class BaseState<T> : ScriptableObject where T : MonoBehaviour
     /// Handles Collision Enter Interaction
     /// </summary>
     /// <param name="collision"></param>
-    public abstract void OnStateCollisionEnter(Collision2D collision);
+    public virtual void OnStateCollisionEnter(Collision2D collision){}
 
     /// <summary>
     /// Handles Collision Stay Interaction
     /// </summary>
     /// <param name="collision"></param>
-    public abstract void OnStateCollisionStay(Collision2D collision);
+    public virtual void OnStateCollisionStay(Collision2D collision){}
 
     /// <summary>
     /// Handles Collision Exit Interaction
     /// </summary>
     /// <param name="collision"></param>
-    public abstract void OnStateCollisionExit(Collision2D collision);
+    public virtual void OnStateCollisionExit(Collision2D collision){}
 
     
     /// <summary>
     /// Checks the Sub State taht should be defaulted transitioned into
     /// </summary>
-    public abstract void InitialiseSubState(); 
+    public virtual void InitialiseSubState(){} 
 
     /// <summary>
     /// Recursively Updates the Sub States

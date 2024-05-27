@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "Enemy State/Detect Target")]
-public class EnemyDetectTargetState : BaseState<BaseEnemy>
+public class EnemyIdleState : BaseState<BaseEnemy>
 {
     public override void CaptureInput()
     {
@@ -14,7 +14,7 @@ public class EnemyDetectTargetState : BaseState<BaseEnemy>
         if (Runner.GetDetectCheck().Check()){
             List<GameObject> objsDetected =  Runner.GetDetectCheck().GetObjectsInCheck();
             
-            Runner.SetMainState(typeof(EnemyMoveState), objsDetected[0].gameObject);
+            Runner.SetMainState(typeof(EnemyAggroState), objsDetected[0].gameObject);
         }
     }
 

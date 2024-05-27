@@ -7,25 +7,7 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Enemy State/Enemy Melee Attack State")]
 public class EnemyMeleeAttackState : EnemyAttackState
 {
-    private bool _isAttacking;
-
-    private Coroutine attackCooldown;
-
-    public bool IsAttacking { get => _isAttacking; set => _isAttacking = value; }
-
-    public override void EnterState(BaseEnemy parent)
-    {
-        base.EnterState(parent);
-
-        if (IsAttacking) return;
-        
-        // Prevent from Moving  
-        Runner.GetRigidbody2D().velocity = new Vector2(0, Runner.GetRigidbody2D().velocity.y);
-        
-        Runner.StartCoroutine(StartAttack());
-    }
-
-    private IEnumerator StartAttack()
+    protected override IEnumerator StartAttack()
     {
         IsAttacking = true;
         // TODO: Play Animation if Needed
@@ -45,23 +27,8 @@ public class EnemyMeleeAttackState : EnemyAttackState
         if (IsAttacking) attackCooldown = Runner.StartCoroutine(AttackDelay());
     }
 
-    private IEnumerator AttackDelay(){
-        
-        yield return new WaitForSeconds(Runner.GetBasicEnemydata().attackCooldown);
-
-        IsAttacking = false;
-        attackCooldown = null;
-    }
-
     public override void CaptureInput()
     {
-    }
-
-    public override void CheckStateTransition()
-    {
-        if (!IsAttacking){
-            Runner.SetMainState(typeof(EnemyDetectTargetState));
-        }
     }
 
     public override void FixedUpdateState()

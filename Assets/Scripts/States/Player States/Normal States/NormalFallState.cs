@@ -5,7 +5,7 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Player State/Normal State/Fall")]
 public class NormalFallState : BaseState<PlayerController>
 {
-    private float horizontalControl, dashControl;
+    private float horizontalControl, dashControl, attackControl;
 
     private float initialLocalGravity;
 
@@ -33,11 +33,15 @@ public class NormalFallState : BaseState<PlayerController>
     {
         horizontalControl = Runner.GetHorizontalControls();
         dashControl = Runner.GetDashControls();
+        attackControl = Runner.GetAttackControls();
     }
 
     public override void CheckStateTransition()
     {   
-        if (dashControl > 0){
+        if (attackControl > 0) {
+            CurrentSuperState.SetSubState(CurrentSuperState.GetState(typeof(NormalJumpAttack)));
+        }
+        else if (dashControl > 0){
             CurrentSuperState.SetSubState(CurrentSuperState.GetState(typeof(NormalDashState)));
         }
         else if (horizontalControl != 0 && Runner.GetWallCheck().Check()){

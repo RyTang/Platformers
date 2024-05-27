@@ -27,8 +27,6 @@ public class StateRunner<T> : MonoBehaviour where T : MonoBehaviour
         else{
             BaseState<T> newCacheState = null;
 
-            _mainStates.ForEach(state => Debug.Log($"Current State: {state.GetType()}, parent Type: {state.GetType().BaseType}"));
-
             try {
                 if (
                     _mainStates.Any(
@@ -78,20 +76,12 @@ public class StateRunner<T> : MonoBehaviour where T : MonoBehaviour
         {
             yield return StartCoroutine(active_state.ExitStates());
         }
-        Debug.Log($"Wanted State: {newStateType}");
         active_state = GetState(newStateType);
         Debug.Assert(active_state != null, gameObject + ": UNABLE TO FIND STATE " + newStateType);
         if (active_state == null) yield break;
 
-        Debug.Log($"Entering State: {active_state}");
-
-        if (parameter is float floatToPass)
-        {
-            active_state.EnterState(GetComponent<T>(), floatToPass);
-        }
-        else if (parameter is GameObject gameObject)
-        {
-            active_state.EnterState(GetComponent<T>(), gameObject);
+        if (parameter != null){
+            active_state.EnterState(GetComponent<T>(), parameter);
         }
         else{
             active_state.EnterState(GetComponent<T>());

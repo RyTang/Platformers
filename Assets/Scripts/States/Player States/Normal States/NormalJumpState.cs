@@ -6,7 +6,7 @@ public class NormalJumpState : BaseState<PlayerController>
 {
     Rigidbody2D rb2d;
 
-    private float horizontalControl, verticalControl, dashControl;
+    private float horizontalControl, verticalControl, dashControl, attackControl;
 
     public override void EnterState(PlayerController parent)
     {
@@ -23,11 +23,15 @@ public class NormalJumpState : BaseState<PlayerController>
         horizontalControl = Runner.GetHorizontalControls();
         verticalControl = Runner.GetVerticalControls();
         dashControl = Runner.GetDashControls();
+        attackControl = Runner.GetAttackControls();
     }
 
     public override void CheckStateTransition()
     {
-        if (dashControl > 0){
+        if (attackControl > 0) {
+            CurrentSuperState.SetSubState(CurrentSuperState.GetState(typeof(NormalJumpAttack)));
+        }
+        else if (dashControl > 0){
             CurrentSuperState.SetSubState(CurrentSuperState.GetState(typeof(NormalDashState)));
         }
         else if (verticalControl <= 0 || rb2d.velocity.y <= 0){

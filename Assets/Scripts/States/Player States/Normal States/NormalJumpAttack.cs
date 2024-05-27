@@ -1,22 +1,20 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "Player State/Normal State/Sub Attack 1")]
-public class GroundSubAttackOne : BaseState<PlayerController>
+[CreateAssetMenu(menuName = "Player State/Normal State/Jump Attack 1")]
+public class NormalJumpAttack : BaseState<PlayerController>
 {
     private bool _isAttacking;
     private float attackControl;
     private Coroutine attackDelay;
-
+    
     public override void EnterState(PlayerController parent)
     {
         base.EnterState(parent);
-        Debug.Log("Attacking");
 
-        // Prevent from Moving  
-        Runner.GetRigidbody2D().velocity = new Vector2(0, Runner.GetRigidbody2D().velocity.y);
+        // Stop Temporarily from moving
+        Runner.GetRigidbody2D().velocity = Vector2.zero;
 
         Attack();
     }
@@ -64,16 +62,10 @@ public class GroundSubAttackOne : BaseState<PlayerController>
         attackControl = 0;
     }
 
-    public override void CaptureInput()
-    {
-        // FIXME: Attack Controls continuosly staying as positive
-        attackControl = Runner.GetAttackControls();        
-    }
-
     public override void CheckStateTransition()
     {
-        if (attackControl > 0 && _isAttacking){
-            CurrentSuperState.SetSubState(CurrentSuperState.GetState(typeof(GroundSubAttackTwo)));
+        if (!Runner.GetGroundCheck().Check()){
+            CurrentSuperState.SetSubState(CurrentSuperState.GetState(typeof(NormalFallState)));
         }
         else if (attackControl <= 0 && !_isAttacking){
             CurrentSuperState.SetSubState(CurrentSuperState.GetState(typeof(NormalIdleState)));

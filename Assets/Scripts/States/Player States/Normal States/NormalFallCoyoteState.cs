@@ -5,7 +5,7 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Player State/Normal State/Coyote Fall")]
 public class NormalFallCoyoteState : BaseState<PlayerController>
 {
-    private float horizontalControl, verticalControl, dashControl;
+    private float horizontalControl, verticalControl, dashControl, attackControl;
 
     private float initialLocalGravity;
 
@@ -38,12 +38,16 @@ public class NormalFallCoyoteState : BaseState<PlayerController>
         horizontalControl = Runner.GetHorizontalControls();
         verticalControl = Runner.GetVerticalControls();
         dashControl = Runner.GetDashControls();
+        attackControl = Runner.GetAttackControls();
     }
 
     public override void CheckStateTransition()
     {   
         if (!stillCoyote){
             CurrentSuperState.SetSubState(CurrentSuperState.GetState(typeof(NormalFallState)));
+        }
+        else if (attackControl > 0) {
+            CurrentSuperState.SetSubState(CurrentSuperState.GetState(typeof(NormalJumpAttack)));
         }
         else if (verticalControl > 0 && stillCoyote){
             CurrentSuperState.SetSubState(CurrentSuperState.GetState(typeof(NormalJumpState)));
