@@ -20,7 +20,7 @@ public class EnemyMeleeAttackState : EnemyAttackState
         {
             IDamageable damageable;
             bool attackable = attackedObject.TryGetComponent<IDamageable>(out damageable);
-            if (attackable) damageable.TakeDamage(Runner.GetBasicEnemydata().attackDamage);
+            if (attackable) damageable.TakeDamage(Runner.GetBasicEnemydata().attackDamage, Runner.gameObject, Runner.GetBasicEnemydata().knockbackForce);
         }
 
 

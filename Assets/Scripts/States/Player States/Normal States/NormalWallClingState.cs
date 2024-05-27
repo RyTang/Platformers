@@ -45,9 +45,6 @@ public class NormalWallClingState : BaseState<PlayerController>
         }
         // In the case of not in contact with wall 
         else if (!Runner.GetWallCheck().Check() || (Mathf.Sign(horizontalControl) != Mathf.Sign(Runner.transform.localScale.x) && horizontalControl != 0)){
-            Debug.Log("Going into Fall Coyote State");
-            Debug.Log($"Touching Wall {Runner.GetWallCheck().Check()}");
-            Debug.Log($"Facing Same Direction Check: {(Mathf.Sign(horizontalControl) != Mathf.Sign(Runner.transform.localScale.x))}");
             CurrentSuperState.SetSubState(CurrentSuperState.GetState(typeof(NormalFallCoyoteState)));
         }
         else if (verticalControl > 0 && canJump){

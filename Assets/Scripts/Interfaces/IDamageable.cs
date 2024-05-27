@@ -10,11 +10,13 @@ public interface IDamageable
     event Action<GameObject> OnDestroyEvent;
 
     /// <summary>
-    /// Damage to be taken and what will happen to the person/object
+    /// Damage to be taken and applying a knockback force on the target in persepective to the sender
     /// </summary>
-    /// <param name="damage">Damage Amount</param>
-    void TakeDamage(int damage);
-
+    /// <param name="damage">Damage to be Taken</param>
+    /// <param name="damagingObject">Object that caused the damage</param>
+    /// <param name="knockbackForce">Amount of Knockback force to apply</param>
+    void TakeDamage(int damage, GameObject damagingObject = null, float knockbackForce = 0);
+    
     /// <summary>
     /// What happens when this objedt gets destroyed
     /// </summary>

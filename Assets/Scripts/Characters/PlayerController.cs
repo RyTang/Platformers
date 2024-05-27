@@ -36,10 +36,18 @@ public class PlayerController : BaseCharacter<PlayerController>, IDamageable
     /// Common Method to take Damage for a Characters
     /// </summary>
     /// <param name="damage">Damage to be Done</param>
-    public virtual void TakeDamage(int damage){
+    public virtual void TakeDamage(int damage, GameObject damagingObject = null, float knockbackForce = 0){
         if (damageInvulnerability) return;
         
         Debug.Assert(damage >= 0, "Damage is less than 0 for some reason: " + this);
+
+        if (damagingObject != null) {
+            // Add Directional Knockback
+            Vector2 directionDifference = (transform.position - damagingObject.transform.position).normalized;
+
+            rb2d.AddForce(directionDifference * knockbackForce, ForceMode2D.Impulse);
+        }
+
 
         if (damage < 0) return;
         

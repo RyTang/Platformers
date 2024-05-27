@@ -57,6 +57,7 @@ public class PlayerData : ScriptableObject
     [Header("Attack Information")]
     public float attackTime;
     public int attackDamage;
+    public float knockbackForce = 1f;
 
 
     // Player Inate Data

@@ -40,7 +40,7 @@ public class SpeedGroundSubAttackOne : BaseState<PlayerController>
         {
             IDamageable damageable;
             bool attackable = attackedObject.TryGetComponent<IDamageable>(out damageable);
-            if (attackable) damageable.TakeDamage(Runner.GetPlayerData().attackDamage);
+            if (attackable) damageable.TakeDamage(Runner.GetPlayerData().attackDamage, Runner.gameObject, Runner.GetPlayerData().knockbackForce);
         }
 
 

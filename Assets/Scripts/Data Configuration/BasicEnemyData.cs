@@ -14,4 +14,5 @@ public class BasicEnemyData : ScriptableObject
     public int attackDamage;
     public float attackCooldown;
     public float chaseDuration;
+    public float knockbackForce = 1f;
 }
