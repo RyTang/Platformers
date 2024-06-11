@@ -47,3 +47,4 @@ MonoBehaviour:
   clingDelay: 0.15
   attackTime: 0.25
   attackDamage: 1
+  knockbackForce: 2
