@@ -91,6 +91,10 @@ public class PlayerController : BaseCharacter<PlayerController>, IDamageable
     public virtual float GetVerticalControls(){
         return Input.GetAxisRaw("Vertical");
     }
+    
+    public virtual float GetMobilityControl(){
+        return GetSingularPress("Mobility");
+    }
 
     public virtual float GetDashControls()
     {

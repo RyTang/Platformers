@@ -14,6 +14,9 @@ public class PlayerData : ScriptableObject
     // TODO: add player Gravity Scale to affect Physics Models
     public float gravityScale = 1;
     public float mass = 1;
+    [Header("Slide Information")]
+    public float slideDuration = 1f;
+    public float slideVelocity = 10f;
 
     [Header("Dash Information")]
     public float dashDuration = 0.3f;

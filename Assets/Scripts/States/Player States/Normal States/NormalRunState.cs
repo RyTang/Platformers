@@ -4,7 +4,7 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Player State/Normal State/Run")]
 public class NormalRunState : BaseState<PlayerController>
 {
-    private float horizontalControl, verticalControl, dashControl, attackControl;
+    private float horizontalControl, verticalControl, dashControl, attackControl, mobilityControl;
 
     private Rigidbody2D rb2d;
 
@@ -22,6 +22,7 @@ public class NormalRunState : BaseState<PlayerController>
         verticalControl = Runner.GetVerticalControls();
         dashControl = Runner.GetDashControls();
         attackControl = Runner.GetAttackControls();
+        mobilityControl = Runner.GetMobilityControl();
     }
 
     public override void CheckStateTransition()
@@ -43,6 +44,9 @@ public class NormalRunState : BaseState<PlayerController>
         }
         else if (horizontalControl != 0 && Runner.GetWallCheck().Check() && !Runner.GetGroundCheck().Check()){
             CurrentSuperState.SetSubState(CurrentSuperState.GetState(typeof(NormalWallClingState)));
+        }
+        else if (mobilityControl > 0) {
+            CurrentSuperState.SetSubState(CurrentSuperState.GetState(typeof(NormalSlideState)));
         }
     }
     

@@ -4,7 +4,7 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Player State/Normal State/Idle")]
 public class NormalIdleState : BaseState<PlayerController>
 {
-    private float horizontalControl, verticalControl, dashControl, attackControl;
+    private float horizontalControl, verticalControl, dashControl, attackControl, mobilityControl;
     
     public override void EnterState(PlayerController parent)
     {
@@ -18,6 +18,7 @@ public class NormalIdleState : BaseState<PlayerController>
         verticalControl = Runner.GetVerticalControls();
         dashControl = Runner.GetDashControls();
         attackControl = Runner.GetAttackControls();
+        mobilityControl = Runner.GetMobilityControl();
 
         // FIXME: FIGURE OUT WHY ATTACK AND DASH CONTROLS NOT BEING PASSED TO SUB STATES
     }
@@ -38,6 +39,9 @@ public class NormalIdleState : BaseState<PlayerController>
         }
         else if (!Runner.GetGroundCheck().Check() && (verticalControl < 0 || Runner.GetRigidbody2D().velocity.y < 0)){
             CurrentSuperState.SetSubState(CurrentSuperState.GetState(typeof(NormalFallCoyoteState)));
+        }
+        else if (mobilityControl > 0) {
+            CurrentSuperState.SetSubState(CurrentSuperState.GetState(typeof(NormalSlideState)));
         }
     }
 
