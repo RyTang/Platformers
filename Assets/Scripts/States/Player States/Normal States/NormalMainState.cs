@@ -22,15 +22,11 @@ public class NormalMainState : BaseState<PlayerController>
     {
         horizontalControl = Runner.GetHorizontalControls();
         verticalControl = Runner.GetVerticalControls();
-        sprintControl = Runner.GetSprintControls();
     }
 
     public override void CheckStateTransition()
     {
         // TODO: need to set a min energy recovery, if depletes the entire bar
-        if (sprintControl > 0 && Runner.GetPlayerData().currentEnergy > 0){
-            Runner.SetMainState(typeof(SpeedMainState));
-        }
     }
 
     public override void FixedUpdateState()

@@ -5,14 +5,12 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Player State/Normal State/Fall")]
 public class NormalFallState : BaseState<PlayerController>
 {
-    private float horizontalControl, dashControl, attackControl;
+    private float horizontalControl, dashControl, attackControl, verticalControl;
 
     private float initialLocalGravity;
 
     Rigidbody2D rb2d;
 
-
-    private Coroutine coyoteTimer;
 
     public override void EnterState(PlayerController parent)
     {
@@ -21,17 +19,17 @@ public class NormalFallState : BaseState<PlayerController>
         initialLocalGravity = rb2d.gravityScale;
 
 
-
+        // Increase Gravity
         rb2d.gravityScale = initialLocalGravity * Runner.GetPlayerData().fallGravityMultiplier;
 
         Runner.GetAnimator().SetBool(PlayerAnimation.isFallingBool, true);
 
-        // TODO: Look into doing coyote Timing here. Need to figure out how to differentiate Wall Jump vs Jump
     }
 
     public override void CaptureInput()
     {
         horizontalControl = Runner.GetHorizontalControls();
+        verticalControl = Runner.GetVerticalControls();
         dashControl = Runner.GetDashControls();
         attackControl = Runner.GetAttackControls();
     }
@@ -47,22 +45,16 @@ public class NormalFallState : BaseState<PlayerController>
         else if (horizontalControl != 0 && Runner.GetWallCheck().Check()){
             CurrentSuperState.SetSubState(CurrentSuperState.GetState(typeof(NormalWallClingState)));
         }
+        else if (verticalControl < 0){
+            CurrentSuperState.SetSubState(CurrentSuperState.GetState(typeof(NormalFreeFallState)));
+        }
     }
 
     public override IEnumerator ExitState()
     {
-        if (coyoteTimer != null){
-            Runner.StopCoroutine(coyoteTimer);
-            coyoteTimer = null;
-        }
         rb2d.gravityScale = initialLocalGravity;
         Runner.GetAnimator().SetBool(PlayerAnimation.isFallingBool, false);
         yield break;
-    }
-
-    public override void FixedUpdateState()
-    {
-
     }
 
     public override void OnStateCollisionEnter(Collision2D collision)
@@ -84,18 +76,15 @@ public class NormalFallState : BaseState<PlayerController>
     }
 
 
-    public override void InitialiseSubState()
-    {
-    }
-
     public override void OnStateCollisionStay(Collision2D collision)
     {
         if (Runner.GetGroundCheck().Check()){
+            Debug.Log($"TouchedGround: {collision.relativeVelocity}");
             CurrentSuperState.SetSubState(CurrentSuperState.GetState(typeof(NormalLandState)), collision.relativeVelocity.y);
         }
     }
 
-    public override void OnStateCollisionExit(Collision2D collision)
+    public override void FixedUpdateState()
     {
     }
 }

@@ -32,6 +32,9 @@ public abstract class EnemyAttackState : BaseState<BaseEnemy>{
         Runner.StartCoroutine(StartAttack());
     }
 
+    /// <summary>
+    /// Causes the Enemy to Attack in front of them
+    /// </summary>
     protected abstract IEnumerator StartAttack();
 
     protected virtual IEnumerator AttackDelay(){

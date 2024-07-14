@@ -9,7 +9,7 @@ public class Breakable : MonoBehaviour, IDamageable
     [SerializeField] private Rigidbody2D rb2d;
 
     public event Action<GameObject> OnDestroyEvent;
-
+    
     public virtual void Destroyed()
     {
         OnDestroyEvent?.Invoke(gameObject); // TODO: Figure out what is the point of having this again

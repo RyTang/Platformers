@@ -14,6 +14,7 @@ public class NormalWallClingState : BaseState<PlayerController>
 
     public override void EnterState(PlayerController parent)
     {
+
         base.EnterState(parent);
         rb2d = parent.GetRigidbody2D();
 

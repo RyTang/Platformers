@@ -20,21 +20,6 @@ public class PlayerData : ScriptableObject
     public float dashForce = 5;
     public float dashCooldown = 1f;
 
-    [Header("Sprint State")]
-    public float maxEnergyBar = 100f;
-    public float currentEnergy = 100f;
-    public float maxSprintSpeed = 10f;
-    public float sprintDepletionRate = 10f;
-    public float energyRecoveryRate = 5f;
-    public float accelerationSpeed = 2.0f;
-    public float sprintJumpMultiplier = 2.0f;
-    public float sprintWallJumpMultiplier = 2f;
-    public float sprintJumpDuration = 1.5f;
-    public float sprintJumpHeight = 6f;
-    public float maxSprintJumpVelocity = 5;
-    public float minSprintXFallSpeed = 3;
-    public float sprintWallSlowdown = 3.0f;
-
     [Header("Injured State")]
 
     public float injuredDuration = 0.5f;
@@ -43,6 +28,11 @@ public class PlayerData : ScriptableObject
     public float horizontalFallSpeed = 5f;
     public float fallGravityMultiplier = 3.5f;
     public float terminalFallSpeed = 30;
+
+    [Header("Free Fall Information")]
+    public float horizontalFreeFallSpeed = 3f;
+    public float freeFallGravityMultiplier = 5.5f;
+    public float terminalFreeFallSpeed = 40;
     
     [Header("Land Information")]
     public float landDelay = 0.5f;
@@ -92,7 +82,6 @@ public class PlayerData : ScriptableObject
     }
 
     public void ResetPlayerStats(){
-        currentEnergy = maxEnergyBar;
         health = maxHealth;
     }
 }

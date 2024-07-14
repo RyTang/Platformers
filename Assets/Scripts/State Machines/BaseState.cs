@@ -72,12 +72,12 @@ public abstract class BaseState<T> : ScriptableObject where T : MonoBehaviour
     /// <summary>
     /// Code that should be run in Update
     /// </summary>
-    public abstract void UpdateState();
-
+    public virtual void UpdateState(){}
+    
     /// <summary>
     /// Code that runs in Fixed Update
     /// </summary>
-    public abstract void FixedUpdateState();
+    public virtual void FixedUpdateState(){}
 
 
     /// <summary>

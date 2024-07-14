@@ -19,6 +19,8 @@ public class NormalWallJumpState : BaseState<PlayerController>
             Runner.StopCoroutine(currentWallDelay);
             currentWallDelay = null;
         }
+
+        // Change Direction of the Jump to face the right direction
         canMove = false;
         float wallJumpDirection = -Runner.transform.localScale.x;
         Vector2 jumpForce = new Vector2(wallJumpDirection * Runner.GetPlayerData().wallJumpForce.x, Runner.GetPlayerData().wallJumpForce.y);
