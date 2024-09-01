@@ -17,7 +17,6 @@ public class NormalDashState : BaseState<PlayerController>
     public override void EnterState(PlayerController parent)
     {
         base.EnterState(parent);
-        IsRootState = false;
 
         if (!canDash && currentDashDelay != null){
             CurrentSuperState.SetSubState(CurrentSuperState.GetState(typeof(NormalIdleState)));

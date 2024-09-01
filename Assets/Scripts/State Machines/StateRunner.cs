@@ -8,7 +8,7 @@ public class StateRunner<T> : MonoBehaviour where T : MonoBehaviour
 {
     [SerializeField] private List<BaseState<T>> _mainStates;
     [SerializeField] Dictionary<Type, BaseState<T>> _cacheStates = new Dictionary<Type, BaseState<T>>();
-    private BaseState<T> active_state;
+    protected BaseState<T> active_state;
 
     public Dictionary<Type, BaseState<T>> CacheStates { get => _cacheStates; set => _cacheStates = value; }
 

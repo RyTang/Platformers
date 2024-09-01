@@ -14,7 +14,6 @@ public class NormalMainState : BaseState<PlayerController>
     public override void EnterState(PlayerController parent)
     {
         base.EnterState(parent);
-        IsRootState = true;
         InitialiseSubState();
     }
 

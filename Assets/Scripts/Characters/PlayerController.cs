@@ -13,7 +13,7 @@ public class PlayerController : BaseCharacter<PlayerController>, IDamageable
     [SerializeField] protected GameEvent playerDeathEvent;
     [SerializeField] private LayerCheck attackCheck;
     [SerializeField] protected LayerCheck wallCheck;
-    
+
     private Dictionary<string, Coroutine> buttonReleasedStates = new Dictionary<string, Coroutine>();
 
     private bool damageInvulnerability = false;
@@ -69,6 +69,25 @@ public class PlayerController : BaseCharacter<PlayerController>, IDamageable
         // Destroy(transform.root.gameObject);
         Debug.Log("Got Destroyed");
         playerDeathEvent.TriggerEvent();
+    }
+
+    public void IsAttacking(){
+        GetAnimator().SetBool(PlayerAnimation.canAttackBool, false);
+    }
+
+    public virtual void InitiateAttackHitEvent(){        
+        BaseState<PlayerController> finalLeafState = active_state.GetFinalLeafState();
+        if (finalLeafState is IAttack attack) {
+            attack.Attack();
+        }
+    }
+
+    public void canMoveToNextAttack(){
+        GetAnimator().SetBool(PlayerAnimation.canAttackBool, true);
+    }
+
+    public void AttackDone(){
+        GetAnimator().SetBool(PlayerAnimation.isAttackingBool, false);
     }
 
     public LayerCheck GetAttackCheck(){

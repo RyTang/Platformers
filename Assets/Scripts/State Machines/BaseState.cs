@@ -7,23 +7,35 @@ using UnityEngine;
 
 public abstract class BaseState<T> : ScriptableObject where T : MonoBehaviour
 {
-    private T _runner;
-    protected T Runner { get => _runner; set => _runner = value; }
-    protected bool IsStateActive { get => isStateActive; set => isStateActive = value; }
-    protected bool IsRootState { get => isRootState; set => isRootState = value; }
-    protected BaseState<T> CurrentSubState { get => currentSubState; set => currentSubState = value; }
-    protected BaseState<T> CurrentSuperState { get => currentSuperState; set => currentSuperState = value; }
+    protected T Runner { get; set; }
+    protected bool IsStateActive { get; set; } = true;
+    protected BaseState<T> CurrentSubState { get; set; }
+    protected BaseState<T> CurrentSuperState { get; set; }
+    [SerializeField] private bool isRootState = false;
     [SerializeField] protected List<BaseState<T>> availableSubStates = new List<BaseState<T>>();
     protected Dictionary<Type, BaseState<T>> cachedSubStates = new Dictionary<Type, BaseState<T>>();
-
-    private BaseState<T> currentSubState;
-    private BaseState<T> currentSuperState;
-
     private bool switchingState = false;
 
+    public bool GetIsRootState(){
+        return availableSubStates.Count <= 0;
+    }
+    
+    public BaseState<T> GetSubState(){
+        return CurrentSubState;
+    }
 
-    private bool isStateActive = true;
-    private bool isRootState = false;
+    public BaseState<T> GetFinalLeafState(){
+        BaseState<T> currentState = this;
+        int counter = 0;
+        Debug.Log($"Checking State : {currentState}");
+        while (!currentState.GetIsRootState() && counter <= 10){
+            currentState = currentState.GetSubState();
+            Debug.Log($"Checking State : {currentState}");
+            counter++;
+        }
+
+        return currentState;
+    }
 
     public BaseState<T> GetState(Type stateTypeWanted){
         if (cachedSubStates.ContainsKey(stateTypeWanted)){
@@ -119,7 +131,7 @@ public abstract class BaseState<T> : ScriptableObject where T : MonoBehaviour
     /// Recursively Updates the Sub States
     /// </summary>
     public void UpdateStates(){
-        if (!isStateActive) return;
+        if (!IsStateActive) return;
 
         CaptureInput();
         CheckStateTransition();
@@ -157,7 +169,7 @@ public abstract class BaseState<T> : ScriptableObject where T : MonoBehaviour
     public void OnStatesCollisionEnter(Collision2D collision){
         OnStateCollisionEnter(collision);
         if (CurrentSubState != null){
-            currentSubState.OnStatesCollisionEnter(collision);
+            CurrentSubState.OnStatesCollisionEnter(collision);
         }
     }
 
@@ -168,7 +180,7 @@ public abstract class BaseState<T> : ScriptableObject where T : MonoBehaviour
     public void OnStatesCollisionStay(Collision2D collision){
         OnStateCollisionStay(collision);
         if (CurrentSubState != null){
-            currentSubState.OnStatesCollisionStay(collision);
+            CurrentSubState.OnStatesCollisionStay(collision);
         }
     }
 
@@ -179,7 +191,7 @@ public abstract class BaseState<T> : ScriptableObject where T : MonoBehaviour
     public void OnStatesCollisionExit(Collision2D collision){
         OnStateCollisionExit(collision);
         if (CurrentSubState != null){
-            currentSubState.OnStatesCollisionExit(collision);
+            CurrentSubState.OnStatesCollisionExit(collision);
         }
     }
 
@@ -212,7 +224,7 @@ public abstract class BaseState<T> : ScriptableObject where T : MonoBehaviour
 
     public IEnumerator CleanSubStates(BaseState<T> newSubState, object objToPass){
         switchingState = true;
-        if (currentSubState != null){
+        if (CurrentSubState != null){
             yield return Runner.StartCoroutine(CurrentSubState.ExitStates());
         }
         Debug.Assert(newSubState != null, $"Experienced Error in Clean Sub States, missing Sub State: {newSubState}");

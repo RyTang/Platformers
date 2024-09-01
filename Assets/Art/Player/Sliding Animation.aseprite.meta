@@ -129,7 +129,7 @@ ScriptedImporter:
     rect:
       serializedVersion: 2
       x: 4
-      y: 39
+      y: 66
       width: 19
       height: 32
     spriteID: 40c1bb2ed1422864782ccfd22f308631
@@ -140,18 +140,18 @@ ScriptedImporter:
     indices: 
     edges: []
     tessellationDetail: 0
-    uvTransform: {x: 4, y: 39}
+    uvTransform: {x: 4, y: 66}
   - name: Sliding Animation_Frame_1
     originalName: 
-    pivot: {x: 0.5588235, y: 1.2}
+    pivot: {x: 0.5588235, y: 0.94736844}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
       serializedVersion: 2
-      x: 200
+      x: 4
       y: 4
       width: 34
-      height: 15
+      height: 19
     spriteID: a0d39eef8d1c1f348848086a5056a8aa
     spriteBone: []
     spriteOutline: []
@@ -160,7 +160,7 @@ ScriptedImporter:
     indices: 
     edges: []
     tessellationDetail: 0
-    uvTransform: {x: 200, y: 4}
+    uvTransform: {x: 4, y: 4}
   - name: Sliding Animation_Frame_2
     originalName: 
     pivot: {x: 0.5588235, y: 1.0588236}
@@ -168,7 +168,7 @@ ScriptedImporter:
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
       serializedVersion: 2
-      x: 158
+      x: 88
       y: 4
       width: 34
       height: 17
@@ -180,7 +180,7 @@ ScriptedImporter:
     indices: 
     edges: []
     tessellationDetail: 0
-    uvTransform: {x: 158, y: 4}
+    uvTransform: {x: 88, y: 4}
   - name: Sliding Animation_Frame_3
     originalName: 
     pivot: {x: 0.5588235, y: 1}
@@ -189,7 +189,7 @@ ScriptedImporter:
     rect:
       serializedVersion: 2
       x: 74
-      y: 4
+      y: 31
       width: 34
       height: 18
     spriteID: 3e9ad548aee75aa4390d6bc967a1ac28
@@ -200,7 +200,7 @@ ScriptedImporter:
     indices: 
     edges: []
     tessellationDetail: 0
-    uvTransform: {x: 74, y: 4}
+    uvTransform: {x: 74, y: 31}
   - name: Sliding Animation_Frame_4
     originalName: 
     pivot: {x: 0.5588235, y: 1}
@@ -208,7 +208,7 @@ ScriptedImporter:
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
       serializedVersion: 2
-      x: 116
+      x: 46
       y: 4
       width: 34
       height: 18
@@ -220,7 +220,7 @@ ScriptedImporter:
     indices: 
     edges: []
     tessellationDetail: 0
-    uvTransform: {x: 116, y: 4}
+    uvTransform: {x: 46, y: 4}
   - name: Sliding Animation_Frame_5
     originalName: 
     pivot: {x: 0.516129, y: 0.9}
@@ -229,7 +229,7 @@ ScriptedImporter:
     rect:
       serializedVersion: 2
       x: 35
-      y: 4
+      y: 31
       width: 31
       height: 20
     spriteID: 508eb4f83d7c86f419db777ef60a283e
@@ -240,7 +240,7 @@ ScriptedImporter:
     indices: 
     edges: []
     tessellationDetail: 0
-    uvTransform: {x: 35, y: 4}
+    uvTransform: {x: 35, y: 31}
   - name: Sliding Animation_Frame_6
     originalName: 
     pivot: {x: 0.6956522, y: 0.6666666}
@@ -249,7 +249,7 @@ ScriptedImporter:
     rect:
       serializedVersion: 2
       x: 4
-      y: 4
+      y: 31
       width: 23
       height: 27
     spriteID: edacb3b7d3837cb4184f4412fd3b2248
@@ -260,7 +260,7 @@ ScriptedImporter:
     indices: 
     edges: []
     tessellationDetail: 0
-    uvTransform: {x: 4, y: 4}
+    uvTransform: {x: 4, y: 31}
   - name: Sliding Animation_Frame_7
     originalName: 
     pivot: {x: 0.631579, y: 0.5625}
@@ -269,7 +269,7 @@ ScriptedImporter:
     rect:
       serializedVersion: 2
       x: 31
-      y: 39
+      y: 66
       width: 19
       height: 32
     spriteID: e14eabdcd038b634faf41440197d4446
@@ -280,7 +280,7 @@ ScriptedImporter:
     indices: 
     edges: []
     tessellationDetail: 0
-    uvTransform: {x: 31, y: 39}
+    uvTransform: {x: 31, y: 66}
   spriteSheetImportData: []
   asepriteLayers:
   - layerIndex: 0
@@ -306,7 +306,7 @@ ScriptedImporter:
         x: 1
         y: 2
         width: 34
-        height: 15
+        height: 19
       spriteId: a0d39eef8d1c1f348848086a5056a8aa
     - name: Sliding Animation_Frame_2
       frameIndex: 2
@@ -416,4 +416,4 @@ ScriptedImporter:
   generatePhysicsShape: 0
   secondarySpriteTextures: []
   spritePackingTag: 
-  canvasSize: {x: 40, y: 40}
+  canvasSize: {x: 80, y: 60}
