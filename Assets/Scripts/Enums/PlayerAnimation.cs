@@ -17,6 +17,7 @@ public static class PlayerAnimation {
     public static int triggerGroundAttack03 = Animator.StringToHash("triggerGroundAttack03");
     public static int isAttackingBool = Animator.StringToHash("isAttacking");
     public static int canAttackBool = Animator.StringToHash("canAttack");
+    public static int triggerFreefall = Animator.StringToHash("triggerFreefall");
     public static int isFreeFallingBool = Animator.StringToHash("isFreeFalling");
     public static int isSlidingBool = Animator.StringToHash("isSliding");
 }

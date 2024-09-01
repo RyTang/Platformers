@@ -12,3 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd392df59311f2542a8454eb778731b5, type: 3}
   m_Name: Normal Dash State
   m_EditorClassIdentifier: 
+  isRootState: 1
+  availableSubStates: []

@@ -12,3 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 69393f514f84de842bebc06c706f3597, type: 3}
   m_Name: Normal Fall Coyote State
   m_EditorClassIdentifier: 
+  isRootState: 1
+  availableSubStates: []

@@ -12,3 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: de049549fda2af3488743528b1921877, type: 3}
   m_Name: Normal Jump State
   m_EditorClassIdentifier: 
+  isRootState: 1
+  availableSubStates: []

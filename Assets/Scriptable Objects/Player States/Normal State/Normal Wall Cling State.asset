@@ -12,3 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65dcecfc0cd50ed4294c7132327ac6e0, type: 3}
   m_Name: Normal Wall Cling State
   m_EditorClassIdentifier: 
+  isRootState: 1
+  availableSubStates: []

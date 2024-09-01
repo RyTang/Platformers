@@ -12,3 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b0d0e2b9baa7c9b4f9b4a43ceef5a369, type: 3}
   m_Name: Normal Land State
   m_EditorClassIdentifier: 
+  isRootState: 1
+  availableSubStates: []

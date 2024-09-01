@@ -12,3 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ae0c02a5717aa8499822e63186fe6aa, type: 3}
   m_Name: Normal Fall State
   m_EditorClassIdentifier: 
+  isRootState: 1
+  availableSubStates: []

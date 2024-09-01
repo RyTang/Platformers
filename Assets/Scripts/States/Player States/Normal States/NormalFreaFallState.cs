@@ -23,6 +23,7 @@ public class NormalFreeFallState : BaseState<PlayerController>
         // Increase Gravity
         rb2d.gravityScale = initialLocalGravity * Runner.GetPlayerData().freeFallGravityMultiplier;
 
+        Runner.GetAnimator().SetTrigger(PlayerAnimation.triggerFreefall);
         Runner.GetAnimator().SetBool(PlayerAnimation.isFreeFallingBool, true);
     }
 
@@ -80,8 +81,6 @@ public class NormalFreeFallState : BaseState<PlayerController>
 
     public override void OnStateCollisionStay(Collision2D collision)
     {
-
-        // FIXME: For some reason velocity is not being translated to the Landing State Properly
         if (Runner.GetGroundCheck().Check()){
             Debug.Log($"TouchedGround: {collision.relativeVelocity}");
             CurrentSuperState.SetSubState(CurrentSuperState.GetState(typeof(NormalLandState)), collision.relativeVelocity.y);
