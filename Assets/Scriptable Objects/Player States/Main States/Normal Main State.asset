@@ -12,9 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ebb03b05ca5f5e945ba0c8ea6c04dd5d, type: 3}
   m_Name: Normal Main State
   m_EditorClassIdentifier: 
+  isRootState: 0
   availableSubStates:
   - {fileID: 11400000, guid: a8dba484a7c44ce47acb9bf4ab1e794a, type: 2}
   - {fileID: 11400000, guid: 54ba82acea472c8438a6bee44ebf00e7, type: 2}
+  - {fileID: 11400000, guid: 5a49bccc7d214b34f8a3ce651cc1b231, type: 2}
   - {fileID: 11400000, guid: df52827a2abcbd94388fa1f0da0b37fa, type: 2}
   - {fileID: 11400000, guid: 36009984f59289b41af9cdf2ce30eac8, type: 2}
   - {fileID: 11400000, guid: 21ec7972d4d22b441b7d93f5be9c4104, type: 2}

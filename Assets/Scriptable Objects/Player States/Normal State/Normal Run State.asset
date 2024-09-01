@@ -12,3 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 356386c9d3f82c440ae694a57f2ddef6, type: 3}
   m_Name: Normal Run State
   m_EditorClassIdentifier: 
+  isRootState: 1
+  availableSubStates: []

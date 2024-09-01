@@ -12,3 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b23444ba512e754983f1a1e191eb111, type: 3}
   m_Name: GroundAttack01
   m_EditorClassIdentifier: 
+  isRootState: 1
+  availableSubStates: []
