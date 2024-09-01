@@ -27,6 +27,7 @@ public abstract class BaseEnemy : BaseCharacter<BaseEnemy>, IDamageable
         base.Start();
 
         Health = enemyData.health;
+        enemyData.startingPosition = transform.position;
     }
 
     public void Destroyed()
@@ -35,8 +36,15 @@ public abstract class BaseEnemy : BaseCharacter<BaseEnemy>, IDamageable
         Destroy(gameObject);
     }
 
-    public void TakeDamage(int damage)
+    public void TakeDamage(int damage, GameObject damagingObject = null, float knockbackForce = 0)
     {
+        // Apply knockback
+        if (damagingObject != null){
+            Vector2 directionDifference = (transform.position - damagingObject.transform.position).normalized;
+
+            rb2d.AddForce(directionDifference * knockbackForce, ForceMode2D.Impulse);
+        }
+
         if (damage < 0 ) return;
 
         Health -= damage;

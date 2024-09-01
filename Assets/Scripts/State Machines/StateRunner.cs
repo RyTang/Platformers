@@ -8,7 +8,7 @@ public class StateRunner<T> : MonoBehaviour where T : MonoBehaviour
 {
     [SerializeField] private List<BaseState<T>> _mainStates;
     [SerializeField] Dictionary<Type, BaseState<T>> _cacheStates = new Dictionary<Type, BaseState<T>>();
-    private BaseState<T> active_state;
+    protected BaseState<T> active_state;
 
     public Dictionary<Type, BaseState<T>> CacheStates { get => _cacheStates; set => _cacheStates = value; }
 
@@ -26,9 +26,18 @@ public class StateRunner<T> : MonoBehaviour where T : MonoBehaviour
         }
         else{
             BaseState<T> newCacheState = null;
+
             try {
-                if (_mainStates.Any(s => s.GetType() == stateTypeWanted)){
-                    newCacheState = Instantiate(_mainStates.First(s => s.GetType() == stateTypeWanted));
+                if (
+                    _mainStates.Any(
+                        state => stateTypeWanted.IsAssignableFrom(state.GetType())
+                    )
+                ){
+                    newCacheState = Instantiate(
+                        _mainStates.First(
+                            state => stateTypeWanted.IsAssignableFrom(state.GetType())
+                        )
+                    );
                 }
                 CacheStates.Add(stateTypeWanted, newCacheState);
             }                
@@ -67,18 +76,12 @@ public class StateRunner<T> : MonoBehaviour where T : MonoBehaviour
         {
             yield return StartCoroutine(active_state.ExitStates());
         }
-
         active_state = GetState(newStateType);
         Debug.Assert(active_state != null, gameObject + ": UNABLE TO FIND STATE " + newStateType);
         if (active_state == null) yield break;
 
-        if (parameter is float floatToPass)
-        {
-            active_state.EnterState(GetComponent<T>(), floatToPass);
-        }
-        else if (parameter is GameObject gameObject)
-        {
-            active_state.EnterState(GetComponent<T>(), gameObject);
+        if (parameter != null){
+            active_state.EnterState(GetComponent<T>(), parameter);
         }
         else{
             active_state.EnterState(GetComponent<T>());

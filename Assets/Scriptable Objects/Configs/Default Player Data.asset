@@ -19,26 +19,18 @@ MonoBehaviour:
   coyoteTime: 0.15
   gravityScale: 1
   mass: 1
+  slideDuration: 0.3
+  slideVelocity: 13
   dashDuration: 0.2
   dashForce: 20
   dashCooldown: 1
-  maxEnergyBar: 100
-  currentEnergy: 100
-  maxSprintSpeed: 10
-  sprintDepletionRate: 10
-  energyRecoveryRate: 10
-  accelerationSpeed: 10
-  sprintJumpMultiplier: 0.5
-  sprintWallJumpMultiplier: 1
-  sprintJumpDuration: 1.5
-  sprintJumpHeight: 7
-  maxSprintJumpVelocity: 5
-  minSprintXFallSpeed: 3
-  sprintWallSlowdown: 10
   injuredDuration: 0.5
   horizontalFallSpeed: 5
   fallGravityMultiplier: 3.5
   terminalFallSpeed: 30
+  horizontalFreeFallSpeed: 3
+  freeFallGravityMultiplier: 5.5
+  terminalFreeFallSpeed: 40
   landDelay: 0.5
   landVelocityThreshold: 20
   wallSlidingSpeed: 2
@@ -47,3 +39,4 @@ MonoBehaviour:
   clingDelay: 0.15
   attackTime: 0.25
   attackDamage: 1
+  knockbackForce: 2
