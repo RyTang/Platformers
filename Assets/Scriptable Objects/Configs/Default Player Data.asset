@@ -29,7 +29,7 @@ MonoBehaviour:
   fallGravityMultiplier: 3.5
   terminalFallSpeed: 30
   horizontalFreeFallSpeed: 3
-  freeFallGravityMultiplier: 5.5
+  freeFallGravityMultiplier: 10
   terminalFreeFallSpeed: 40
   landDelay: 0.5
   landVelocityThreshold: 20

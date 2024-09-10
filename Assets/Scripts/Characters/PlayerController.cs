@@ -14,6 +14,9 @@ public class PlayerController : BaseCharacter<PlayerController>, IDamageable
     [SerializeField] private LayerCheck attackCheck;
     [SerializeField] protected LayerCheck wallCheck;
 
+    public delegate void OnAnimationEventTriggered(AnimationEventTrigger eventTrigger);
+    public event OnAnimationEventTriggered AnimationEvent;
+
     private Dictionary<string, Coroutine> buttonReleasedStates = new Dictionary<string, Coroutine>();
 
     private bool damageInvulnerability = false;
@@ -30,6 +33,16 @@ public class PlayerController : BaseCharacter<PlayerController>, IDamageable
 
     public PlayerData GetPlayerData(){
         return playerData;
+    }
+
+    public void AnimationUpdateEvent(string animationEvent){
+        if (Enum.TryParse(animationEvent, true, out AnimationEventTrigger animationEventTrigger)){
+            AnimationEvent?.Invoke(animationEventTrigger);
+        }
+        else {
+            Debug.LogError($"Unable to Determine Enum of Type: {animationEvent}");
+        }
+
     }
 
     /// <summary>

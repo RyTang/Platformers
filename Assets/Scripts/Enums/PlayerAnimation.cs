@@ -20,4 +20,5 @@ public static class PlayerAnimation {
     public static int triggerFreefall = Animator.StringToHash("triggerFreefall");
     public static int isFreeFallingBool = Animator.StringToHash("isFreeFalling");
     public static int isSlidingBool = Animator.StringToHash("isSliding");
+    public static int triggerFreeFallLanding = Animator.StringToHash("triggerFreeFallLanding");
 }
