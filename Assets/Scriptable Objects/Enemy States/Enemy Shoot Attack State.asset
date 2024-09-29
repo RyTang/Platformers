@@ -10,8 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4a61c6684a64ca248898ec7a522da066, type: 3}
-  m_Name: Flying Enemy Shoot Attack State
+  m_Name: Enemy Shoot Attack State
   m_EditorClassIdentifier: 
-  isRootState: 0
   availableSubStates: []
   objToAttack: {fileID: 0}
+  bulletPrefab: {fileID: 9168562579750200602, guid: fbf1bd5314c2d8e4a8e099caf6bbfae4, type: 3}
+  projectileSpeed: 3
+  knockbackForce: 5
+  projectileDamage: 1

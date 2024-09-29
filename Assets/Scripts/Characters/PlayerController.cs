@@ -53,6 +53,9 @@ public class PlayerController : BaseCharacter<PlayerController>, IDamageable
         if (damageInvulnerability) return;
         
         Debug.Assert(damage >= 0, "Damage is less than 0 for some reason: " + this);
+        if (damage == 0){            
+            Debug.LogWarning("Damage == 0 for some reason: " + this);
+        }
 
         if (damagingObject != null) {
             // Add Directional Knockback
