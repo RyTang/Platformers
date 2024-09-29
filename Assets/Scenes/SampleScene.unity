@@ -9752,10 +9752,6 @@ PrefabInstance:
       value: Flying Enemy
       objectReference: {fileID: 0}
     - target: {fileID: 4245106880556258931, guid: b2500d9465f8a5e48b7a17a5367ebc45, type: 3}
-      propertyPath: m_RootOrder
-      value: 23
-      objectReference: {fileID: 0}
-    - target: {fileID: 4245106880556258931, guid: b2500d9465f8a5e48b7a17a5367ebc45, type: 3}
       propertyPath: m_LocalPosition.x
       value: 1.5
       objectReference: {fileID: 0}
@@ -9880,7 +9876,6 @@ SceneRoots:
   - {fileID: 1041586857}
   - {fileID: 1008400063}
   - {fileID: 1876808134}
-  - {fileID: 526986436394263448}
   - {fileID: 1426551975}
   - {fileID: 444317332}
   - {fileID: 720269043}
@@ -9896,5 +9891,6 @@ SceneRoots:
   - {fileID: 1017868566}
   - {fileID: 904609933}
   - {fileID: 439974643}
+  - {fileID: 526986436394263448}
   - {fileID: 5918485334435299150}
   - {fileID: 80320869}

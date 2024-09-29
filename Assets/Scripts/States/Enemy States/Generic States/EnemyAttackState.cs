@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using UnityEngine;
 
-public abstract class EnemyAttackState : BaseState<BaseEnemy>{
+public abstract class EnemyAttackState : BaseState<BaseEnemy>, IAttack{
     protected bool _isAttacking;
 
     protected Coroutine attackCooldown;
@@ -28,7 +28,11 @@ public abstract class EnemyAttackState : BaseState<BaseEnemy>{
         
         // Prevent from Moving  
         Runner.GetRigidbody2D().velocity = new Vector2(0, Runner.GetRigidbody2D().velocity.y);
-        
+        Attack();   
+    }
+
+    public void Attack()
+    {
         Runner.StartCoroutine(StartAttack());
     }
 
