@@ -11,7 +11,6 @@ public abstract class BaseState<T> : ScriptableObject where T : MonoBehaviour
     protected bool IsStateActive { get; set; } = true;
     protected BaseState<T> CurrentSubState { get; set; }
     protected BaseState<T> CurrentSuperState { get; set; }
-    [SerializeField] private bool isRootState = false;
     [SerializeField] protected List<BaseState<T>> availableSubStates = new List<BaseState<T>>();
     protected Dictionary<Type, BaseState<T>> cachedSubStates = new Dictionary<Type, BaseState<T>>();
     private bool switchingState = false;

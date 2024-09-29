@@ -9,8 +9,9 @@ using UnityEngine;
 public class EnemyShootAttackState : EnemyAttackState, IShootable
 {
     [Header("Shooting Enemy")]
-    private GameObject bulletPrefab;
+    public GameObject bulletPrefab;
     public float projectileSpeed;
+    public float knockbackForce;
     public int projectileDamage;
     
     public GameObject BulletPrefab { get => bulletPrefab; set => bulletPrefab = value; }
@@ -39,12 +40,10 @@ public class EnemyShootAttackState : EnemyAttackState, IShootable
     public void Shoot(Vector2 positionToShoot)
     {
         // Instanstiate bullet, and add velocity to the bullet
-        bulletPrefab = Instantiate(bulletPrefab, parent.transform.position, Quaternion.identity, parent.transform);
+        GameObject bulletClone = Instantiate(bulletPrefab, parent.transform.position, Quaternion.identity, parent.transform);
 
-
-        Projectile bulletRb = bulletPrefab.GetComponent<Projectile>();
-        bulletRb.SetShooter(parent.gameObject);
-        bulletRb.SetProjectileTarget(positionToShoot);
+        Projectile bulletRb = bulletClone.GetComponent<Projectile>();
+        bulletRb.SetProjectileTarget(parent.gameObject, positionToShoot, projectileDamage, projectileSpeed, knockbackForce);
     }
 
     public override void UpdateState()

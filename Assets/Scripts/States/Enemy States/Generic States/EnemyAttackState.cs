@@ -11,7 +11,7 @@ public abstract class EnemyAttackState : BaseState<BaseEnemy>, IAttack{
 
     public bool IsAttacking { get => _isAttacking; set => _isAttacking = value; }
 
-    public GameObject objToAttack;
+    [HideInInspector] public GameObject objToAttack;
 
     public override void EnterState(BaseEnemy parent, object objToPass)
     {

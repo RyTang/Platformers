@@ -5,7 +5,6 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Player State/Normal State/Jump Attack 1")]
 public class NormalJumpAttack : BaseState<PlayerController>, IAttack
 {
-    private bool _isAttacking;
     private float attackControl;
     public override void EnterState(PlayerController parent)
     {
@@ -21,8 +20,6 @@ public class NormalJumpAttack : BaseState<PlayerController>, IAttack
 
     public void Attack()
     {
-        _isAttacking = true;
-
         List<GameObject> attackedObjects = Runner.GetAttackCheck().GetObjectsInCheck();
 
         foreach (GameObject attackedObject in attackedObjects)
