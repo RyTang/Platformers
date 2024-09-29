@@ -16,10 +16,12 @@ public class PlayerController : BaseCharacter<PlayerController>, IDamageable
 
     public delegate void OnAnimationEventTriggered(AnimationEventTrigger eventTrigger);
     public event OnAnimationEventTriggered AnimationEvent;
+    public bool canRotate = true;
 
     private Dictionary<string, Coroutine> buttonReleasedStates = new Dictionary<string, Coroutine>();
 
     private bool damageInvulnerability = false;
+    
 
     public event Action<GameObject> OnDestroyEvent;
 
@@ -28,6 +30,20 @@ public class PlayerController : BaseCharacter<PlayerController>, IDamageable
         base.Awake();
         playerData.ResetPlayerStats();
         damageInvulnerability = false;
+        canRotate = true;
+    }
+
+    protected override void SpriteDirection()
+    {
+        // So that knockback doesn't affect the direction that the player is facing and that it is only based on controls;
+        float xDirection = GetHorizontalControls();
+        if (xDirection == 0 || !canRotate) return;
+
+        Vector3 localScale =  spriteRenderer.transform.localScale;
+
+        float facingDirection = xDirection < 0 ? -Mathf.Abs(localScale.x) : Mathf.Abs(localScale.x);
+
+        spriteRenderer.transform.localScale = new Vector3(facingDirection, localScale.y, localScale.z);
     }
 
 

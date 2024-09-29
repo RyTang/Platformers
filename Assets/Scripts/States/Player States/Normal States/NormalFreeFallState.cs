@@ -27,8 +27,8 @@ public class NormalFreeFallState : BaseState<PlayerController>
 
         // Momentarrilly Pause Mid Air
         // TODO: By doing this need to prevent users from spamming this interaction
-        rb2d.gravityScale = 0f;
-        rb2d.velocity = Vector2.zero;
+        // rb2d.gravityScale = 0f;
+        // rb2d.velocity = Vector2.zero;
         diving = false;
         Runner.GetAnimator().SetTrigger(PlayerAnimation.triggerFreefall);
         Runner.GetAnimator().SetBool(PlayerAnimation.isFreeFallingBool, true);
@@ -68,7 +68,7 @@ public class NormalFreeFallState : BaseState<PlayerController>
         else if (dashControl > 0){
             CurrentSuperState.SetSubState(CurrentSuperState.GetState(typeof(NormalDashState)));
         }
-        else if (horizontalControl != 0 && Runner.GetWallCheck().Check()){
+        else if (verticalControl >= 0 && horizontalControl != 0 && Runner.GetWallCheck().Check()){
             CurrentSuperState.SetSubState(CurrentSuperState.GetState(typeof(NormalWallClingState)));
         }
         else if (verticalControl >= 0) {

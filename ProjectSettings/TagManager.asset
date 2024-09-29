@@ -15,8 +15,8 @@ TagManager:
   - Enemy
   - Wall
   - Breakable
-  - 
-  - 
+  - Enemy Projectile
+  - Player Projectile
   - 
   - 
   - 

@@ -6,6 +6,7 @@ using UnityEngine;
 public class NormalWallJumpState : BaseState<PlayerController>
 {
     private float horizontalControl, verticalControl, dashControl, attackControl;
+    private PlayerController parent;
     private Rigidbody2D rb2d;
     private bool canMove;
     private Coroutine currentWallDelay;
@@ -22,6 +23,8 @@ public class NormalWallJumpState : BaseState<PlayerController>
 
         // Change Direction of the Jump to face the right direction
         canMove = false;
+        this.parent = parent;
+        this.parent.canRotate = false;
         float wallJumpDirection = -Runner.transform.localScale.x;
         Vector2 jumpForce = new Vector2(wallJumpDirection * Runner.GetPlayerData().wallJumpForce.x, Runner.GetPlayerData().wallJumpForce.y);
         rb2d.AddForce(jumpForce, ForceMode2D.Impulse);
@@ -45,11 +48,13 @@ public class NormalWallJumpState : BaseState<PlayerController>
     private IEnumerator WallJumpDelay(){
         yield return new WaitForSeconds(Runner.GetPlayerData().wallJumpDuration);
         canMove = true;
+        
     }
 
     public override void CaptureInput()
     {   
         if (canMove){
+            parent.canRotate = true;
             verticalControl = Runner.GetVerticalControls();
             horizontalControl = Runner.GetHorizontalControls();
             dashControl = Runner.GetDashControls();
@@ -83,6 +88,7 @@ public class NormalWallJumpState : BaseState<PlayerController>
     {
         Runner.GetAnimator().SetBool(PlayerAnimation.isWallJumpingBool, false);
         currentWallDelay = null;
+        parent.canRotate = true;
         yield break;
     }
 
@@ -98,23 +104,5 @@ public class NormalWallJumpState : BaseState<PlayerController>
         if (Runner.GetGroundCheck() && rb2d.velocity.y <= 0){
             CurrentSuperState.SetSubState(CurrentSuperState.GetState(typeof(NormalLandState)), collision.relativeVelocity.y);
         }
-    }
-
-    public override void UpdateState()
-    {
-
-    }
-
-
-    public override void InitialiseSubState()
-    {
-    }
-
-    public override void OnStateCollisionStay(Collision2D collision)
-    {
-    }
-
-    public override void OnStateCollisionExit(Collision2D collision)
-    {
     }
 }

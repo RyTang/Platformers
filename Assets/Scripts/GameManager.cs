@@ -1,4 +1,3 @@
-using System.Diagnostics;
 using System;
 using System.Collections.Generic;
 using System.Collections;
@@ -25,5 +24,7 @@ public class GameManager : MonoBehaviour
     public void ReloadGame(){
         Debug.Log("Restarting Game");
         playerData.ResetPlayerStats();
+        SceneManager.LoadScene((int) SceneIndexes.TESTING_SCENE);
+        Time.timeScale = 1;
     }
 }
