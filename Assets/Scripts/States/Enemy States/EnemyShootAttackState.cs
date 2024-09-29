@@ -5,21 +5,46 @@ using System.Linq;
 using System.Threading.Tasks;
 using UnityEngine;
 
-public class EnemyShootAttackState : EnemyAttackState
+[CreateAssetMenu(menuName = "Enemy State/Enemy Shoot Attack State")]
+public class EnemyShootAttackState : EnemyAttackState, IShootable
 {
-    IShootable shootingStats;
+    [Header("Shooting Enemy")]
+    private GameObject bulletPrefab;
+    public float projectileSpeed;
+    public int projectileDamage;
+    
+    public GameObject BulletPrefab { get => bulletPrefab; set => bulletPrefab = value; }
+    public float ProjectileSpeed { get => projectileSpeed; set => projectileSpeed = value; }
+    public int ProjectileDamage { get => projectileDamage; set => projectileDamage = value; }
+
+
+    private BaseEnemy parent;
 
     public override void EnterState(BaseEnemy parent)
     {
+        this.parent = parent;
         base.EnterState(parent);
-
-        shootingStats =  parent.GetComponent<IShootable>();
-        Debug.Assert(shootingStats != null, "${parent} does not contain any IShootable stats for attack");
     }
 
     public override void FixedUpdateState()
     {
 
+    }
+
+    public void Shoot(Transform objectToShoot)
+    {
+        Shoot(objectToShoot.position);
+    }
+
+    public void Shoot(Vector2 positionToShoot)
+    {
+        // Instanstiate bullet, and add velocity to the bullet
+        bulletPrefab = Instantiate(bulletPrefab, parent.transform.position, Quaternion.identity, parent.transform);
+
+
+        Projectile bulletRb = bulletPrefab.GetComponent<Projectile>();
+        bulletRb.SetShooter(parent.gameObject);
+        bulletRb.SetProjectileTarget(positionToShoot);
     }
 
     public override void UpdateState()
@@ -33,12 +58,9 @@ public class EnemyShootAttackState : EnemyAttackState
         yield return new WaitForSeconds(Runner.GetBasicEnemydata().attackTime);
 
         // Shoot Projectile
-        Debug.Assert(shootingStats != null, "${parent} tried to Attack without IShootable stats");
-        if (shootingStats == null) yield break;;
 
-        
         // Attack at the actual target
-        shootingStats.Shoot(objToAttack.transform);
+        Shoot(objToAttack.transform);
 
         if (IsAttacking) attackCooldown = Runner.StartCoroutine(AttackDelay());
 
