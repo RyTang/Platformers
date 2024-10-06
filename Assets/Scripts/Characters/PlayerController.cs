@@ -29,6 +29,7 @@ public class PlayerController : BaseCharacter<PlayerController>, IDamageable
     {
         base.Awake();
         playerData.ResetPlayerStats();
+        rb2d.gravityScale = playerData.gravityScale;
         damageInvulnerability = false;
         canRotate = true;
     }

@@ -15,9 +15,9 @@ MonoBehaviour:
   maxHealth: 10
   health: 10
   moveSpeed: 5
-  jumpForce: 8
+  jumpForce: 12
   coyoteTime: 0.15
-  gravityScale: 1
+  gravityScale: 2
   mass: 1
   slideDuration: 0.3
   slideVelocity: 13
@@ -26,15 +26,15 @@ MonoBehaviour:
   dashCooldown: 1
   injuredDuration: 0.5
   horizontalFallSpeed: 5
-  fallGravityMultiplier: 3.5
-  terminalFallSpeed: 30
+  fallGravityMultiplier: 4
+  terminalFallSpeed: 40
   horizontalFreeFallSpeed: 3
   freeFallGravityMultiplier: 10
-  terminalFreeFallSpeed: 40
+  terminalFreeFallSpeed: 50
   landDelay: 0.5
-  landVelocityThreshold: 20
+  landVelocityThreshold: 30
   wallSlidingSpeed: 2
-  wallJumpForce: {x: 5, y: 10}
+  wallJumpForce: {x: 8, y: 13}
   wallJumpDuration: 0.2
   clingDelay: 0.15
   attackTime: 0.25

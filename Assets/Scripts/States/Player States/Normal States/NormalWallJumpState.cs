@@ -65,8 +65,6 @@ public class NormalWallJumpState : BaseState<PlayerController>
     public override void CheckStateTransition()
     {
 
-        // FIXME: If Crashing into top wall, velocity will drop to 0 hence becomes falling state
-        // FIXME: Need to fix issue where spriteDirection is messing with the 
         // Transition to a jump state for some reason;
         if (canMove){
             if (dashControl > 0){
@@ -79,8 +77,8 @@ public class NormalWallJumpState : BaseState<PlayerController>
                CurrentSuperState.SetSubState(CurrentSuperState.GetState(typeof(NormalJumpAttack)));
             }
         }
-        else if (Runner.GetWallCheck().Check()){
-            CurrentSuperState.SetSubState(CurrentSuperState.GetState(typeof(NormalWallClingState)));
+        if (Runner.GetWallCheck().Check()){
+            CurrentSuperState.SetSubState(CurrentSuperState.GetState(typeof(NormalWallClingState))); // FIXME: Seems to be an Issue where If wall jumping without pressing direction, it won't trigger the wall cling state
         }
     }
 
@@ -101,7 +99,7 @@ public class NormalWallJumpState : BaseState<PlayerController>
 
     public override void OnStateCollisionEnter(Collision2D collision)
     {
-        if (Runner.GetGroundCheck() && rb2d.velocity.y <= 0){
+        if (Runner.GetGroundCheck().Check() && !(Runner.GetWallCheck().Check() && rb2d.velocity.x != 0)) { // Problem Statement: Sometimes it will trigger the Land State when falling and colliding with the fall whereas it should have been a wall Cling State
             CurrentSuperState.SetSubState(CurrentSuperState.GetState(typeof(NormalLandState)), collision.relativeVelocity.y);
         }
     }

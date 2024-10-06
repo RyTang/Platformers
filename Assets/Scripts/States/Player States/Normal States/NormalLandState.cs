@@ -11,6 +11,7 @@ public class NormalLandState : BaseState<PlayerController>
     {
         landVelocity = Mathf.Abs((float) objToPass);
         base.EnterState(parent, objToPass);
+        Debug.Log("Entered landing State");
     }
 
     public override void EnterState(PlayerController parent)
