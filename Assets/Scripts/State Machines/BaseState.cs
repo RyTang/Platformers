@@ -26,10 +26,8 @@ public abstract class BaseState<T> : ScriptableObject where T : MonoBehaviour
     public BaseState<T> GetFinalLeafState(){
         BaseState<T> currentState = this;
         int counter = 0;
-        Debug.Log($"Checking State : {currentState}");
         while (!currentState.GetIsRootState() && counter <= 10){
             currentState = currentState.GetSubState();
-            Debug.Log($"Checking State : {currentState}");
             counter++;
         }
 

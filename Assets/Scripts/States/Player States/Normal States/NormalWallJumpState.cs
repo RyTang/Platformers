@@ -6,6 +6,7 @@ using UnityEngine;
 public class NormalWallJumpState : BaseState<PlayerController>
 {
     private float horizontalControl, verticalControl, dashControl, attackControl;
+    private PlayerController parent;
     private Rigidbody2D rb2d;
     private bool canMove;
     private Coroutine currentWallDelay;
@@ -22,6 +23,8 @@ public class NormalWallJumpState : BaseState<PlayerController>
 
         // Change Direction of the Jump to face the right direction
         canMove = false;
+        this.parent = parent;
+        this.parent.canRotate = false;
         float wallJumpDirection = -Runner.transform.localScale.x;
         Vector2 jumpForce = new Vector2(wallJumpDirection * Runner.GetPlayerData().wallJumpForce.x, Runner.GetPlayerData().wallJumpForce.y);
         rb2d.AddForce(jumpForce, ForceMode2D.Impulse);
@@ -45,11 +48,13 @@ public class NormalWallJumpState : BaseState<PlayerController>
     private IEnumerator WallJumpDelay(){
         yield return new WaitForSeconds(Runner.GetPlayerData().wallJumpDuration);
         canMove = true;
+        
     }
 
     public override void CaptureInput()
     {   
         if (canMove){
+            parent.canRotate = true;
             verticalControl = Runner.GetVerticalControls();
             horizontalControl = Runner.GetHorizontalControls();
             dashControl = Runner.GetDashControls();
@@ -60,8 +65,6 @@ public class NormalWallJumpState : BaseState<PlayerController>
     public override void CheckStateTransition()
     {
 
-        // FIXME: If Crashing into top wall, velocity will drop to 0 hence becomes falling state
-        // FIXME: Need to fix issue where spriteDirection is messing with the 
         // Transition to a jump state for some reason;
         if (canMove){
             if (dashControl > 0){
@@ -74,8 +77,8 @@ public class NormalWallJumpState : BaseState<PlayerController>
                CurrentSuperState.SetSubState(CurrentSuperState.GetState(typeof(NormalJumpAttack)));
             }
         }
-        else if (Runner.GetWallCheck().Check()){
-            CurrentSuperState.SetSubState(CurrentSuperState.GetState(typeof(NormalWallClingState)));
+        if (Runner.GetWallCheck().Check()){
+            CurrentSuperState.SetSubState(CurrentSuperState.GetState(typeof(NormalWallClingState))); // FIXME: Seems to be an Issue where If wall jumping without pressing direction, it won't trigger the wall cling state
         }
     }
 
@@ -83,6 +86,7 @@ public class NormalWallJumpState : BaseState<PlayerController>
     {
         Runner.GetAnimator().SetBool(PlayerAnimation.isWallJumpingBool, false);
         currentWallDelay = null;
+        parent.canRotate = true;
         yield break;
     }
 
@@ -95,26 +99,8 @@ public class NormalWallJumpState : BaseState<PlayerController>
 
     public override void OnStateCollisionEnter(Collision2D collision)
     {
-        if (Runner.GetGroundCheck() && rb2d.velocity.y <= 0){
+        if (Runner.GetGroundCheck().Check() && !(Runner.GetWallCheck().Check() && rb2d.velocity.x != 0)) { // Problem Statement: Sometimes it will trigger the Land State when falling and colliding with the fall whereas it should have been a wall Cling State
             CurrentSuperState.SetSubState(CurrentSuperState.GetState(typeof(NormalLandState)), collision.relativeVelocity.y);
         }
-    }
-
-    public override void UpdateState()
-    {
-
-    }
-
-
-    public override void InitialiseSubState()
-    {
-    }
-
-    public override void OnStateCollisionStay(Collision2D collision)
-    {
-    }
-
-    public override void OnStateCollisionExit(Collision2D collision)
-    {
     }
 }
