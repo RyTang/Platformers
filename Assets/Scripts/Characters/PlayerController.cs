@@ -21,6 +21,7 @@ public class PlayerController : BaseCharacter<PlayerController>, IDamageable
     private Dictionary<string, Coroutine> buttonReleasedStates = new Dictionary<string, Coroutine>();
 
     private bool damageInvulnerability = false;
+    private bool disableVerticalControls = false, disableHorizontalControls = false;
     
 
     public event Action<GameObject> OnDestroyEvent;
@@ -137,19 +138,23 @@ public class PlayerController : BaseCharacter<PlayerController>, IDamageable
     }
 
     public virtual float GetHorizontalControls(){
+        if (disableHorizontalControls) return 0;
         return Input.GetAxisRaw("Horizontal");
     }
 
     public virtual float GetVerticalControls(){
+        if (disableVerticalControls) return 0;
         return Input.GetAxisRaw("Vertical");
     }
     
     public virtual float GetMobilityControl(){
+        if (disableHorizontalControls) return 0;
         return GetSingularPress("Mobility");
     }
 
     public virtual float GetDashControls()
     {
+        if (disableHorizontalControls) return 0;
         return GetSingularPress("Dash");
     }
 
@@ -160,6 +165,7 @@ public class PlayerController : BaseCharacter<PlayerController>, IDamageable
 
     public virtual float GetSprintControls()
     {
+        if (disableHorizontalControls) return 0;
         return Input.GetAxisRaw("Sprint");
     }
 
@@ -199,5 +205,31 @@ public class PlayerController : BaseCharacter<PlayerController>, IDamageable
         damageInvulnerability = false;
     }
 
-    
+    /// <summary>
+    /// Disable Horizontal Controls
+    /// </summary>
+    public void DisableHorizontalControls() {
+        disableHorizontalControls = true;
+    }
+
+    /// <summary>
+    /// Enable Horizontal Controls
+    /// </summary>
+    public void EnableHorizontalControls() {
+        disableHorizontalControls = false;
+    }
+
+    /// <summary>
+    /// Disable Vertical Controls
+    /// </summary>
+    public void DisableVerticalControls() {
+        disableVerticalControls = true;
+    }
+
+    /// <summary>
+    /// Enable Vertical Controls
+    /// </summary>
+    public void EnableVerticalControls() {
+        disableVerticalControls = false;
+    }
 }

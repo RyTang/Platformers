@@ -214,6 +214,25 @@ public abstract class BaseState<T> : ScriptableObject where T : MonoBehaviour
     /// Child Sub State attached to this State
     /// </summary>
     /// <param name="newSubState">Sub State</param>
+    public void SetSubState(Type newSubState){
+        if (switchingState) return;
+        SetSubState(GetState(newSubState));
+    }
+
+    /// <summary>
+    /// Child Sub State attached to this State
+    /// </summary>
+    /// <param name="newSubState">Sub State</param>
+    public void SetSubState(Type newSubState, object objToPass){
+        if (switchingState) return;
+        SetSubState(GetState(newSubState), objToPass);
+    }
+
+
+    /// <summary>
+    /// Child Sub State attached to this State
+    /// </summary>
+    /// <param name="newSubState">Sub State</param>
     public void SetSubState(BaseState<T> newSubState, object objToPass){
         if (switchingState) return;
         Runner.StartCoroutine(CleanSubStates(newSubState, objToPass));
