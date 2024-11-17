@@ -1,8 +1,8 @@
 using System.Collections;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "Player State/Normal State/Idle")]
-public class NormalIdleState : BaseState<PlayerController>
+[CreateAssetMenu(menuName = "Player State/Sprint State/Idle")]
+public class SprintIdleState : BaseState<PlayerController>
 {
     private float horizontalControl, verticalControl, dashControl, attackControl, mobilityControl;
 
@@ -26,23 +26,23 @@ public class NormalIdleState : BaseState<PlayerController>
     public override void CheckStateTransition()
     {
         if (dashControl > 0){
-            CurrentSuperState.SetSubState(typeof(NormalDashState));
+            CurrentSuperState.SetSubState(typeof(SprintDashState));
         } 
-        else if (attackControl > 0){
-            CurrentSuperState.SetSubState(typeof(GroundSubAttackOne));
-        }
+        // else if (attackControl > 0){
+        //     CurrentSuperState.SetSubState(typeof(GroundSubAttackOne));
+        // } // TODO: Think of how to do attacking state while sprinting
         else if (verticalControl > 0){
-            CurrentSuperState.SetSubState(typeof(NormalJumpState));
+            CurrentSuperState.SetSubState(typeof(SprintJumpState));
         }
         else if (!Runner.GetGroundCheck().Check() && (verticalControl < 0 || Runner.GetRigidbody2D().velocity.y < 0)){
-            CurrentSuperState.SetSubState(typeof(NormalFallCoyoteState));
+            CurrentSuperState.SetSubState(typeof(SprintFallCoyoteState));
         }
         else if (mobilityControl > 0) {
-            CurrentSuperState.SetSubState(typeof(NormalSlideState));
+            CurrentSuperState.SetSubState(typeof(SprintSlideState));
         }
         // Last Run to run as it's a high control function
         else if (horizontalControl != 0){
-            CurrentSuperState.SetSubState(typeof(NormalRunState));
+            CurrentSuperState.SetSubState(typeof(SprintRunState));
         }
     }
 

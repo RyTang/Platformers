@@ -62,6 +62,8 @@ public abstract class BaseState<T> : ScriptableObject where T : MonoBehaviour
     public virtual void EnterState(T parent){
         Runner = parent;
         IsStateActive = true;
+
+        if (!GetIsRootState()) InitialiseSubState();
     }
 
     /// <summary>

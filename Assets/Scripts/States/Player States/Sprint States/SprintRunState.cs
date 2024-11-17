@@ -1,8 +1,8 @@
 using System.Collections;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "Player State/Normal State/Sprint")]
-public class NormalSprintState : BaseState<PlayerController>
+[CreateAssetMenu(menuName = "Player State/Sprint State/Run")]
+public class SprintRunState : BaseState<PlayerController>
 {
     private float horizontalControl, verticalControl, dashControl, attackControl, mobilityControl;
     private float sprintControl;
@@ -29,28 +29,28 @@ public class NormalSprintState : BaseState<PlayerController>
     public override void CheckStateTransition()
     {
         if (sprintControl <= 0 && horizontalControl != 0){
-            CurrentSuperState.SetSubState(CurrentSuperState.GetState(typeof(NormalRunState)));
+            CurrentSuperState.SetSubState(CurrentSuperState.GetState(typeof(SprintRunState)));
         }
         else if (dashControl > 0){
-            CurrentSuperState.SetSubState(CurrentSuperState.GetState(typeof(NormalDashState)));
+            CurrentSuperState.SetSubState(CurrentSuperState.GetState(typeof(SprintDashState)));
         }
-        else if (attackControl > 0) {
-            CurrentSuperState.SetSubState(CurrentSuperState.GetState(typeof(GroundSubAttackOne)));
-        }
+        // else if (attackControl > 0) {
+        //     CurrentSuperState.SetSubState(CurrentSuperState.GetState(typeof(GroundSubAttackOne)));
+        // } // TODO: Think of how to do attacking state while sprinting
         else if (horizontalControl == 0){
-            CurrentSuperState.SetSubState(CurrentSuperState.GetState(typeof(NormalIdleState)));
+            CurrentSuperState.SetSubState(CurrentSuperState.GetState(typeof(SprintIdleState)));
         }
         else if (verticalControl > 0) {
-            CurrentSuperState.SetSubState(CurrentSuperState.GetState(typeof(NormalJumpState)));
+            CurrentSuperState.SetSubState(CurrentSuperState.GetState(typeof(SprintJumpState)));
         }
         else if (!Runner.GetGroundCheck().Check() && (verticalControl < 0 || Runner.GetRigidbody2D().velocity.y < 0)){
-            CurrentSuperState.SetSubState(CurrentSuperState.GetState(typeof(NormalFallCoyoteState)));
+            CurrentSuperState.SetSubState(CurrentSuperState.GetState(typeof(SprintFallCoyoteState)));
         }
         else if (horizontalControl != 0 && Runner.GetWallCheck().Check() && !Runner.GetGroundCheck().Check()){
-            CurrentSuperState.SetSubState(CurrentSuperState.GetState(typeof(NormalWallClingState)));
+            CurrentSuperState.SetSubState(CurrentSuperState.GetState(typeof(SprintWallClingState)));
         }
         else if (mobilityControl > 0) {
-            CurrentSuperState.SetSubState(CurrentSuperState.GetState(typeof(NormalSlideState)));
+            CurrentSuperState.SetSubState(CurrentSuperState.GetState(typeof(SprintSlideState)));
         }
     }
     
