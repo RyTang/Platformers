@@ -5,6 +5,7 @@ public static class PlayerAnimation {
     public static int isJumping = Animator.StringToHash("isJumping");
     public static int isIdleBool = Animator.StringToHash("isIdle");
     public static int isRunningBool = Animator.StringToHash("isRunning");
+    public static int isSprintingBool = Animator.StringToHash("isSprinting");
     public static int isFallingBool = Animator.StringToHash("isFalling");
     public static int isLandingBool = Animator.StringToHash("isLanding");
     public static int isDashingBool = Animator.StringToHash("isDashing");

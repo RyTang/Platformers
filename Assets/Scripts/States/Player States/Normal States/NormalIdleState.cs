@@ -5,7 +5,8 @@ using UnityEngine;
 public class NormalIdleState : BaseState<PlayerController>
 {
     private float horizontalControl, verticalControl, dashControl, attackControl, mobilityControl;
-    
+    private float sprintControl;
+
     public override void EnterState(PlayerController parent)
     {
         base.EnterState(parent);
@@ -19,6 +20,7 @@ public class NormalIdleState : BaseState<PlayerController>
         dashControl = Runner.GetDashControls();
         attackControl = Runner.GetAttackControls();
         mobilityControl = Runner.GetMobilityControl();
+        sprintControl = Runner.GetSprintControls();
 
         // FIXME: FIGURE OUT WHY ATTACK AND DASH CONTROLS NOT BEING PASSED TO SUB STATES
     }
@@ -26,22 +28,28 @@ public class NormalIdleState : BaseState<PlayerController>
     public override void CheckStateTransition()
     {
         if (dashControl > 0){
-            CurrentSuperState.SetSubState(CurrentSuperState.GetState(typeof(NormalDashState)));
+            CurrentSuperState.SetSubState(typeof(NormalDashState));
         } 
         else if (attackControl > 0){
-            CurrentSuperState.SetSubState(CurrentSuperState.GetState(typeof(GroundSubAttackOne)));
-        }
-        else if (horizontalControl != 0){
-            CurrentSuperState.SetSubState(CurrentSuperState.GetState(typeof(NormalRunState)));
+            CurrentSuperState.SetSubState(typeof(GroundSubAttackOne));
         }
         else if (verticalControl > 0){
-            CurrentSuperState.SetSubState(CurrentSuperState.GetState(typeof(NormalJumpState)));
+            CurrentSuperState.SetSubState(typeof(NormalJumpState));
         }
         else if (!Runner.GetGroundCheck().Check() && (verticalControl < 0 || Runner.GetRigidbody2D().velocity.y < 0)){
-            CurrentSuperState.SetSubState(CurrentSuperState.GetState(typeof(NormalFallCoyoteState)));
+            CurrentSuperState.SetSubState(typeof(NormalFallCoyoteState));
         }
         else if (mobilityControl > 0) {
-            CurrentSuperState.SetSubState(CurrentSuperState.GetState(typeof(NormalSlideState)));
+            CurrentSuperState.SetSubState(typeof(NormalSlideState));
+        }
+        // Last Run to run as it's a high control function
+        else if (horizontalControl != 0){
+            if (sprintControl > 0 ){
+                CurrentSuperState.SetSubState(typeof(NormalSprintState));
+            }
+            else {
+                CurrentSuperState.SetSubState(typeof(NormalRunState));
+            }
         }
     }
 
@@ -51,28 +59,8 @@ public class NormalIdleState : BaseState<PlayerController>
         yield break;
     }
 
-    public override void FixedUpdateState()
-    {
-    }
-
-    public override void OnStateCollisionEnter(Collision2D collision)
-    {
-    }
-
     public override void UpdateState()
     {
         Runner.GetRigidbody2D().velocity = new Vector2(0, Runner.GetRigidbody2D().velocity.y);
-    }
-
-    public override void InitialiseSubState()
-    {
-    }
-
-    public override void OnStateCollisionStay(Collision2D collision)
-    {
-    }
-
-    public override void OnStateCollisionExit(Collision2D collision)
-    {
     }
 }

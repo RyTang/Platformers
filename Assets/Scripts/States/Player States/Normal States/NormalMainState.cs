@@ -22,6 +22,7 @@ public class NormalMainState : BaseState<PlayerController>
     {
         horizontalControl = Runner.GetHorizontalControls();
         verticalControl = Runner.GetVerticalControls();
+        sprintControl = Runner.GetSprintControls();
     }
 
     public override void CheckStateTransition()
@@ -29,41 +30,25 @@ public class NormalMainState : BaseState<PlayerController>
         // TODO: need to set a min energy recovery, if depletes the entire bar
     }
 
-    public override void FixedUpdateState()
-    {
-    }
-
     public override void InitialiseSubState()
     {
         if ((verticalControl < 0 && !Runner.GetGroundCheck().Check()) || (Runner.GetRigidbody2D().velocity.y < 0 && !canJump)){
             SetSubState(GetState(typeof(NormalFallState)));
         }
-        else if (horizontalControl != 0){
-            SetSubState(GetState(typeof(NormalRunState)));
-        }
         else if (verticalControl > 0 && Runner.GetGroundCheck().Check()){
             SetSubState(GetState(typeof(NormalJumpState)));
+        }
+        else if (horizontalControl != 0){
+            if (sprintControl > 0 ){
+                CurrentSuperState.SetSubState(CurrentSuperState.GetState(typeof(NormalSprintState)));
+            }
+            else {
+                CurrentSuperState.SetSubState(CurrentSuperState.GetState(typeof(NormalRunState)));
+            }
         }
         else {
             SetSubState(GetState(typeof(NormalIdleState)));
         }
     }
-
-    public override void OnStateCollisionEnter(Collision2D collision)
-    {
-    }
-
-    public override void UpdateState()
-    {        
-    }
-    
-    public override void OnStateCollisionStay(Collision2D collision)
-    {
-    }
-
-    public override void OnStateCollisionExit(Collision2D collision)
-    {
-    }
-
     
 }

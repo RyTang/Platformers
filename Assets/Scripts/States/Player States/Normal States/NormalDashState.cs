@@ -24,6 +24,9 @@ public class NormalDashState : BaseState<PlayerController>
         }
 
         rb2d = parent.GetRigidbody2D();
+        // Disable to prevent Direction from affecting velocity in this case -> If dashing then should not control so easily
+        Runner.DisableHorizontalControls();
+        Runner.DisableVerticalControls();
 
         if (currentDashDelay != null) {
             Runner.StopCoroutine(currentDashDelay);
@@ -32,12 +35,9 @@ public class NormalDashState : BaseState<PlayerController>
         
         dashing = true;
         Runner.GetAnimator().SetBool(PlayerAnimation.isDashingBool, true);
-        canDash = false;
         dashDirection = Mathf.Clamp(Runner.transform.localScale.x, -1, 1);
-
-        if (dashing){
-            currentDashDelay = Runner.StartCoroutine(WallDashDelay());
-        }
+        canDash = false;
+        currentDashDelay = Runner.StartCoroutine(WallDashDelay());
     }
 
     private IEnumerator WallDashDelay(){
@@ -46,9 +46,6 @@ public class NormalDashState : BaseState<PlayerController>
         dashing = false;
         yield return new WaitForSeconds(Runner.GetPlayerData().dashCooldown);
         canDash = true;
-    }
-    public override void CaptureInput()
-    {
     }
 
     public override void CheckStateTransition()
@@ -60,6 +57,9 @@ public class NormalDashState : BaseState<PlayerController>
             CurrentSuperState.SetSubState(CurrentSuperState.GetState(typeof(NormalIdleState)));
         }
         else if (Runner.GetWallCheck().Check() && !Runner.GetGroundCheck().Check()){
+            // FIXME: When holding direction in wall, it will trigger touching wall as the animation changes direction for a split second
+            // TODO: Add Short Timer to prevent retouching
+            Debug.Log("Touching Wall");
             Runner.StopCoroutine(currentDashDelay);
             currentDashDelay = null;
             Runner.GetAnimator().SetBool(PlayerAnimation.isDashingBool, false);
@@ -68,12 +68,11 @@ public class NormalDashState : BaseState<PlayerController>
         }
     }
 
-    public override void FixedUpdateState()
+    public override IEnumerator ExitState()
     {
-    }
-
-    public override void OnStateCollisionEnter(Collision2D collision)
-    {
+        Runner.EnableHorizontalControls();
+        Runner.EnableVerticalControls();
+        return base.ExitState();
     }
 
     public override void UpdateState()
@@ -81,18 +80,5 @@ public class NormalDashState : BaseState<PlayerController>
         if (dashing){
             rb2d.velocity = new Vector2(dashDirection * Runner.GetPlayerData().dashForce, 0);
         }
-    }
-
-
-    public override void InitialiseSubState()
-    {
-    }
-
-    public override void OnStateCollisionStay(Collision2D collision)
-    {
-    }
-
-    public override void OnStateCollisionExit(Collision2D collision)
-    {
     }
 }

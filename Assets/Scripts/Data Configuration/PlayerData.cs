@@ -9,6 +9,7 @@ public class PlayerData : ScriptableObject
     public int maxHealth = 10;
     public int health = 10; 
     public float moveSpeed = 5f;
+    public float sprintState = 10f;
     public float jumpForce = 10f;
     public float coyoteTime = 0.3f;
     // TODO: add player Gravity Scale to affect Physics Models

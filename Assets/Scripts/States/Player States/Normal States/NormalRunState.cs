@@ -5,7 +5,7 @@ using UnityEngine;
 public class NormalRunState : BaseState<PlayerController>
 {
     private float horizontalControl, verticalControl, dashControl, attackControl, mobilityControl;
-
+    private float sprintControl;
     private Rigidbody2D rb2d;
 
 
@@ -23,30 +23,36 @@ public class NormalRunState : BaseState<PlayerController>
         dashControl = Runner.GetDashControls();
         attackControl = Runner.GetAttackControls();
         mobilityControl = Runner.GetMobilityControl();
+        sprintControl = Runner.GetSprintControls();
     }
 
     public override void CheckStateTransition()
     {
         if (dashControl > 0){
-            CurrentSuperState.SetSubState(CurrentSuperState.GetState(typeof(NormalDashState)));
+            CurrentSuperState.SetSubState(typeof(NormalDashState));
         }
         else if (attackControl > 0) {
-            CurrentSuperState.SetSubState(CurrentSuperState.GetState(typeof(GroundSubAttackOne)));
+            CurrentSuperState.SetSubState(typeof(GroundSubAttackOne));
         }
         else if (horizontalControl == 0){
-            CurrentSuperState.SetSubState(CurrentSuperState.GetState(typeof(NormalIdleState)));
+            CurrentSuperState.SetSubState(typeof(NormalIdleState));
         }
         else if (verticalControl > 0) {
-            CurrentSuperState.SetSubState(CurrentSuperState.GetState(typeof(NormalJumpState)));
+            CurrentSuperState.SetSubState(typeof(NormalJumpState));
         }
         else if (!Runner.GetGroundCheck().Check() && (verticalControl < 0 || Runner.GetRigidbody2D().velocity.y < 0)){
-            CurrentSuperState.SetSubState(CurrentSuperState.GetState(typeof(NormalFallCoyoteState)));
-        }
-        else if (horizontalControl != 0 && Runner.GetWallCheck().Check() && !Runner.GetGroundCheck().Check()){
-            CurrentSuperState.SetSubState(CurrentSuperState.GetState(typeof(NormalWallClingState)));
+            CurrentSuperState.SetSubState(typeof(NormalFallCoyoteState));
         }
         else if (mobilityControl > 0) {
-            CurrentSuperState.SetSubState(CurrentSuperState.GetState(typeof(NormalSlideState)));
+            CurrentSuperState.SetSubState(typeof(NormalSlideState));
+        }
+        else if (horizontalControl != 0){
+            if (Runner.GetWallCheck().Check() && !Runner.GetGroundCheck().Check()) {
+                CurrentSuperState.SetSubState(typeof(NormalWallClingState));
+            }
+            else if (sprintControl > 0) {
+                CurrentSuperState.SetSubState(typeof(NormalSprintState));
+            }
         }
     }
     
@@ -55,33 +61,11 @@ public class NormalRunState : BaseState<PlayerController>
         yield break;
     }
 
-    public override void FixedUpdateState()
-    {
-    }
-
-    public override void OnStateCollisionEnter(Collision2D collision)
-    {
-        
-    }
-
     public override void UpdateState()
     {
         if (horizontalControl != 0){
             rb2d.velocity = horizontalControl > 0 ? new Vector2(Runner.GetPlayerData().moveSpeed, rb2d.velocity.y) : new Vector2(-Runner.GetPlayerData().moveSpeed, rb2d.velocity.y);
         }
         
-    }
-
-
-    public override void InitialiseSubState()
-    {
-    }
-
-    public override void OnStateCollisionStay(Collision2D collision)
-    {
-    }
-
-    public override void OnStateCollisionExit(Collision2D collision)
-    {
     }
 }
