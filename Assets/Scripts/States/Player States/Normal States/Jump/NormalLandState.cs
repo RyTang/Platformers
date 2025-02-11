@@ -41,15 +41,11 @@ public class NormalLandState : BaseState<PlayerController>
         yield return new WaitForSeconds(Runner.GetPlayerData().landDelay);
         canMove = true;
     }
-
-    public override void CaptureInput()
-    {
-    }
  
     public override void CheckStateTransition()
     {
         if (canMove) {
-            CurrentSuperState.SetSubState(CurrentSuperState.GetState(typeof(NormalIdleState)));
+            CurrentSuperState.SetSubState(typeof(NormalIdleState));
         }
     }
 
@@ -59,28 +55,4 @@ public class NormalLandState : BaseState<PlayerController>
         yield break;
     }
 
-    public override void FixedUpdateState()
-    {
-    }
-
-    public override void OnStateCollisionEnter(Collision2D collision)
-    {
-    }
-
-    public override void UpdateState()
-    {
-    }
-
-
-    public override void InitialiseSubState()
-    {
-    }
-
-    public override void OnStateCollisionStay(Collision2D collision)
-    {
-    }
-
-    public override void OnStateCollisionExit(Collision2D collision)
-    {
-    }
 }

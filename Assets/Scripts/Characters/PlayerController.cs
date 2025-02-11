@@ -13,6 +13,7 @@ public class PlayerController : BaseCharacter<PlayerController>, IDamageable
     [SerializeField] protected GameEvent playerDeathEvent;
     [SerializeField] private LayerCheck attackCheck;
     [SerializeField] protected LayerCheck wallCheck;
+    [SerializeField] protected LayerCheck ledgeCheck;
 
     public delegate void OnAnimationEventTriggered(AnimationEventTrigger eventTrigger);
     public event OnAnimationEventTriggered AnimationEvent;
@@ -130,6 +131,10 @@ public class PlayerController : BaseCharacter<PlayerController>, IDamageable
 
     public LayerCheck GetWallCheck(){
         return wallCheck;
+    }
+
+    public LayerCheck GetLedgeCheck(){
+        return ledgeCheck;
     }
 
     public virtual float GetGrappleControls()
