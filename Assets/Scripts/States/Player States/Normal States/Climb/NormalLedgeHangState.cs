@@ -6,28 +6,44 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Player State/Normal State/Climbing/Hanging")]
 public class NormalLedgeHangState : BaseState<PlayerController>
 {
-    private float verticalControls;
+    private float verticalControls, horizontalControls;
     private float initialGravity;
-    private Vector2 hangPosition, standPosition;
+    private bool controlDelayedFinished, controlReleased;
 
     private LedgeIndicator chosenLedge;
 
     public override void EnterState(PlayerController parent)
     {
+        Debug.Log("Entered Ledge Hang State");
         base.EnterState(parent);
         // Stop All Gravity
         initialGravity = Runner.GetRigidbody2D().gravityScale;
         Runner.GetRigidbody2D().gravityScale = 0;
+        Runner.GetRigidbody2D().velocity = Vector2.zero;
         // TODO: Play Hang Animation
+
+        // TODO: Add a Pause in controls before the ledge climb is considered -> Potentially need to decide if this is wanted
+        // TODO: if holding up, then delay action for half a second, else if released and pressed again then allow
 
         if (!Runner.GetLedgeCheck().Check()) {
             return;
         }
 
+        controlDelayedFinished = false;
+        controlReleased = false;
+        Runner.StopCoroutine(ControlDelay());
+        Runner.StartCoroutine(ControlDelay());
+
         chosenLedge = GetChosenLedge().GetComponent<LedgeIndicator>();
 
         // Set position of hanging
+        Debug.Log($"Placed at {chosenLedge.GetHangPosition()}");
         Runner.transform.position = chosenLedge.GetHangPosition();
+    }
+
+    private IEnumerator ControlDelay() {
+        yield return new WaitForSeconds(0.5f);
+        controlDelayedFinished = true;
     }
 
     private GameObject GetChosenLedge(){
@@ -42,15 +58,21 @@ public class NormalLedgeHangState : BaseState<PlayerController>
     public override void CaptureInput()
     {
         base.CaptureInput();
-        verticalControls = Runner.GetVerticalControls();
+        float currentVerticalControls = Runner.GetVerticalControls();
+        horizontalControls = Runner.GetHorizontalControls();
+        if (currentVerticalControls < 1 || controlDelayedFinished){
+            verticalControls = currentVerticalControls;
+            controlReleased = true;
+        }
     }
 
     public override void CheckStateTransition()
     {
-        if (verticalControls < 0 || chosenLedge != null ) {
-            CurrentSuperState.SetSubState(typeof(NormalIdleState));
+        bool controlsNotFacingLedge = horizontalControls != 0 && horizontalControls != Mathf.Sign(Runner.transform.localScale.x);
+        if (controlsNotFacingLedge || verticalControls < 0 || chosenLedge == null ) {
+            CurrentSuperState.SetSubState(typeof(NormalFallState));
         }
-        else if (verticalControls > 0) {
+        else if (controlReleased && verticalControls > 0) {
             CurrentSuperState.SetSubState(typeof(NormalLedgeClimbState), chosenLedge);
         }
     }

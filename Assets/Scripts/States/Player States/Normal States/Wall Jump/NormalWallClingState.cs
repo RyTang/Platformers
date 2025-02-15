@@ -51,6 +51,9 @@ public class NormalWallClingState : BaseState<PlayerController>
         else if (verticalControl > 0 && canJump){
             CurrentSuperState.SetSubState(CurrentSuperState.GetState(typeof(NormalWallJumpState)));
         }
+        else if (Runner.GetLedgeCheck().Check()) {
+            CurrentSuperState.SetSubState(typeof(NormalLedgeHangState));
+        }
         else if (verticalControl < 0) {
             CurrentSuperState.SetSubState(CurrentSuperState.GetState(typeof(NormalFallState)));
         }
@@ -60,10 +63,6 @@ public class NormalWallClingState : BaseState<PlayerController>
     {
         Runner.GetAnimator().SetBool(PlayerAnimation.isWallClingingBool, false);
         yield break;
-    }
-
-    public override void FixedUpdateState()
-    {
     }
 
     public override void OnStateCollisionEnter(Collision2D collision)
@@ -83,16 +82,4 @@ public class NormalWallClingState : BaseState<PlayerController>
         canJump = true;
     }
 
-
-    public override void InitialiseSubState()
-    {
-    }
-
-    public override void OnStateCollisionStay(Collision2D collision)
-    {
-    }
-
-    public override void OnStateCollisionExit(Collision2D collision)
-    {
-    }
 }

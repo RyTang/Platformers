@@ -24,6 +24,7 @@ public class NormalFreeFallState : BaseState<PlayerController>
         rb2d = parent.GetRigidbody2D();
 
         initialLocalGravity = rb2d.gravityScale;
+        rb2d.gravityScale = initialLocalGravity * 0.5f; // Slowly reduce this to make it more dramatic
 
         // Momentarrilly Pause Mid Air
         // TODO: By doing this need to prevent users from spamming this interaction
@@ -67,6 +68,9 @@ public class NormalFreeFallState : BaseState<PlayerController>
         }
         else if (dashControl > 0){
             CurrentSuperState.SetSubState(CurrentSuperState.GetState(typeof(NormalDashState)));
+        }
+        else if (Runner.GetLedgeCheck().Check()) {
+            CurrentSuperState.SetSubState(typeof(NormalLedgeHangState));
         }
         else if (verticalControl >= 0 && horizontalControl != 0 && Runner.GetWallCheck().Check()){
             CurrentSuperState.SetSubState(CurrentSuperState.GetState(typeof(NormalWallClingState)));

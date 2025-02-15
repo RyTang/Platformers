@@ -42,6 +42,9 @@ public class NormalFallState : BaseState<PlayerController>
         else if (dashControl > 0){
             CurrentSuperState.SetSubState(CurrentSuperState.GetState(typeof(NormalDashState)));
         }
+        else if (Runner.GetLedgeCheck().Check()) {
+            CurrentSuperState.SetSubState(typeof(NormalLedgeHangState));
+        }
         else if ((rb2d.velocity.x != 0 || horizontalControl != 0) && Runner.GetWallCheck().Check()){
             CurrentSuperState.SetSubState(CurrentSuperState.GetState(typeof(NormalWallClingState)));
         }
@@ -59,10 +62,7 @@ public class NormalFallState : BaseState<PlayerController>
 
     public override void OnStateCollisionEnter(Collision2D collision)
     {
-        if (Runner.GetLedgeCheck().Check()) {
-            CurrentSuperState.SetSubState(typeof(NormalLedgeHangState));
-        }
-        else if (Runner.GetGroundCheck().Check() && !(Runner.GetWallCheck().Check() && rb2d.velocity.x != 0)) { // Problem Statement: Sometimes it will trigger the Land State when falling and colliding with the fall whereas it should have been a wall Cling State
+        if (Runner.GetGroundCheck().Check() && !(Runner.GetWallCheck().Check() && rb2d.velocity.x != 0)) { // Problem Statement: Sometimes it will trigger the Land State when falling and colliding with the fall whereas it should have been a wall Cling State
             CurrentSuperState.SetSubState(typeof(NormalLandState), collision.relativeVelocity.y);
         }
     }

@@ -8,11 +8,11 @@ public class LedgeIndicator : MonoBehaviour
 
 
     public Vector2 GetHangPosition(){
-        return hangPosition;
+        return (Vector2) transform.position + hangPosition;
     }
 
     public Vector2 GetStandPosition(){
-        return standPosition;
+        return (Vector2) transform.position + standPosition;
     }
 
     public void SetIsLeftLedge(bool isLeftLedge){

@@ -29,19 +29,19 @@ public class NormalJumpState : BaseState<PlayerController>
     public override void CheckStateTransition()
     {
         if (attackControl > 0) {
-            CurrentSuperState.SetSubState(CurrentSuperState.GetState(typeof(NormalJumpAttack)));
+            CurrentSuperState.SetSubState(typeof(NormalJumpAttack));
         }
         else if (dashControl > 0){
-            CurrentSuperState.SetSubState(CurrentSuperState.GetState(typeof(NormalDashState)));
+            CurrentSuperState.SetSubState(typeof(NormalDashState));
         }
         else if (verticalControl <= 0 || rb2d.velocity.y <= 0){
-            CurrentSuperState.SetSubState(CurrentSuperState.GetState(typeof(NormalFallState)));
+            CurrentSuperState.SetSubState(typeof(NormalFallState));
         }
         else if (Runner.GetLedgeCheck().Check()) {
             CurrentSuperState.SetSubState(typeof(NormalLedgeHangState));
         }
         else if (horizontalControl != 0 && Runner.GetWallCheck().Check()){
-            CurrentSuperState.SetSubState(CurrentSuperState.GetState(typeof(NormalWallClingState)));
+            CurrentSuperState.SetSubState(typeof(NormalWallClingState));
         }
     }
 

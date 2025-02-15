@@ -46,7 +46,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isLeftLedge: 0
-  hangPosition: {x: 0.25, y: 0}
+  hangPosition: {x: 0.5, y: 0}
   standPosition: {x: 0, y: 0.5}
 --- !u!61 &8596642263703319246
 BoxCollider2D:

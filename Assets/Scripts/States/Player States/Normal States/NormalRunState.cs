@@ -44,10 +44,9 @@ public class NormalRunState : BaseState<PlayerController>
         else if (mobilityControl > 0) {
             CurrentSuperState.SetSubState(typeof(NormalSlideState));
         }
-        else if (horizontalControl != 0){
-            if (Runner.GetWallCheck().Check() && !Runner.GetGroundCheck().Check()) {
-                CurrentSuperState.SetSubState(typeof(NormalWallClingState));
-            }
+        else if (horizontalControl != 0 && Runner.GetWallCheck().Check() && !Runner.GetGroundCheck().Check())
+        {
+            CurrentSuperState.SetSubState(typeof(NormalWallClingState));
         }
     }
     

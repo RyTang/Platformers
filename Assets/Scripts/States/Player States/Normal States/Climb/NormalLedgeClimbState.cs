@@ -13,6 +13,7 @@ public class NormalLedgeClimbState : BaseState<PlayerController>
 
     public override void EnterState(PlayerController parent, object objToPass)
     {
+        Debug.Log("Entered Ledge Climb State");
         base.EnterState(parent, objToPass);
         
         // Retrieve object
@@ -28,6 +29,7 @@ public class NormalLedgeClimbState : BaseState<PlayerController>
 
         initialGravity = Runner.GetRigidbody2D().gravityScale;
         Runner.GetRigidbody2D().gravityScale = 0;
+        Runner.GetRigidbody2D().velocity = Vector2.zero;
 
         doneClimbing = false;
 
@@ -66,8 +68,11 @@ public class NormalLedgeClimbState : BaseState<PlayerController>
 
     public override void CheckStateTransition()
     {
-        if (chosenLedge == null || doneClimbing) {
+        if (doneClimbing) {
             CurrentSuperState.SetSubState(typeof(NormalIdleState));
+        }
+        else if (chosenLedge == null){
+            CurrentSuperState.SetSubState(typeof(NormalFallState));
         }
     }
 

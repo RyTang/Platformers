@@ -51,10 +51,13 @@ public class NormalDashState : BaseState<PlayerController>
     public override void CheckStateTransition()
     {
         if (!dashing && !Runner.GetGroundCheck().Check()){
-            CurrentSuperState.SetSubState(CurrentSuperState.GetState(typeof(NormalFallState)));
+            CurrentSuperState.SetSubState(typeof(NormalFallState));
         }
         else if (!dashing && Runner.GetGroundCheck().Check()){
-            CurrentSuperState.SetSubState(CurrentSuperState.GetState(typeof(NormalIdleState)));
+            CurrentSuperState.SetSubState(typeof(NormalIdleState));
+        }
+        else if (Runner.GetLedgeCheck().Check()) {
+            CurrentSuperState.SetSubState(typeof(NormalLedgeHangState));
         }
         else if (Runner.GetWallCheck().Check() && !Runner.GetGroundCheck().Check()){
             // FIXME: When holding direction in wall, it will trigger touching wall as the animation changes direction for a split second
@@ -64,7 +67,7 @@ public class NormalDashState : BaseState<PlayerController>
             currentDashDelay = null;
             Runner.GetAnimator().SetBool(PlayerAnimation.isDashingBool, false);
             canDash = true;
-            CurrentSuperState.SetSubState(CurrentSuperState.GetState(typeof(NormalWallClingState)));
+            CurrentSuperState.SetSubState(typeof(NormalWallClingState));
         }
     }
 
