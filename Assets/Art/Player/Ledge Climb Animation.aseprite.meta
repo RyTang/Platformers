@@ -1,0 +1,1144 @@
+fileFormatVersion: 2
+guid: 1e2741e9d2e70c74ea03e0ff181c12cf
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: 11500000, guid: 62a9f0aa5b59740cfbadc7e5f9823bb0, type: 3}
+  textureImporterSettings:
+    alphaSource: 1
+    mipMapMode: 0
+    enableMipMap: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+    convertToNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+    swizzle: 50462976
+    isReadable: 0
+    streamingMipmaps: 0
+    streamingMipmapsPriority: 0
+    vTOnly: 0
+    ignoreMipmapLimit: 0
+    nPOTScale: 1
+    sRGBTexture: 1
+    spriteMode: 2
+    spriteExtrude: 1
+    spriteMeshType: 1
+    alignment: 0
+    spritePivot: {x: 0.5, y: 0.5}
+    spritePixelsToUnits: 40
+    spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+    spriteGenerateFallbackPhysicsShape: 0
+    generateCubemap: 6
+    cubemapConvolution: 0
+    seamlessCubemap: 0
+    alphaIsTransparency: 1
+    spriteTessellationDetail: -1
+    textureType: 8
+    textureShape: 1
+    singleChannelComponent: 0
+    flipbookRows: 0
+    flipbookColumns: 0
+    ignorePngGamma: 0
+    cookieMode: 0
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+    normalMap: 0
+    textureFormat: 0
+    maxTextureSize: 0
+    lightmap: 0
+    compressionQuality: 0
+    linearTexture: 0
+    grayScaleToAlpha: 0
+    rGBM: 0
+    cubemapConvolutionSteps: 0
+    cubemapConvolutionExponent: 0
+    maxTextureSizeSet: 0
+    compressionQualitySet: 0
+    textureFormatSet: 0
+    applyGammaDecoding: 0
+  previousAsepriteImporterSettings:
+    fileImportMode: 1
+    importHiddenLayers: 0
+    layerImportMode: 1
+    defaultPivotSpace: 0
+    defaultPivotAlignment: 9
+    customPivotPosition: {x: 0.43, y: 0.3}
+    mosaicPadding: 4
+    spritePadding: 0
+    generateModelPrefab: 1
+    generateAnimationClips: 1
+    addSortingGroup: 1
+    addShadowCasters: 0
+  asepriteImporterSettings:
+    fileImportMode: 1
+    importHiddenLayers: 0
+    layerImportMode: 1
+    defaultPivotSpace: 0
+    defaultPivotAlignment: 9
+    customPivotPosition: {x: 0.43, y: 0.3}
+    mosaicPadding: 4
+    spritePadding: 0
+    generateModelPrefab: 1
+    generateAnimationClips: 1
+    addSortingGroup: 1
+    addShadowCasters: 0
+  importFileNodeState: 1
+  platformSettingsDirtyTick: 638758356460993424
+  textureAssetName: 
+  singleSpriteImportData:
+  - name: 
+    originalName: 
+    pivot: {x: 0, y: 0}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 0
+      y: 0
+      width: 0
+      height: 0
+    spriteID: 
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 0, y: 0}
+  animatedSpriteImportData:
+  - name: Ledge Climb Animation_Frame_0
+    originalName: 
+    pivot: {x: 0.6705883, y: 0.4666667}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 4
+      y: 123
+      width: 17
+      height: 30
+    spriteID: 79a1f57429989ff428b94fdce765fbee
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 4, y: 123}
+  - name: Ledge Climb Animation_Frame_2
+    originalName: 
+    pivot: {x: 0.26666668, y: 0.6875}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 72
+      y: 176
+      width: 9
+      height: 32
+    spriteID: 982f8fab02befed499efb20a0d65560d
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 72, y: 176}
+  - name: Ledge Climb Animation_Frame_3
+    originalName: 
+    pivot: {x: 0.34000015, y: 0.67741936}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 72
+      y: 62
+      width: 10
+      height: 31
+    spriteID: 6cd2d96b0db878e4d91fd611af8af6cd
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 72, y: 62}
+  - name: Ledge Climb Animation_Frame_4
+    originalName: 
+    pivot: {x: 0.34000015, y: 0.67741936}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 72
+      y: 101
+      width: 10
+      height: 31
+    spriteID: db9a8a309cc93db4e831b73ec8c73e61
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 72, y: 101}
+  - name: Ledge Climb Animation_Frame_5
+    originalName: 
+    pivot: {x: 0.26666668, y: 0.67741936}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 53
+      y: 44
+      width: 9
+      height: 31
+    spriteID: c2e133f01100e8047a3c56286ade5b40
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 53, y: 44}
+  - name: Ledge Climb Animation_Frame_6
+    originalName: 
+    pivot: {x: 0.26666668, y: 0.67741936}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 53
+      y: 83
+      width: 9
+      height: 31
+    spriteID: 0b77a3ab4fa0cbb45bd582096bb666c6
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 53, y: 83}
+  - name: Ledge Climb Animation_Frame_7
+    originalName: 
+    pivot: {x: 0.21818183, y: 0.6875}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 31
+      y: 191
+      width: 11
+      height: 32
+    spriteID: 28a8affa8f3e1f84081341f6d057a607
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 31, y: 191}
+  - name: Ledge Climb Animation_Frame_8
+    originalName: 
+    pivot: {x: 0.40000007, y: 0.6000001}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 53
+      y: 161
+      width: 11
+      height: 25
+    spriteID: 66505986a525eac43a8ff2959b28ef2e
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 53, y: 161}
+  - name: Ledge Climb Animation_Frame_9
+    originalName: 
+    pivot: {x: 0.44999996, y: 0.45000005}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 96
+      y: 27
+      width: 12
+      height: 20
+    spriteID: 0f8f958f0c6a7134c89e6ddbffe35de1
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 96, y: 27}
+  - name: Ledge Climb Animation_Frame_10
+    originalName: 
+    pivot: {x: 0.40000007, y: 0.41176474}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 53
+      y: 227
+      width: 11
+      height: 17
+    spriteID: e0ef0137ac118044f81a2349910c84a7
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 53, y: 227}
+  - name: Ledge Climb Animation_Frame_16
+    originalName: 
+    pivot: {x: 0.34000015, y: 0.41176474}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 96
+      y: 101
+      width: 10
+      height: 17
+    spriteID: 6ecb0f6be81e1da46af3a841cc2c5391
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 96, y: 101}
+  - name: Ledge Climb Animation_Frame_17
+    originalName: 
+    pivot: {x: 0.18461539, y: 0.2272728}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 72
+      y: 216
+      width: 13
+      height: 22
+    spriteID: 4f6169b5bca1bf6418ce24e3e439f0a0
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 72, y: 216}
+  - name: Ledge Climb Animation_Frame_1
+    originalName: 
+    pivot: {x: -0.054545403, y: 0.21428578}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 72
+      y: 140
+      width: 11
+      height: 28
+    spriteID: bb9efed99ea111541a286589e8e20252
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 72, y: 140}
+  - name: Ledge Climb Animation_Frame_11
+    originalName: 
+    pivot: {x: -0.042857103, y: 0.17857148}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 31
+      y: 41
+      width: 14
+      height: 28
+    spriteID: fdc97c317d55fe749afd575a8d175eb6
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 31, y: 41}
+  - name: Ledge Climb Animation_Frame_12
+    originalName: 
+    pivot: {x: -0.19999996, y: -0.33333334}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 96
+      y: 4
+      width: 18
+      height: 15
+    spriteID: 88fb6b35c3bc71c41b224bf2b801b661
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 96, y: 4}
+  - name: Ledge Climb Animation_Frame_13
+    originalName: 
+    pivot: {x: -0.3733333, y: -0.5999999}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 96
+      y: 55
+      width: 15
+      height: 15
+    spriteID: 2edf3039d6e846a4caf2add1c03c5d9f
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 96, y: 55}
+  - name: Ledge Climb Animation_Frame_14
+    originalName: 
+    pivot: {x: -0.34999996, y: -0.42857137}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 72
+      y: 4
+      width: 16
+      height: 21
+    spriteID: b13305e97af00cb4996a4de265c24477
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 72, y: 4}
+  - name: Ledge Climb Animation_Frame_15
+    originalName: 
+    pivot: {x: -0.47142848, y: -0.3103448}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 4
+      y: 203
+      width: 14
+      height: 29
+    spriteID: 845efd5763da09a49a71642c37ad0b9e
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 4, y: 203}
+  - name: Ledge Climb Animation_Frame_18
+    originalName: 
+    pivot: {x: -0.6333331, y: -0.29999995}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 31
+      y: 77
+      width: 12
+      height: 30
+    spriteID: 44643aff0ce792a46b2311b028ed7252
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 31, y: 77}
+  - name: Ledge Climb Animation_Frame_19
+    originalName: 
+    pivot: {x: 0.26666668, y: 0.67741936}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 53
+      y: 122
+      width: 9
+      height: 31
+    spriteID: dc8cd243be58d2a43934f7c5a0f7cfae
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 53, y: 122}
+  - name: Ledge Climb Animation_Frame_27
+    originalName: 
+    pivot: {x: 0.21818183, y: 0.6875}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 53
+      y: 4
+      width: 11
+      height: 32
+    spriteID: 25a3557695b0c09498bf544b72b42304
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 53, y: 4}
+  - name: Ledge Climb Animation_Frame_28
+    originalName: 
+    pivot: {x: 0.44999996, y: 0.6333334}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 31
+      y: 115
+      width: 12
+      height: 30
+    spriteID: 1025d0a5e302d204e9bce530488ddf08
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 31, y: 115}
+  - name: Ledge Climb Animation_Frame_30
+    originalName: 
+    pivot: {x: 0.40000007, y: 0.6000001}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 53
+      y: 194
+      width: 11
+      height: 25
+    spriteID: d71d604021cb13f4fa69c00ec34ca058
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 53, y: 194}
+  - name: Ledge Climb Animation_Frame_31
+    originalName: 
+    pivot: {x: 0.34000015, y: 0.41176474}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 96
+      y: 126
+      width: 10
+      height: 17
+    spriteID: 6cd59eb754181314186cffd9b7811d89
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 96, y: 126}
+  - name: Ledge Climb Animation_Frame_32
+    originalName: 
+    pivot: {x: 0.14117648, y: 0.25806454}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 4
+      y: 84
+      width: 17
+      height: 31
+    spriteID: 767dedab968f3b340aa8efa1b9303ba7
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 4, y: 84}
+  - name: Ledge Climb Animation_Frame_1
+    originalName: 
+    pivot: {x: -0.046153802, y: 0.11764709}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 4
+      y: 161
+      width: 13
+      height: 34
+    spriteID: 0e00e7d7d7280f043ac4ec59113fa918
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 4, y: 161}
+  - name: Ledge Climb Animation_Frame_12
+    originalName: 
+    pivot: {x: -0.11428561, y: -0.7222222}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 31
+      y: 231
+      width: 14
+      height: 18
+    spriteID: 9a3bc54d40d2aa2489fda6eee163c8ca
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 31, y: 231}
+  - name: Ledge Climb Animation_Frame_13
+    originalName: 
+    pivot: {x: -0.4399999, y: -0.8666667}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 96
+      y: 78
+      width: 15
+      height: 15
+    spriteID: f8f81a65feb35a54caa127c80e5ac962
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 96, y: 78}
+  - name: Ledge Climb Animation_Frame_14
+    originalName: 
+    pivot: {x: -0.5375001, y: -0.42857137}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 72
+      y: 33
+      width: 16
+      height: 21
+    spriteID: affd39f9246e61b419bd16927fbb3735
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 72, y: 33}
+  - name: Ledge Climb Animation_Frame_15
+    originalName: 
+    pivot: {x: -0.6142858, y: -0.3103448}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 31
+      y: 4
+      width: 14
+      height: 29
+    spriteID: bdcb5fba3c56b09449279c903cdf622a
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 31, y: 4}
+  - name: Ledge Climb Animation_Frame_16
+    originalName: 
+    pivot: {x: -0.8, y: -0.29999995}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 31
+      y: 153
+      width: 12
+      height: 30
+    spriteID: 27c88c92cd133c74f82a5cb07490c3be
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 31, y: 153}
+  - name: Ledge Climb Animation_Frame_26
+    originalName: 
+    pivot: {x: -0.1368421, y: -0.28124994}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 4
+      y: 4
+      width: 19
+      height: 32
+    spriteID: 435b607e9e543884c8c5d1f9214004a9
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 4, y: 4}
+  - name: Ledge Climb Animation_Frame_29
+    originalName: 
+    pivot: {x: -0.18947363, y: -0.28124994}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 4
+      y: 44
+      width: 19
+      height: 32
+    spriteID: dab36a50d74d5dd4d8a39ba66438a917
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 4, y: 44}
+  spriteSheetImportData: []
+  asepriteLayers:
+  - layerIndex: 0
+    guid: -699776556
+    name: Ledge Climb Animation
+    layerFlags: 0
+    layerType: 0
+    blendMode: 0
+    cells:
+    - name: Ledge Climb Animation_Frame_0
+      frameIndex: 0
+      additiveSortOrder: 0
+      cellRect:
+        x: 23
+        y: 10
+        width: 17
+        height: 30
+      spriteId: 79a1f57429989ff428b94fdce765fbee
+    - name: Ledge Climb Animation_Frame_1
+      frameIndex: 1
+      additiveSortOrder: 0
+      cellRect:
+        x: 32
+        y: 2
+        width: 9
+        height: 32
+      spriteId: 982f8fab02befed499efb20a0d65560d
+    - name: Ledge Climb Animation_Frame_2
+      frameIndex: 2
+      additiveSortOrder: 0
+      cellRect:
+        x: 31
+        y: 3
+        width: 10
+        height: 31
+      spriteId: 6cd2d96b0db878e4d91fd611af8af6cd
+    - name: Ledge Climb Animation_Frame_3
+      frameIndex: 3
+      additiveSortOrder: 0
+      cellRect:
+        x: 31
+        y: 3
+        width: 10
+        height: 31
+      spriteId: db9a8a309cc93db4e831b73ec8c73e61
+    - name: Ledge Climb Animation_Frame_4
+      frameIndex: 4
+      additiveSortOrder: 0
+      cellRect:
+        x: 32
+        y: 3
+        width: 9
+        height: 31
+      spriteId: c2e133f01100e8047a3c56286ade5b40
+    - name: Ledge Climb Animation_Frame_5
+      frameIndex: 5
+      additiveSortOrder: 0
+      cellRect:
+        x: 32
+        y: 3
+        width: 9
+        height: 31
+      spriteId: 0b77a3ab4fa0cbb45bd582096bb666c6
+    - name: Ledge Climb Animation_Frame_6
+      frameIndex: 6
+      additiveSortOrder: 0
+      cellRect:
+        x: 32
+        y: 2
+        width: 11
+        height: 32
+      spriteId: 28a8affa8f3e1f84081341f6d057a607
+    - name: Ledge Climb Animation_Frame_7
+      frameIndex: 7
+      additiveSortOrder: 0
+      cellRect:
+        x: 30
+        y: 9
+        width: 11
+        height: 25
+      spriteId: 66505986a525eac43a8ff2959b28ef2e
+    - name: Ledge Climb Animation_Frame_8
+      frameIndex: 8
+      additiveSortOrder: 0
+      cellRect:
+        x: 29
+        y: 15
+        width: 12
+        height: 20
+      spriteId: 0f8f958f0c6a7134c89e6ddbffe35de1
+    - name: Ledge Climb Animation_Frame_9
+      frameIndex: 9
+      additiveSortOrder: 0
+      cellRect:
+        x: 30
+        y: 17
+        width: 11
+        height: 17
+      spriteId: e0ef0137ac118044f81a2349910c84a7
+    - name: Ledge Climb Animation_Frame_10
+      frameIndex: 10
+      additiveSortOrder: 0
+      cellRect:
+        x: 31
+        y: 17
+        width: 10
+        height: 17
+      spriteId: 6ecb0f6be81e1da46af3a841cc2c5391
+    - name: Ledge Climb Animation_Frame_11
+      frameIndex: 11
+      additiveSortOrder: 0
+      cellRect:
+        x: 32
+        y: 19
+        width: 13
+        height: 22
+      spriteId: 4f6169b5bca1bf6418ce24e3e439f0a0
+    - name: Ledge Climb Animation_Frame_12
+      frameIndex: 12
+      additiveSortOrder: 0
+      cellRect:
+        x: 35
+        y: 18
+        width: 11
+        height: 28
+      spriteId: bb9efed99ea111541a286589e8e20252
+    - name: Ledge Climb Animation_Frame_13
+      frameIndex: 13
+      additiveSortOrder: 0
+      cellRect:
+        x: 35
+        y: 19
+        width: 14
+        height: 28
+      spriteId: fdc97c317d55fe749afd575a8d175eb6
+    - name: Ledge Climb Animation_Frame_14
+      frameIndex: 14
+      additiveSortOrder: 0
+      cellRect:
+        x: 38
+        y: 29
+        width: 18
+        height: 15
+      spriteId: 88fb6b35c3bc71c41b224bf2b801b661
+    - name: Ledge Climb Animation_Frame_15
+      frameIndex: 15
+      additiveSortOrder: 0
+      cellRect:
+        x: 40
+        y: 33
+        width: 15
+        height: 15
+      spriteId: 2edf3039d6e846a4caf2add1c03c5d9f
+    - name: Ledge Climb Animation_Frame_16
+      frameIndex: 16
+      additiveSortOrder: 0
+      cellRect:
+        x: 40
+        y: 33
+        width: 16
+        height: 21
+      spriteId: b13305e97af00cb4996a4de265c24477
+    - name: Ledge Climb Animation_Frame_17
+      frameIndex: 17
+      additiveSortOrder: 0
+      cellRect:
+        x: 41
+        y: 33
+        width: 14
+        height: 29
+      spriteId: 845efd5763da09a49a71642c37ad0b9e
+    - name: Ledge Climb Animation_Frame_18
+      frameIndex: 18
+      additiveSortOrder: 0
+      cellRect:
+        x: 42
+        y: 33
+        width: 12
+        height: 30
+      spriteId: 44643aff0ce792a46b2311b028ed7252
+    - name: Ledge Climb Animation_Frame_20
+      frameIndex: 20
+      additiveSortOrder: 0
+      cellRect:
+        x: 32
+        y: 3
+        width: 9
+        height: 31
+      spriteId: dc8cd243be58d2a43934f7c5a0f7cfae
+    - name: Ledge Climb Animation_Frame_21
+      frameIndex: 21
+      additiveSortOrder: 0
+      cellRect:
+        x: 32
+        y: 2
+        width: 11
+        height: 32
+      spriteId: 25a3557695b0c09498bf544b72b42304
+    - name: Ledge Climb Animation_Frame_22
+      frameIndex: 22
+      additiveSortOrder: 0
+      cellRect:
+        x: 29
+        y: 5
+        width: 12
+        height: 30
+      spriteId: 1025d0a5e302d204e9bce530488ddf08
+    - name: Ledge Climb Animation_Frame_23
+      frameIndex: 23
+      additiveSortOrder: 0
+      cellRect:
+        x: 30
+        y: 9
+        width: 11
+        height: 25
+      spriteId: d71d604021cb13f4fa69c00ec34ca058
+    - name: Ledge Climb Animation_Frame_24
+      frameIndex: 24
+      additiveSortOrder: 0
+      cellRect:
+        x: 31
+        y: 17
+        width: 10
+        height: 17
+      spriteId: 6cd59eb754181314186cffd9b7811d89
+    - name: Ledge Climb Animation_Frame_25
+      frameIndex: 25
+      additiveSortOrder: 0
+      cellRect:
+        x: 32
+        y: 16
+        width: 17
+        height: 31
+      spriteId: 767dedab968f3b340aa8efa1b9303ba7
+    - name: Ledge Climb Animation_Frame_26
+      frameIndex: 26
+      additiveSortOrder: 0
+      cellRect:
+        x: 35
+        y: 20
+        width: 13
+        height: 34
+      spriteId: 0e00e7d7d7280f043ac4ec59113fa918
+    - name: Ledge Climb Animation_Frame_27
+      frameIndex: 27
+      additiveSortOrder: 0
+      cellRect:
+        x: 36
+        y: 37
+        width: 14
+        height: 18
+      spriteId: 9a3bc54d40d2aa2489fda6eee163c8ca
+    - name: Ledge Climb Animation_Frame_28
+      frameIndex: 28
+      additiveSortOrder: 0
+      cellRect:
+        x: 41
+        y: 37
+        width: 15
+        height: 15
+      spriteId: f8f81a65feb35a54caa127c80e5ac962
+    - name: Ledge Climb Animation_Frame_29
+      frameIndex: 29
+      additiveSortOrder: 0
+      cellRect:
+        x: 43
+        y: 33
+        width: 16
+        height: 21
+      spriteId: affd39f9246e61b419bd16927fbb3735
+    - name: Ledge Climb Animation_Frame_30
+      frameIndex: 30
+      additiveSortOrder: 0
+      cellRect:
+        x: 43
+        y: 33
+        width: 14
+        height: 29
+      spriteId: bdcb5fba3c56b09449279c903cdf622a
+    - name: Ledge Climb Animation_Frame_31
+      frameIndex: 31
+      additiveSortOrder: 0
+      cellRect:
+        x: 44
+        y: 33
+        width: 12
+        height: 30
+      spriteId: 27c88c92cd133c74f82a5cb07490c3be
+    - name: Ledge Climb Animation_Frame_19
+      frameIndex: 19
+      additiveSortOrder: 0
+      cellRect:
+        x: 37
+        y: 33
+        width: 19
+        height: 32
+      spriteId: 435b607e9e543884c8c5d1f9214004a9
+    - name: Ledge Climb Animation_Frame_32
+      frameIndex: 32
+      additiveSortOrder: 0
+      cellRect:
+        x: 38
+        y: 33
+        width: 19
+        height: 32
+      spriteId: dab36a50d74d5dd4d8a39ba66438a917
+    linkedCells: []
+    parentIndex: -1
+  platformSettings:
+  - name: DefaultTexturePlatform
+    overridden: 0
+    ignorePlatformSupport: 0
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    androidETC2FallbackOverride: 0
+  - name: Standalone
+    overridden: 0
+    ignorePlatformSupport: 0
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    androidETC2FallbackOverride: 0
+  - name: Android
+    overridden: 0
+    ignorePlatformSupport: 0
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    androidETC2FallbackOverride: 0
+  - name: WebGL
+    overridden: 0
+    ignorePlatformSupport: 0
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    androidETC2FallbackOverride: 0
+  generatePhysicsShape: 0
+  secondarySpriteTextures: []
+  spritePackingTag: 
+  canvasSize: {x: 80, y: 80}

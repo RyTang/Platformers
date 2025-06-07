@@ -10,13 +10,24 @@ public class NormalDashState : BaseState<PlayerController>
     private Coroutine currentDashDelay;
 
     private bool canDash = true;
-    private bool dashing;
+    private bool dashing, dashInputGiven;
     private float dashDirection;
-    
+
+    public override void EnterState(PlayerController parent, object objToPass)
+    {
+        dashDirection = (float) objToPass;
+        dashInputGiven = true;
+
+        base.EnterState(parent, objToPass);
+    }
+
 
     public override void EnterState(PlayerController parent)
     {
+        // Disable to prevent Direction from affecting velocity in this case -> If dashing then should not control so easily
         base.EnterState(parent);
+        Runner.DisableHorizontalControls();
+        Runner.DisableVerticalControls();
 
         if (!canDash && currentDashDelay != null){
             CurrentSuperState.SetSubState(CurrentSuperState.GetState(typeof(NormalIdleState)));
@@ -24,18 +35,19 @@ public class NormalDashState : BaseState<PlayerController>
         }
 
         rb2d = parent.GetRigidbody2D();
-        // Disable to prevent Direction from affecting velocity in this case -> If dashing then should not control so easily
-        Runner.DisableHorizontalControls();
-        Runner.DisableVerticalControls();
+        
 
         if (currentDashDelay != null) {
             Runner.StopCoroutine(currentDashDelay);
             currentDashDelay = null;
         }
-        
+        if (!dashInputGiven){
+            dashDirection = Mathf.Clamp(Runner.transform.localScale.x, -1, 1);
+        }
+
         dashing = true;
         Runner.GetAnimator().SetBool(PlayerAnimation.isDashingBool, true);
-        dashDirection = Mathf.Clamp(Runner.transform.localScale.x, -1, 1);
+        
         canDash = false;
         currentDashDelay = Runner.StartCoroutine(WallDashDelay());
     }
@@ -75,6 +87,8 @@ public class NormalDashState : BaseState<PlayerController>
     {
         Runner.EnableHorizontalControls();
         Runner.EnableVerticalControls();
+        dashing = false;
+        dashInputGiven = false;
         return base.ExitState();
     }
 

@@ -20,6 +20,7 @@ public class NormalLedgeHangState : BaseState<PlayerController>
         initialGravity = Runner.GetRigidbody2D().gravityScale;
         Runner.GetRigidbody2D().gravityScale = 0;
         Runner.GetRigidbody2D().velocity = Vector2.zero;
+
         // TODO: Play Hang Animation
 
         // TODO: Add a Pause in controls before the ledge climb is considered -> Potentially need to decide if this is wanted
@@ -29,6 +30,8 @@ public class NormalLedgeHangState : BaseState<PlayerController>
             return;
         }
 
+        
+        Runner.GetAnimator().SetBool(PlayerAnimation.isHoldingLedgeBool, true);
         controlDelayedFinished = false;
         controlReleased = false;
         Runner.StopCoroutine(ControlDelay());
@@ -81,6 +84,7 @@ public class NormalLedgeHangState : BaseState<PlayerController>
     {
         // TODO: End Hang Animation State
         // TODO: This might cause a weird interaction, think about how to handle gravity interactions
+        Runner.GetAnimator().SetBool(PlayerAnimation.isHoldingLedgeBool, false);
         Runner.GetRigidbody2D().gravityScale = initialGravity;
         yield break;
     }

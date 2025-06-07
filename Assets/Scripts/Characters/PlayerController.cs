@@ -211,6 +211,20 @@ public class PlayerController : BaseCharacter<PlayerController>, IDamageable
     }
 
     /// <summary>
+    /// Disable Rotation
+    /// </summary>
+    public void DisableRotation() {
+        canRotate = false;
+    }
+
+    /// <summary>
+    /// Enable Rotation Controls
+    /// </summary>
+    public void EnableRotation() {
+        canRotate = true;
+    }
+
+    /// <summary>
     /// Disable Horizontal Controls
     /// </summary>
     public void DisableHorizontalControls() {

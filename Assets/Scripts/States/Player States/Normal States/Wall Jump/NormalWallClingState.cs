@@ -42,20 +42,21 @@ public class NormalWallClingState : BaseState<PlayerController>
             Vector3 localScale = Runner.transform.localScale;
             localScale.x *= -1f;
             Runner.transform.localScale = localScale;
-            CurrentSuperState.SetSubState(CurrentSuperState.GetState(typeof(NormalDashState)));
+            CurrentSuperState.SetSubState(typeof(NormalDashState), Mathf.Sign(localScale.x));
+            // FIXME: FIgure out how to deal with this interaction with Dash where direction input is read and changes direction of Dash into wall
         }
         // In the case of not in contact with wall 
         else if (!Runner.GetWallCheck().Check() || (Mathf.Sign(horizontalControl) != Mathf.Sign(Runner.transform.localScale.x) && horizontalControl != 0)){
-            CurrentSuperState.SetSubState(CurrentSuperState.GetState(typeof(NormalFallCoyoteState)));
+            CurrentSuperState.SetSubState(typeof(NormalFallCoyoteState));
         }
         else if (verticalControl > 0 && canJump){
-            CurrentSuperState.SetSubState(CurrentSuperState.GetState(typeof(NormalWallJumpState)));
+            CurrentSuperState.SetSubState(typeof(NormalWallJumpState));
         }
         else if (Runner.GetLedgeCheck().Check()) {
             CurrentSuperState.SetSubState(typeof(NormalLedgeHangState));
         }
         else if (verticalControl < 0) {
-            CurrentSuperState.SetSubState(CurrentSuperState.GetState(typeof(NormalFallState)));
+            CurrentSuperState.SetSubState(typeof(NormalFallState));
         }
     }
 
@@ -68,7 +69,7 @@ public class NormalWallClingState : BaseState<PlayerController>
     public override void OnStateCollisionEnter(Collision2D collision)
     {
         if (Runner.GetGroundCheck().Check() && rb2d.velocity.y <= 0){
-            CurrentSuperState.SetSubState(CurrentSuperState.GetState(typeof(NormalLandState)), collision.relativeVelocity.y);
+            CurrentSuperState.SetSubState(typeof(NormalLandState), collision.relativeVelocity.y);
         }
     }
 

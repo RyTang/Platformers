@@ -13,8 +13,9 @@ MonoBehaviour:
   m_Name: Player Data
   m_EditorClassIdentifier: 
   maxHealth: 10
-  health: 10
+  health: 7
   moveSpeed: 5
+  sprintState: 10
   jumpForce: 12
   coyoteTime: 0.15
   gravityScale: 2
@@ -37,6 +38,7 @@ MonoBehaviour:
   wallJumpForce: {x: 8, y: 13}
   wallJumpDuration: 0.2
   clingDelay: 0.15
+  climbDuration: 1.25
   attackTime: 0.25
   attackDamage: 1
   knockbackForce: 2

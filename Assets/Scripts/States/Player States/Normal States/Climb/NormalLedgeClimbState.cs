@@ -40,9 +40,11 @@ public class NormalLedgeClimbState : BaseState<PlayerController>
         }
 
         if (chosenLedge != null) {
+            // parent.AnimationEvent += OnAnimationEventTriggered;
+            Runner.GetAnimator().SetTrigger(PlayerAnimation.triggerLedgeClimb);
             // Set position of hanging
             Runner.transform.position = chosenLedge.GetHangPosition();
-            Runner.StopCoroutine(StartLedgeClimb());
+            Runner.StopCoroutine(StartLedgeClimb()); // TODO: Once animation is completed, shift this to use the Animation Event Handler
             Runner.StartCoroutine(StartLedgeClimb());
         }
     }
@@ -56,19 +58,24 @@ public class NormalLedgeClimbState : BaseState<PlayerController>
         return ledges.OrderBy(ledge => Vector2.Distance(handPosition, ledge.transform.position)).FirstOrDefault();
     }
 
+    private void OnAnimationEventTriggered(AnimationEventTrigger eventTrigger){
+        if (eventTrigger == AnimationEventTrigger.FINISH_LEDGE_CLIMB) {
+            doneClimbing = true;
+        }
+    }
+
 
     private IEnumerator StartLedgeClimb(){
         yield return new WaitForSeconds(Runner.GetPlayerData().climbDuration); // TODO: Add Ledge Climb Delay
 
-        // TODO: Start Ledge Climb Aimation
-
         doneClimbing = true;
-        Runner.transform.position = chosenLedge.GetStandPosition();
     }
 
     public override void CheckStateTransition()
     {
         if (doneClimbing) {
+            Runner.GetAnimator().SetBool(PlayerAnimation.isIdleBool, true);
+            Runner.transform.position = chosenLedge.GetStandPosition();
             CurrentSuperState.SetSubState(typeof(NormalIdleState));
         }
         else if (chosenLedge == null){
