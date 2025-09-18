@@ -35,6 +35,8 @@ public class NormalJumpState : BaseState<PlayerController>
             CurrentSuperState.SetSubState(typeof(NormalDashState));
         }
         else if (verticalControl <= 0 || rb2d.velocity.y <= 0){
+            // TODO: if stop pressing should stop accelerating
+            rb2d.velocity = new Vector2(rb2d.velocity.x, 0);
             CurrentSuperState.SetSubState(typeof(NormalFallState));
         }
         else if (Runner.GetLedgeCheck().Check()) {
@@ -59,26 +61,5 @@ public class NormalJumpState : BaseState<PlayerController>
         else if (horizontalControl != 0){
             rb2d.velocity = horizontalControl > 0 ? new Vector2(Runner.GetPlayerData().moveSpeed, rb2d.velocity.y) : new Vector2(-Runner.GetPlayerData().moveSpeed, rb2d.velocity.y);
         }
-    }
-
-    public override void OnStateCollisionEnter(Collision2D collision)
-    {
-    }
-
-    public override void UpdateState()
-    {
-    }
-
-
-    public override void InitialiseSubState()
-    {
-    }
-
-    public override void OnStateCollisionStay(Collision2D collision)
-    {
-    }
-
-    public override void OnStateCollisionExit(Collision2D collision)
-    {
     }
 }

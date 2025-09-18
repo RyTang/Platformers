@@ -29,8 +29,12 @@ public class NormalSlideState : BaseState<PlayerController>
 
     public override void CheckStateTransition()
     {
-        if (!isSliding){
+        if (!isSliding)
+        {
             CurrentSuperState.SetSubState(CurrentSuperState.GetState(typeof(NormalIdleState)));
+        }
+        else if (Runner.GetLedgeCheck().Check()) {
+            CurrentSuperState.SetSubState(typeof(NormalLedgeHangState));
         }
     }
 

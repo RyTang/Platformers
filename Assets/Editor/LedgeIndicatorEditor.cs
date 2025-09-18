@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEditor;
 using System;
+using Unity.VisualScripting;
 
 public class LedgeIndicatorEditor : EditorWindow
 {
@@ -53,31 +54,36 @@ public class LedgeIndicatorEditor : EditorWindow
             Bounds bounds = col.bounds;
             float unitAdjustment = 0.25f;
 
+            // Area to check if blocked
+            Vector3 leftCheckSpace = new Vector3(bounds.min.x, bounds.max.y + unitAdjustment, obj.transform.position.z);
+            Vector3 rightCheckSpace = new Vector3(bounds.max.x, bounds.max.y + unitAdjustment, obj.transform.position.z);
+
+            // Area to Spawn the ledge
             Vector3 leftEdge = new Vector3(bounds.min.x + unitAdjustment, bounds.max.y - unitAdjustment, obj.transform.position.z);
             Vector3 rightEdge = new Vector3(bounds.max.x - unitAdjustment, bounds.max.y - unitAdjustment, obj.transform.position.z);
             
 
             // **Step 3: Instantiate new Ledge Indicators only if not blocked**
-            if (LedgeNotConflicted(leftEdge, obj)){
+            if (LedgeNotConflicted(leftCheckSpace, obj)){
                 GameObject leftLedge = InstantiateLedgeIndicator(obj, leftEdge, true);
                 Undo.RegisterCreatedObjectUndo(leftLedge, "Created Left Ledge Indicator");
             }
             else {
-                Debug.Log($"Left Spawn Location for {this} is blocked");
+                Debug.Log($"Left Spawn Location for {obj.name} is blocked");
             }
-            if (LedgeNotConflicted(rightEdge, obj)){
+            if (LedgeNotConflicted(rightCheckSpace, obj)){
                 GameObject rightLedge = InstantiateLedgeIndicator(obj, rightEdge, false);
                 Undo.RegisterCreatedObjectUndo(rightLedge, "Created Right Ledge Indicator");
             }
             else {
-                Debug.Log($"Right Spawn Location for {this} is blocked");
+                Debug.Log($"Right Spawn Location for {obj.name} is blocked");
             }
 
         }
     }
 
     private bool LedgeNotConflicted(Vector3 position, GameObject currentParent) {
-        Vector2 checkSize = new Vector2(0.5f, 0.5f);
+        Vector2 checkSize = new Vector2(0.3f, 0.15f);
 
         Collider2D[] colliders = Physics2D.OverlapBoxAll(position, checkSize, 0, detectionLayer);
 

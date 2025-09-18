@@ -37,6 +37,8 @@ public class NormalLedgeHangState : BaseState<PlayerController>
         Runner.StopCoroutine(ControlDelay());
         Runner.StartCoroutine(ControlDelay());
 
+        chosenLedge = null;
+
         chosenLedge = GetChosenLedge().GetComponent<LedgeIndicator>();
 
         // Set position of hanging
@@ -84,6 +86,7 @@ public class NormalLedgeHangState : BaseState<PlayerController>
     {
         // TODO: End Hang Animation State
         // TODO: This might cause a weird interaction, think about how to handle gravity interactions
+        chosenLedge = null; // TODO: the jumping animation is due to the fact that it's using the old location
         Runner.GetAnimator().SetBool(PlayerAnimation.isHoldingLedgeBool, false);
         Runner.GetRigidbody2D().gravityScale = initialGravity;
         yield break;
