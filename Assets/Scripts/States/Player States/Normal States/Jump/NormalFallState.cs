@@ -42,14 +42,14 @@ public class NormalFallState : BaseState<PlayerController>
         else if (dashControl > 0){
             CurrentSuperState.SetSubState(CurrentSuperState.GetState(typeof(NormalDashState)));
         }
+        else if (verticalControl < 0){
+            CurrentSuperState.SetSubState(CurrentSuperState.GetState(typeof(NormalFreeFallState)));
+        }
         else if (Runner.GetLedgeCheck().Check()) {
             CurrentSuperState.SetSubState(typeof(NormalLedgeHangState));
         }
         else if ((rb2d.velocity.x != 0 || horizontalControl != 0) && Runner.GetWallCheck().Check()){
             CurrentSuperState.SetSubState(CurrentSuperState.GetState(typeof(NormalWallClingState)));
-        }
-        else if (verticalControl < 0){
-            CurrentSuperState.SetSubState(CurrentSuperState.GetState(typeof(NormalFreeFallState)));
         }
     }
 

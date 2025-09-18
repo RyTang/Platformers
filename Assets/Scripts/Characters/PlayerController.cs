@@ -39,6 +39,7 @@ public class PlayerController : BaseCharacter<PlayerController>, IDamageable
     protected override void SpriteDirection()
     {
         // So that knockback doesn't affect the direction that the player is facing and that it is only based on controls;
+        // TODO: Override direction for certain states
         float xDirection = GetHorizontalControls();
         if (xDirection == 0 || !canRotate) return;
 
@@ -210,10 +211,12 @@ public class PlayerController : BaseCharacter<PlayerController>, IDamageable
         damageInvulnerability = false;
     }
 
+    // TODO: Prob can remove the rotations
     /// <summary>
     /// Disable Rotation
     /// </summary>
-    public void DisableRotation() {
+    public void DisableRotation()
+    {
         canRotate = false;
     }
 

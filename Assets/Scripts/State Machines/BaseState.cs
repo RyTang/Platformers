@@ -6,20 +6,36 @@ using Unity.VisualScripting;
 using UnityEngine;
 
 public abstract class BaseState<T> : ScriptableObject where T : MonoBehaviour
-{
+{   
+    /// <summary>
+    /// The Parent State Runner that is running this State, i.e. Player, Enemy or NPC
+    /// </summary>
     protected T Runner { get; set; }
     protected bool IsStateActive { get; set; } = true;
     protected BaseState<T> CurrentSubState { get; set; }
     protected BaseState<T> CurrentSuperState { get; set; }
     [SerializeField] protected List<BaseState<T>> availableSubStates = new List<BaseState<T>>();
     protected Dictionary<Type, BaseState<T>> cachedSubStates = new Dictionary<Type, BaseState<T>>();
+    /// <summary>
+    /// Used to prevent multiple state switches at the same time
+    /// </summary>
     private bool switchingState = false;
 
-    public bool GetIsRootState(){
+    /// <summary>
+    /// Checks if the state is a Root State
+    /// </summary>
+    /// <returns>If Current State is Root</returns>
+    public bool GetIsRootState()
+    {
         return availableSubStates.Count <= 0;
     }
     
-    public BaseState<T> GetSubState(){
+    /// <summary>
+    /// Returns any Sub State that is attached to this State
+    /// </summary>
+    /// <returns>Sub State if any</returns>
+    public BaseState<T> GetSubState()
+    {
         return CurrentSubState;
     }
 
@@ -34,18 +50,28 @@ public abstract class BaseState<T> : ScriptableObject where T : MonoBehaviour
         return currentState;
     }
 
-    public BaseState<T> GetState(Type stateTypeWanted){
-        if (cachedSubStates.ContainsKey(stateTypeWanted)){
+    /// <summary>
+    /// Finds the state that is wanted, used to cache states so that they don't need to be instantiated multiple times. Can be used to find the generic states
+    /// </summary>
+    /// <param name="stateTypeWanted">Specific or Generic State Wanted</param>
+    /// <returns>Returns the state of the specific state</returns>
+    public BaseState<T> GetState(Type stateTypeWanted)
+    {
+        if (cachedSubStates.ContainsKey(stateTypeWanted))
+        {
             return cachedSubStates[stateTypeWanted];
         }
-        else {
+        else
+        {
             BaseState<T> newCacheState = null;
-            try {
+            try
+            {
                 newCacheState = Instantiate(availableSubStates.First(s => s.GetType() == stateTypeWanted));
 
                 cachedSubStates.Add(stateTypeWanted, newCacheState);
             }
-            catch {
+            catch
+            {
                 Debug.LogError("Unable to find state Wanted: " + stateTypeWanted.Name + " in object: " + this);
                 // Default to first state if unable to find state but flag error
                 newCacheState = cachedSubStates.FirstOrDefault().Value;
@@ -103,7 +129,7 @@ public abstract class BaseState<T> : ScriptableObject where T : MonoBehaviour
     public virtual IEnumerator ExitState(){yield break;}
 
     /// <summary>
-    /// Handles Collision Enter Interaction
+    /// Handles Collision Enter Interactionw
     /// </summary>
     /// <param name="collision"></param>
     public virtual void OnStateCollisionEnter(Collision2D collision){}
@@ -222,9 +248,10 @@ public abstract class BaseState<T> : ScriptableObject where T : MonoBehaviour
     }
 
     /// <summary>
-    /// Child Sub State attached to this State
+    /// Child Sub State attached to this State with information to pass
     /// </summary>
-    /// <param name="newSubState">Sub State</param>
+    /// <param name="newSubState">Type of State to enter</param>
+    /// <param name="objToPass">Obj That the state is expected to be able to handle</param>
     public void SetSubState(Type newSubState, object objToPass){
         if (switchingState) return;
         SetSubState(GetState(newSubState), objToPass);
@@ -232,27 +259,38 @@ public abstract class BaseState<T> : ScriptableObject where T : MonoBehaviour
 
 
     /// <summary>
-    /// Child Sub State attached to this State
+    /// Child Sub State attached to this State with information to pass
     /// </summary>
-    /// <param name="newSubState">Sub State</param>
+    /// <param name="newSubState">The specific state to enter</param>
+    /// <param name="objToPass">Object information that the state is expected to ahdnel</param>
     public void SetSubState(BaseState<T> newSubState, object objToPass){
         if (switchingState) return;
         Runner.StartCoroutine(CleanSubStates(newSubState, objToPass));
     }
 
-    public IEnumerator CleanSubStates(BaseState<T> newSubState, object objToPass){
+    /// <summary>
+    /// Cleans The Sub States by Exiting the Current Sub State first and Entering the New Sub State
+    /// </summary>
+    /// <param name="newSubState">State to enter</param>
+    /// <param name="objToPass">Obj information to pass if any</param>
+    /// <returns></returns>
+    protected IEnumerator CleanSubStates(BaseState<T> newSubState, object objToPass)
+    {
         switchingState = true;
-        if (CurrentSubState != null){
+        if (CurrentSubState != null)
+        {
             yield return Runner.StartCoroutine(CurrentSubState.ExitStates());
         }
         Debug.Assert(newSubState != null, $"Experienced Error in Clean Sub States, missing Sub State: {newSubState}");
         CurrentSubState = newSubState;
         newSubState.SetSuperState(this);
 
-        if (objToPass != null){
+        if (objToPass != null)
+        {
             CurrentSubState.EnterState(Runner, objToPass);
         }
-        else{
+        else
+        {
             CurrentSubState.EnterState(Runner);
         }
         switchingState = false;
