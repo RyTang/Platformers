@@ -7,40 +7,63 @@ public class NormalDashState : BaseState<PlayerController>
 {
     private Rigidbody2D rb2d;
 
-    private Coroutine currentDashDelay;
+    private Coroutine currentDashDelay, dashBufferCoroutine;
 
     private bool canDash = true;
-    private bool dashing;
+    private bool dashing, dashInputGiven, dashBufferDone;
     private float dashDirection;
-    
+
+    public override void EnterState(PlayerController parent, object objToPass)
+    {
+        dashDirection = (float)objToPass;
+        dashInputGiven = true;
+
+        base.EnterState(parent, objToPass);
+    }
+
 
     public override void EnterState(PlayerController parent)
     {
+        // Disable to prevent Direction from affecting velocity in this case -> If dashing then should not control so easily
         base.EnterState(parent);
+        Runner.SetPlayerSpriteDirectionMutable(false);
+        Runner.DisableHorizontalControls();
+        Runner.DisableVerticalControls();
 
-        if (!canDash && currentDashDelay != null){
+        if (!canDash && currentDashDelay != null)
+        {
             CurrentSuperState.SetSubState(CurrentSuperState.GetState(typeof(NormalIdleState)));
             return;
         }
 
-        rb2d = parent.GetRigidbody2D();
-        // Disable to prevent Direction from affecting velocity in this case -> If dashing then should not control so easily
-        Runner.DisableHorizontalControls();
-        Runner.DisableVerticalControls();
+        rb2d = Runner.GetRigidbody2D();
 
-        if (currentDashDelay != null) {
+
+        if (currentDashDelay != null)
+        {
             Runner.StopCoroutine(currentDashDelay);
+            Runner.StopCoroutine(dashBufferCoroutine);
             currentDashDelay = null;
+            dashBufferCoroutine = null;
         }
-        
+        if (!dashInputGiven)
+        {
+            dashDirection = Mathf.Clamp(Runner.transform.localScale.x, -1, 1);
+        }
+
         dashing = true;
         Runner.GetAnimator().SetBool(PlayerAnimation.isDashingBool, true);
-        dashDirection = Mathf.Clamp(Runner.transform.localScale.x, -1, 1);
+
         canDash = false;
-        currentDashDelay = Runner.StartCoroutine(WallDashDelay());
+        currentDashDelay = Runner.StartCoroutine(DashCooldown());
+        dashBufferCoroutine = Runner.StartCoroutine(DashBuffer());
     }
 
-    private IEnumerator WallDashDelay(){
+    /// <summary>
+    /// Cooldown for Dash after use
+    /// </summary>
+    private IEnumerator DashCooldown()
+    {
         yield return new WaitForSeconds(Runner.GetPlayerData().dashDuration);
         Runner.GetAnimator().SetBool(PlayerAnimation.isDashingBool, false);
         dashing = false;
@@ -48,15 +71,30 @@ public class NormalDashState : BaseState<PlayerController>
         canDash = true;
     }
 
+    private IEnumerator DashBuffer()
+    {
+        dashBufferDone = false;
+        
+        yield return new WaitForSeconds(Runner.GetPlayerData().dashDuration);
+        dashBufferDone = true;
+    }
+
     public override void CheckStateTransition()
     {
-        if (!dashing && !Runner.GetGroundCheck().Check()){
-            CurrentSuperState.SetSubState(CurrentSuperState.GetState(typeof(NormalFallState)));
+        if (!dashing && !Runner.GetGroundCheck().Check())
+        {
+            CurrentSuperState.SetSubState(typeof(NormalFallState));
         }
-        else if (!dashing && Runner.GetGroundCheck().Check()){
-            CurrentSuperState.SetSubState(CurrentSuperState.GetState(typeof(NormalIdleState)));
+        else if (!dashing && Runner.GetGroundCheck().Check())
+        {
+            CurrentSuperState.SetSubState(typeof(NormalIdleState));
         }
-        else if (Runner.GetWallCheck().Check() && !Runner.GetGroundCheck().Check()){
+        else if (Runner.GetLedgeCheck().Check())
+        {
+            CurrentSuperState.SetSubState(typeof(NormalLedgeHangState));
+        }
+        else if (dashBufferDone && Runner.GetWallCheck().Check() && !Runner.GetGroundCheck().Check())
+        {
             // FIXME: When holding direction in wall, it will trigger touching wall as the animation changes direction for a split second
             // TODO: Add Short Timer to prevent retouching
             Debug.Log("Touching Wall");
@@ -64,12 +102,15 @@ public class NormalDashState : BaseState<PlayerController>
             currentDashDelay = null;
             Runner.GetAnimator().SetBool(PlayerAnimation.isDashingBool, false);
             canDash = true;
-            CurrentSuperState.SetSubState(CurrentSuperState.GetState(typeof(NormalWallClingState)));
+            CurrentSuperState.SetSubState(typeof(NormalWallClingState));
         }
     }
 
     public override IEnumerator ExitState()
     {
+        dashing = false;
+        dashInputGiven = false;
+        Runner.SetPlayerSpriteDirectionMutable(true);
         Runner.EnableHorizontalControls();
         Runner.EnableVerticalControls();
         return base.ExitState();

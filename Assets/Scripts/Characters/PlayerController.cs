@@ -13,6 +13,7 @@ public class PlayerController : BaseCharacter<PlayerController>, IDamageable
     [SerializeField] protected GameEvent playerDeathEvent;
     [SerializeField] private LayerCheck attackCheck;
     [SerializeField] protected LayerCheck wallCheck;
+    [SerializeField] protected LayerCheck ledgeCheck;
 
     public delegate void OnAnimationEventTriggered(AnimationEventTrigger eventTrigger);
     public event OnAnimationEventTriggered AnimationEvent;
@@ -38,6 +39,7 @@ public class PlayerController : BaseCharacter<PlayerController>, IDamageable
     protected override void SpriteDirection()
     {
         // So that knockback doesn't affect the direction that the player is facing and that it is only based on controls;
+        // TODO: Override direction for certain states
         float xDirection = GetHorizontalControls();
         if (xDirection == 0 || !canRotate) return;
 
@@ -132,6 +134,10 @@ public class PlayerController : BaseCharacter<PlayerController>, IDamageable
         return wallCheck;
     }
 
+    public LayerCheck GetLedgeCheck(){
+        return ledgeCheck;
+    }
+
     public virtual float GetGrappleControls()
     {
         return Input.GetAxisRaw("Grapple");
@@ -203,6 +209,22 @@ public class PlayerController : BaseCharacter<PlayerController>, IDamageable
         yield return new WaitForSeconds(playerData.injuredDuration);
 
         damageInvulnerability = false;
+    }
+
+    // TODO: Prob can remove the rotations
+    /// <summary>
+    /// Disable Rotation
+    /// </summary>
+    public void DisableRotation()
+    {
+        canRotate = false;
+    }
+
+    /// <summary>
+    /// Enable Rotation Controls
+    /// </summary>
+    public void EnableRotation() {
+        canRotate = true;
     }
 
     /// <summary>

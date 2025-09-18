@@ -9,7 +9,6 @@ public abstract class EnemyMoveToState: BaseState<BaseEnemy>{
     {
         positionToMoveTo = (Vector3) objToPass;
         reachedDestination = false;
-
         base.EnterState(parent, objToPass);
     }
 

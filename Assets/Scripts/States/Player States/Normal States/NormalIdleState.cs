@@ -5,7 +5,6 @@ using UnityEngine;
 public class NormalIdleState : BaseState<PlayerController>
 {
     private float horizontalControl, verticalControl, dashControl, attackControl, mobilityControl;
-    private float sprintControl;
 
     public override void EnterState(PlayerController parent)
     {
@@ -20,7 +19,6 @@ public class NormalIdleState : BaseState<PlayerController>
         dashControl = Runner.GetDashControls();
         attackControl = Runner.GetAttackControls();
         mobilityControl = Runner.GetMobilityControl();
-        sprintControl = Runner.GetSprintControls();
 
         // FIXME: FIGURE OUT WHY ATTACK AND DASH CONTROLS NOT BEING PASSED TO SUB STATES
     }
@@ -44,12 +42,7 @@ public class NormalIdleState : BaseState<PlayerController>
         }
         // Last Run to run as it's a high control function
         else if (horizontalControl != 0){
-            if (sprintControl > 0 ){
-                CurrentSuperState.SetSubState(typeof(NormalSprintState));
-            }
-            else {
-                CurrentSuperState.SetSubState(typeof(NormalRunState));
-            }
+            CurrentSuperState.SetSubState(typeof(NormalRunState));
         }
     }
 

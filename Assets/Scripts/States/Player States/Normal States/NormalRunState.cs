@@ -5,7 +5,6 @@ using UnityEngine;
 public class NormalRunState : BaseState<PlayerController>
 {
     private float horizontalControl, verticalControl, dashControl, attackControl, mobilityControl;
-    private float sprintControl;
     private Rigidbody2D rb2d;
 
 
@@ -23,7 +22,6 @@ public class NormalRunState : BaseState<PlayerController>
         dashControl = Runner.GetDashControls();
         attackControl = Runner.GetAttackControls();
         mobilityControl = Runner.GetMobilityControl();
-        sprintControl = Runner.GetSprintControls();
     }
 
     public override void CheckStateTransition()
@@ -46,13 +44,9 @@ public class NormalRunState : BaseState<PlayerController>
         else if (mobilityControl > 0) {
             CurrentSuperState.SetSubState(typeof(NormalSlideState));
         }
-        else if (horizontalControl != 0){
-            if (Runner.GetWallCheck().Check() && !Runner.GetGroundCheck().Check()) {
-                CurrentSuperState.SetSubState(typeof(NormalWallClingState));
-            }
-            else if (sprintControl > 0) {
-                CurrentSuperState.SetSubState(typeof(NormalSprintState));
-            }
+        else if (horizontalControl != 0 && Runner.GetWallCheck().Check() && !Runner.GetGroundCheck().Check())
+        {
+            CurrentSuperState.SetSubState(typeof(NormalWallClingState));
         }
     }
     

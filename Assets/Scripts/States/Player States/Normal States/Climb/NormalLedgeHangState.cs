@@ -1,0 +1,91 @@
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using UnityEngine;
+
+[CreateAssetMenu(menuName = "Player State/Normal State/Climbing/Hanging")]
+public class NormalLedgeHangState : BaseState<PlayerController>
+{
+    private float verticalControls, horizontalControls;
+    private float initialGravity;
+    private bool controlDelayedFinished, controlReleased;
+
+    private LedgeIndicator chosenLedge;
+
+    public override void EnterState(PlayerController parent)
+    {
+        Debug.Log("Entered Ledge Hang State");
+        base.EnterState(parent);
+        // Stop All Gravity
+        initialGravity = Runner.GetRigidbody2D().gravityScale;
+        Runner.GetRigidbody2D().gravityScale = 0;
+        Runner.GetRigidbody2D().velocity = Vector2.zero;
+
+        // TODO: Play Hang Animation
+
+        // TODO: Add a Pause in controls before the ledge climb is considered -> Potentially need to decide if this is wanted
+        // TODO: if holding up, then delay action for half a second, else if released and pressed again then allow
+
+        if (!Runner.GetLedgeCheck().Check()) {
+            return;
+        }
+
+        
+        Runner.GetAnimator().SetBool(PlayerAnimation.isHoldingLedgeBool, true);
+        controlDelayedFinished = false;
+        controlReleased = false;
+        Runner.StopCoroutine(ControlDelay());
+        Runner.StartCoroutine(ControlDelay());
+
+        chosenLedge = GetChosenLedge().GetComponent<LedgeIndicator>();
+
+        // Set position of hanging
+        Debug.Log($"Placed at {chosenLedge.GetHangPosition()}");
+        Runner.transform.position = chosenLedge.GetHangPosition();
+    }
+
+    private IEnumerator ControlDelay() {
+        yield return new WaitForSeconds(0.5f);
+        controlDelayedFinished = true;
+    }
+
+    private GameObject GetChosenLedge(){
+        List<GameObject> ledges = Runner.GetLedgeCheck().GetObjectsInCheck();
+        
+        // Get the one that is closes to the player collision checker.
+        Vector2 handPosition = Runner.GetLedgeCheck().transform.position;
+        
+        return ledges.OrderBy(ledge => Vector2.Distance(handPosition, ledge.transform.position)).FirstOrDefault();
+    }
+
+    public override void CaptureInput()
+    {
+        base.CaptureInput();
+        float currentVerticalControls = Runner.GetVerticalControls();
+        horizontalControls = Runner.GetHorizontalControls();
+        if (currentVerticalControls < 1 || controlDelayedFinished){
+            verticalControls = currentVerticalControls;
+            controlReleased = true;
+        }
+    }
+
+    public override void CheckStateTransition()
+    {
+        bool controlsNotFacingLedge = horizontalControls != 0 && horizontalControls != Mathf.Sign(Runner.transform.localScale.x);
+        if (controlsNotFacingLedge || verticalControls < 0 || chosenLedge == null ) {
+            CurrentSuperState.SetSubState(typeof(NormalFallState));
+        }
+        else if (controlReleased && verticalControls > 0) {
+            CurrentSuperState.SetSubState(typeof(NormalLedgeClimbState), chosenLedge);
+        }
+    }
+
+    public override IEnumerator ExitState()
+    {
+        // TODO: End Hang Animation State
+        // TODO: This might cause a weird interaction, think about how to handle gravity interactions
+        Runner.GetAnimator().SetBool(PlayerAnimation.isHoldingLedgeBool, false);
+        Runner.GetRigidbody2D().gravityScale = initialGravity;
+        yield break;
+    }
+}

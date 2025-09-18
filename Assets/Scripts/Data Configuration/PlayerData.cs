@@ -47,6 +47,9 @@ public class PlayerData : ScriptableObject
     public Vector2 wallJumpForce = new Vector2(10, 5);
     public float wallJumpDuration = 0.5f;
     public float clingDelay = 0.15f;
+
+    [Header("Climb Information")]
+    public float climbDuration = 0.5f;
     
     [Header("Attack Information")]
     public float attackTime;
@@ -54,7 +57,7 @@ public class PlayerData : ScriptableObject
     public float knockbackForce = 1f;
 
 
-    // Player Inate Data
+    // Player Innate Data
     private float maxJumpHeight;
 
     private float maxJumpDistance;
