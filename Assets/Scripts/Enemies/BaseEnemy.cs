@@ -11,6 +11,8 @@ public abstract class BaseEnemy : BaseCharacter<BaseEnemy>, IDamageable
 
     [SerializeField] BasicEnemyData enemyData;
 
+    [SerializeField] protected SimpleFlash injuredFlash;
+
     public event Action<GameObject> OnDestroyEvent;
 
     protected int Health { get => _health; set => _health = value; }
@@ -47,13 +49,20 @@ public abstract class BaseEnemy : BaseCharacter<BaseEnemy>, IDamageable
 
         if (damage < 0 ) return;
 
+        GetInjuredFlash().Flash(1f); // TODO: Make duration a variable
+
         Health -= damage;
         if (Health <= 0){
             Destroyed();
         }
     }
+    
+    public SimpleFlash GetInjuredFlash(){
+        return injuredFlash;
+    }
 
-    public LayerCheck GetDetectCheck(){
+    public LayerCheck GetDetectCheck()
+    {
         return _detectionArea;
     }
 

@@ -32,10 +32,6 @@ public abstract class BaseCharacter<T> : StateRunner<T> where T: MonoBehaviour
         {
             SpriteDirection();
         }
-        else
-        {
-            Debug.Log("not checking sprite direction");
-        }
     }
     
     /// <summary>

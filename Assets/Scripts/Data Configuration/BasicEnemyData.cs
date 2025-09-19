@@ -4,7 +4,7 @@ using UnityEngine;
 public class BasicEnemyData : ScriptableObject
 {
     [Header("Basic Information")]
-    public int health = 10; 
+    public int health = 10;
     public float moveSpeed = 5f;
     public float jumpForce = 5f;
     public Vector3 startingPosition;
@@ -15,4 +15,7 @@ public class BasicEnemyData : ScriptableObject
     public float attackCooldown;
     public float chaseDuration;
     public float knockbackForce = 1f;
+
+    // TODO: Add Stagger Duration and etc
+    
 }

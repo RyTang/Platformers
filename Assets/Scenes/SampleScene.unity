@@ -3322,6 +3322,11 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &617515383 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2600592340830424043, guid: d698417cf6257374d87f11faae9bedf8, type: 3}
+  m_PrefabInstance: {fileID: 2600592341924711227}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &648720193
 GameObject:
   m_ObjectHideFlags: 0
@@ -4592,6 +4597,19 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2600592342255378161, guid: d698417cf6257374d87f11faae9bedf8, type: 3}
   m_PrefabInstance: {fileID: 2600592341924711227}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &935171536
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 617515383}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 821193f18f57c6c4083009ebe194372f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  flashMaterial: {fileID: 2100000, guid: 9c402f07e5c6b014ea398d2259bf460a, type: 2}
 --- !u!1 &937543767
 GameObject:
   m_ObjectHideFlags: 0
@@ -11692,10 +11710,29 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2752053409808189657, guid: d698417cf6257374d87f11faae9bedf8, type: 3}
+      propertyPath: injuredFlash
+      value: 
+      objectReference: {fileID: 935171536}
+    - target: {fileID: 6199722293750955488, guid: d698417cf6257374d87f11faae9bedf8, type: 3}
+      propertyPath: m_Color.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6199722293750955488, guid: d698417cf6257374d87f11faae9bedf8, type: 3}
+      propertyPath: m_Color.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6199722293750955488, guid: d698417cf6257374d87f11faae9bedf8, type: 3}
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 2600592340830424043, guid: d698417cf6257374d87f11faae9bedf8, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 935171536}
   m_SourcePrefab: {fileID: 100100000, guid: d698417cf6257374d87f11faae9bedf8, type: 3}
 --- !u!1001 &5918485334435299150
 PrefabInstance:
@@ -11708,6 +11745,10 @@ PrefabInstance:
     - target: {fileID: 4245106880556258928, guid: b2500d9465f8a5e48b7a17a5367ebc45, type: 3}
       propertyPath: m_Name
       value: Flying Enemy
+      objectReference: {fileID: 0}
+    - target: {fileID: 4245106880556258930, guid: b2500d9465f8a5e48b7a17a5367ebc45, type: 3}
+      propertyPath: m_Color.a
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4245106880556258931, guid: b2500d9465f8a5e48b7a17a5367ebc45, type: 3}
       propertyPath: m_LocalPosition.x

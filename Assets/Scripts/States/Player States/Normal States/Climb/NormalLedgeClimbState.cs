@@ -14,9 +14,9 @@ public class NormalLedgeClimbState : BaseState<PlayerController>
     public override void EnterState(PlayerController parent, object objToPass)
     {
         // Retrieve object
-        if (objToPass is LedgeIndicator)
+        if (objToPass is LedgeIndicator indicator)
         {
-            chosenLedge = (LedgeIndicator)objToPass;
+            chosenLedge = indicator;
         }
         base.EnterState(parent, objToPass);
     }
@@ -33,10 +33,8 @@ public class NormalLedgeClimbState : BaseState<PlayerController>
 
         doneClimbing = false;
 
-        // TODO: Get hanging position and then get the standing up position
         // If wasn't given a ledge Object
         if (chosenLedge == null && Runner.GetLedgeCheck().Check()) {
-            Debug.LogWarning("Ledge Climb State entered without a ledge object, attempting to find one");
             chosenLedge = GetChosenLedge().GetComponent<LedgeIndicator>();
         }
 
@@ -45,8 +43,6 @@ public class NormalLedgeClimbState : BaseState<PlayerController>
             Runner.GetAnimator().SetTrigger(PlayerAnimation.triggerLedgeClimb);
             // Set position of hanging
             Runner.transform.position = chosenLedge.GetHangPosition();
-            // Runner.StopCoroutine(StartLedgeClimb()); // TODO: Once animation is completed, shift this to use the Animation Event Handler
-            // Runner.StartCoroutine(StartLedgeClimb());
         }
     }
 

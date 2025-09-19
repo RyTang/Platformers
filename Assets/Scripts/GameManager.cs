@@ -12,19 +12,21 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-        if (instance == null){
+        if (instance == null)
+        {
             instance = this;
             DontDestroyOnLoad(gameObject);
         }
-        else if (this != instance){
+        else if (this != instance)
+        {
             Destroy(gameObject);
         }
     }
 
-    public void ReloadGame(){
-        Debug.Log("Restarting Game");
+    public void ReloadGame()
+    {
         playerData.ResetPlayerStats();
-        SceneManager.LoadScene((int) SceneIndexes.TESTING_SCENE);
+        SceneManager.LoadScene((int)SceneIndexes.TESTING_SCENE);
         Time.timeScale = 1;
     }
 }

@@ -14,7 +14,6 @@ public class NormalLedgeHangState : BaseState<PlayerController>
 
     public override void EnterState(PlayerController parent)
     {
-        Debug.Log("Entered Ledge Hang State");
         base.EnterState(parent);
         // Stop All Gravity
         initialGravity = Runner.GetRigidbody2D().gravityScale;
@@ -33,7 +32,6 @@ public class NormalLedgeHangState : BaseState<PlayerController>
         chosenLedge = GetChosenLedge().GetComponent<LedgeIndicator>();
 
         // Set position of hanging
-        Debug.Log($"Placed at {chosenLedge.GetHangPosition()}");
         Runner.transform.position = chosenLedge.GetHangPosition();
     }
 

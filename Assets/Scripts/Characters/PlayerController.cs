@@ -14,6 +14,7 @@ public class PlayerController : BaseCharacter<PlayerController>, IDamageable
     [SerializeField] private LayerCheck attackCheck;
     [SerializeField] protected LayerCheck wallCheck;
     [SerializeField] protected LayerCheck ledgeCheck;
+    [SerializeField] protected SimpleFlash injuredFlash;
 
     public delegate void OnAnimationEventTriggered(AnimationEventTrigger eventTrigger);
     public event OnAnimationEventTriggered AnimationEvent;
@@ -134,6 +135,10 @@ public class PlayerController : BaseCharacter<PlayerController>, IDamageable
     public LayerCheck GetLedgeCheck(){
         return ledgeCheck;
     }
+
+    public SimpleFlash GetSimpleFlash(){
+        return injuredFlash;
+    }   
 
     public virtual float GetGrappleControls()
     {

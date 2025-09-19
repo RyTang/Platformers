@@ -5,13 +5,12 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Player State/Injured")]
 public class InjuredState : BaseState<PlayerController>
 {
+    
     private bool injured;
 
     public override void EnterState(PlayerController parent)
     {
-        Debug.Log("Injured");
         base.EnterState(parent);
-        // TODO: Add the simple flash animation thingy
         injured = true;
         Runner.StopCoroutine(InjuredDelay());
         Runner.StartCoroutine(InjuredDelay());
@@ -19,12 +18,9 @@ public class InjuredState : BaseState<PlayerController>
 
     public IEnumerator InjuredDelay()
     {
+        Runner.GetSimpleFlash().Flash(Runner.GetPlayerData().injuredDuration);
         yield return new WaitForSeconds(Runner.GetPlayerData().injuredDuration);
         injured = false;
-    }
-
-    public override void CaptureInput()
-    {
     }
 
     public override void CheckStateTransition()
@@ -33,8 +29,6 @@ public class InjuredState : BaseState<PlayerController>
         {
             Runner.SetMainState(typeof(NormalMainState));
         }
-
-        // TODO: Need to change this to adjust for multiple injured states
     }
 
     public override IEnumerator ExitState()

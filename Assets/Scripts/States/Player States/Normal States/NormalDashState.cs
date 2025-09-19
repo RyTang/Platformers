@@ -95,9 +95,6 @@ public class NormalDashState : BaseState<PlayerController>
         }
         else if (dashBufferDone && Runner.GetWallCheck().Check() && !Runner.GetGroundCheck().Check())
         {
-            // FIXME: When holding direction in wall, it will trigger touching wall as the animation changes direction for a split second
-            // TODO: Add Short Timer to prevent retouching
-            Debug.Log("Touching Wall");
             Runner.StopCoroutine(currentDashDelay);
             currentDashDelay = null;
             Runner.GetAnimator().SetBool(PlayerAnimation.isDashingBool, false);

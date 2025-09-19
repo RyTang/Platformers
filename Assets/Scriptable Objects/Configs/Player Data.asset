@@ -36,9 +36,10 @@ MonoBehaviour:
   landVelocityThreshold: 30
   wallSlidingSpeed: 2
   wallJumpForce: {x: 8, y: 13}
-  wallJumpDuration: 0.2
+  wallJumpDuration: 0.1
   clingDelay: 0.15
   climbDuration: 1.25
   attackTime: 0.25
   attackDamage: 1
   knockbackForce: 2
+  jumpAttackGravity: 0.3
