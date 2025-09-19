@@ -21,34 +21,20 @@ public class NormalLedgeHangState : BaseState<PlayerController>
         Runner.GetRigidbody2D().gravityScale = 0;
         Runner.GetRigidbody2D().velocity = Vector2.zero;
 
-        // TODO: Play Hang Animation
-
-        // TODO: Add a Pause in controls before the ledge climb is considered -> Potentially need to decide if this is wanted
-        // TODO: if holding up, then delay action for half a second, else if released and pressed again then allow
-
         if (!Runner.GetLedgeCheck().Check()) {
             return;
         }
 
         
         Runner.GetAnimator().SetBool(PlayerAnimation.isHoldingLedgeBool, true);
-        controlDelayedFinished = false;
-        controlReleased = false;
-        Runner.StopCoroutine(ControlDelay());
-        Runner.StartCoroutine(ControlDelay());
-
-        chosenLedge = null;
+        controlDelayedFinished = true;
+        controlReleased = true;
 
         chosenLedge = GetChosenLedge().GetComponent<LedgeIndicator>();
 
         // Set position of hanging
         Debug.Log($"Placed at {chosenLedge.GetHangPosition()}");
         Runner.transform.position = chosenLedge.GetHangPosition();
-    }
-
-    private IEnumerator ControlDelay() {
-        yield return new WaitForSeconds(0.5f);
-        controlDelayedFinished = true;
     }
 
     private GameObject GetChosenLedge(){
@@ -84,9 +70,6 @@ public class NormalLedgeHangState : BaseState<PlayerController>
 
     public override IEnumerator ExitState()
     {
-        // TODO: End Hang Animation State
-        // TODO: This might cause a weird interaction, think about how to handle gravity interactions
-        chosenLedge = null; // TODO: the jumping animation is due to the fact that it's using the old location
         Runner.GetAnimator().SetBool(PlayerAnimation.isHoldingLedgeBool, false);
         Runner.GetRigidbody2D().gravityScale = initialGravity;
         yield break;

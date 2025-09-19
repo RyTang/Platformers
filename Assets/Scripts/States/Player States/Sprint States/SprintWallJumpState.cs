@@ -24,7 +24,7 @@ public class SprintWallJumpState : BaseState<PlayerController>
         // Change Direction of the Jump to face the right direction
         canMove = false;
         this.parent = parent;
-        this.parent.canRotate = false;
+        Runner.CanRotate(false);
         float wallJumpDirection = -Runner.transform.localScale.x;
         Vector2 jumpForce = new Vector2(wallJumpDirection * Runner.GetPlayerData().wallJumpForce.x, Runner.GetPlayerData().wallJumpForce.y);
         rb2d.AddForce(jumpForce, ForceMode2D.Impulse);
@@ -54,7 +54,7 @@ public class SprintWallJumpState : BaseState<PlayerController>
     public override void CaptureInput()
     {   
         if (canMove){
-            parent.canRotate = true;
+            Runner.CanRotate(true);
             verticalControl = Runner.GetVerticalControls();
             horizontalControl = Runner.GetHorizontalControls();
             dashControl = Runner.GetDashControls();
@@ -86,7 +86,7 @@ public class SprintWallJumpState : BaseState<PlayerController>
     {
         Runner.GetAnimator().SetBool(PlayerAnimation.isWallJumpingBool, false);
         currentWallDelay = null;
-        parent.canRotate = true;
+        Runner.CanRotate(true);
         yield break;
     }
 

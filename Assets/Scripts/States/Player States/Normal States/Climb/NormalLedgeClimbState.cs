@@ -13,13 +13,12 @@ public class NormalLedgeClimbState : BaseState<PlayerController>
 
     public override void EnterState(PlayerController parent, object objToPass)
     {
-        Debug.Log("Entered Ledge Climb State");
-        base.EnterState(parent, objToPass);
-        
         // Retrieve object
-        if (objToPass is LedgeIndicator){
-            chosenLedge = (LedgeIndicator) objToPass;
+        if (objToPass is LedgeIndicator)
+        {
+            chosenLedge = (LedgeIndicator)objToPass;
         }
+        base.EnterState(parent, objToPass);
     }
 
 
@@ -30,22 +29,24 @@ public class NormalLedgeClimbState : BaseState<PlayerController>
         initialGravity = Runner.GetRigidbody2D().gravityScale;
         Runner.GetRigidbody2D().gravityScale = 0;
         Runner.GetRigidbody2D().velocity = Vector2.zero;
+        Runner.CanRotate(false);
 
         doneClimbing = false;
 
         // TODO: Get hanging position and then get the standing up position
         // If wasn't given a ledge Object
         if (chosenLedge == null && Runner.GetLedgeCheck().Check()) {
+            Debug.LogWarning("Ledge Climb State entered without a ledge object, attempting to find one");
             chosenLedge = GetChosenLedge().GetComponent<LedgeIndicator>();
         }
 
         if (chosenLedge != null) {
-            // parent.AnimationEvent += OnAnimationEventTriggered;
+            parent.AnimationEvent += OnAnimationEventTriggered;
             Runner.GetAnimator().SetTrigger(PlayerAnimation.triggerLedgeClimb);
             // Set position of hanging
             Runner.transform.position = chosenLedge.GetHangPosition();
-            Runner.StopCoroutine(StartLedgeClimb()); // TODO: Once animation is completed, shift this to use the Animation Event Handler
-            Runner.StartCoroutine(StartLedgeClimb());
+            // Runner.StopCoroutine(StartLedgeClimb()); // TODO: Once animation is completed, shift this to use the Animation Event Handler
+            // Runner.StartCoroutine(StartLedgeClimb());
         }
     }
 
@@ -65,12 +66,6 @@ public class NormalLedgeClimbState : BaseState<PlayerController>
     }
 
 
-    private IEnumerator StartLedgeClimb(){
-        yield return new WaitForSeconds(Runner.GetPlayerData().climbDuration); // TODO: Add Ledge Climb Delay
-
-        doneClimbing = true;
-    }
-
     public override void CheckStateTransition()
     {
         if (doneClimbing) {
@@ -84,8 +79,9 @@ public class NormalLedgeClimbState : BaseState<PlayerController>
     }
 
     public override IEnumerator ExitState()
-    {   
+    {
         // Reset Gravity and motion
+        Runner.CanRotate(true);
         Runner.GetRigidbody2D().gravityScale = initialGravity;
         yield break;
     }

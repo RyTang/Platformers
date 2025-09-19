@@ -11,7 +11,7 @@ public abstract class BaseCharacter<T> : StateRunner<T> where T: MonoBehaviour
     /// <summary>
     /// If true, the character will face the direction of movement. Set to false if you want to control direction manually
     /// </summary>
-    protected bool checkSpriteDirection = true;
+    protected bool canChangeDirection = true;
 
     
     [SerializeField] protected LayerCheck groundCheck;
@@ -28,7 +28,7 @@ public abstract class BaseCharacter<T> : StateRunner<T> where T: MonoBehaviour
     public override void Update()
     {
         base.Update();
-        if (checkSpriteDirection)
+        if (canChangeDirection)
         {
             SpriteDirection();
         }
@@ -42,9 +42,9 @@ public abstract class BaseCharacter<T> : StateRunner<T> where T: MonoBehaviour
     /// Toggles on whether sprite direction can change normally, can be used in situations like ledge climbing where you don't want the player to change direction. Etc if player is attacked and u don't want them to rotate
     /// </summary>
     /// <param name="canChangeDirection">Whether they can change direction normally</param>
-    public virtual void SetPlayerSpriteDirectionMutable(bool canChangeDirection)
+    public virtual void CanRotate(bool canChangeDirection)
     {
-        checkSpriteDirection = canChangeDirection;
+        this.canChangeDirection = canChangeDirection;
     }
 
 

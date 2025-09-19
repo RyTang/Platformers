@@ -15,7 +15,8 @@ public class LayerCheck : MonoBehaviour
         Collider2D[] colliders = Physics2D.OverlapBoxAll(transform.position, layerCheckBox, 0, collisionMask);
         
         List<GameObject> gameObjects = new List<GameObject>();
-        foreach (Collider2D collider in colliders){
+        foreach (Collider2D collider in colliders)
+        {
             gameObjects.Add(collider.gameObject);
         }
 

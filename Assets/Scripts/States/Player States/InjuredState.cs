@@ -39,7 +39,7 @@ public class InjuredState : BaseState<PlayerController>
 
     public override IEnumerator ExitState()
     {
-        Runner.SetPlayerSpriteDirectionMutable(true);
+        Runner.CanRotate(true);
         return base.ExitState();
     }
 

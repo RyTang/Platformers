@@ -26,7 +26,7 @@ public class NormalDashState : BaseState<PlayerController>
     {
         // Disable to prevent Direction from affecting velocity in this case -> If dashing then should not control so easily
         base.EnterState(parent);
-        Runner.SetPlayerSpriteDirectionMutable(false);
+        Runner.CanRotate(false);
         Runner.DisableHorizontalControls();
         Runner.DisableVerticalControls();
 
@@ -110,7 +110,7 @@ public class NormalDashState : BaseState<PlayerController>
     {
         dashing = false;
         dashInputGiven = false;
-        Runner.SetPlayerSpriteDirectionMutable(true);
+        Runner.CanRotate(true);
         Runner.EnableHorizontalControls();
         Runner.EnableVerticalControls();
         return base.ExitState();

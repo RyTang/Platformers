@@ -25,7 +25,7 @@ public class SprintDashState : BaseState<PlayerController>
 
         rb2d = parent.GetRigidbody2D();
         // Disable to prevent Direction from affecting velocity in this case -> If dashing then should not control so easily
-        Runner.SetPlayerSpriteDirectionMutable(false);
+        Runner.CanRotate(false);
         Runner.DisableHorizontalControls();
         Runner.DisableVerticalControls();
 
@@ -71,7 +71,7 @@ public class SprintDashState : BaseState<PlayerController>
 
     public override IEnumerator ExitState()
     {
-        Runner.SetPlayerSpriteDirectionMutable(true);
+        Runner.CanRotate(true);
         Runner.EnableHorizontalControls();
         Runner.EnableVerticalControls();
         return base.ExitState();

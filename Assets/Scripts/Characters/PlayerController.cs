@@ -17,8 +17,6 @@ public class PlayerController : BaseCharacter<PlayerController>, IDamageable
 
     public delegate void OnAnimationEventTriggered(AnimationEventTrigger eventTrigger);
     public event OnAnimationEventTriggered AnimationEvent;
-    public bool canRotate = true;
-
     private Dictionary<string, Coroutine> buttonReleasedStates = new Dictionary<string, Coroutine>();
 
     private bool damageInvulnerability = false;
@@ -33,7 +31,6 @@ public class PlayerController : BaseCharacter<PlayerController>, IDamageable
         playerData.ResetPlayerStats();
         rb2d.gravityScale = playerData.gravityScale;
         damageInvulnerability = false;
-        canRotate = true;
     }
 
     protected override void SpriteDirection()
@@ -41,7 +38,7 @@ public class PlayerController : BaseCharacter<PlayerController>, IDamageable
         // So that knockback doesn't affect the direction that the player is facing and that it is only based on controls;
         // TODO: Override direction for certain states
         float xDirection = GetHorizontalControls();
-        if (xDirection == 0 || !canRotate) return;
+        if (xDirection == 0) return;
 
         Vector3 localScale =  spriteRenderer.transform.localScale;
 
@@ -211,21 +208,6 @@ public class PlayerController : BaseCharacter<PlayerController>, IDamageable
         damageInvulnerability = false;
     }
 
-    // TODO: Prob can remove the rotations
-    /// <summary>
-    /// Disable Rotation
-    /// </summary>
-    public void DisableRotation()
-    {
-        canRotate = false;
-    }
-
-    /// <summary>
-    /// Enable Rotation Controls
-    /// </summary>
-    public void EnableRotation() {
-        canRotate = true;
-    }
 
     /// <summary>
     /// Disable Horizontal Controls

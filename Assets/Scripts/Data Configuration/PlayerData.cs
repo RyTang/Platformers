@@ -45,7 +45,14 @@ public class PlayerData : ScriptableObject
     [Header("Wall Jump Information")]
     public float wallSlidingSpeed = 2f;
     public Vector2 wallJumpForce = new Vector2(10, 5);
+    
+    /// <summary>
+    /// Duration of time where player cannot move after wall jump
+    /// </summary>
+    [Tooltip("Duration of time where player cannot move after wall jump")]
     public float wallJumpDuration = 0.5f;
+
+    [Tooltip("Short Duration before player can Wall Jump Again")]
     public float clingDelay = 0.15f;
 
     [Header("Climb Information")]
