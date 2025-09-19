@@ -12,6 +12,7 @@ public class NormalJumpAttack : BaseState<PlayerController>, IAttack
 
         // Stop Temporarily from moving
         Runner.GetRigidbody2D().velocity = Vector2.zero;
+        Runner.GetRigidbody2D().gravityScale = Runner.GetPlayerData().jumpAttackGravity;
 
         Runner.GetAnimator().SetTrigger(PlayerAnimation.triggerGroundAttack01);
 
@@ -35,6 +36,7 @@ public class NormalJumpAttack : BaseState<PlayerController>, IAttack
     public override IEnumerator ExitState()
     {
         attackControl = 0;
+        Runner.GetRigidbody2D().gravityScale = Runner.GetPlayerData().gravityScale;
         yield break;
     }
     

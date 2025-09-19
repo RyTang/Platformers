@@ -56,6 +56,8 @@ public class PlayerData : ScriptableObject
     public int attackDamage;
     public float knockbackForce = 1f;
 
+    public float jumpAttackGravity = 0.3f;
+
 
     // Player Innate Data
     private float maxJumpHeight;

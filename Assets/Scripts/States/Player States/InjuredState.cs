@@ -11,6 +11,7 @@ public class InjuredState : BaseState<PlayerController>
     {
         Debug.Log("Injured");
         base.EnterState(parent);
+        // TODO: Add the simple flash animation thingy
         injured = true;
         Runner.StopCoroutine(InjuredDelay());
         Runner.StartCoroutine(InjuredDelay());
