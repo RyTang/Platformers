@@ -38,7 +38,7 @@ public class UserInterface : MonoBehaviour
     }
 
     public void ButtonRestart(){
-        GameManager.instance.ReloadGame();
+        GameManager.Instance.ReloadGame();
     }
 
     public void ButtonQuit(){

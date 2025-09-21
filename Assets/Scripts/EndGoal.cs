@@ -9,7 +9,7 @@ public class EndGoal : MonoBehaviour
     {
         if (collision.CompareTag("Player")) // TODO: Make this better
         {
-            GameManager.instance.ReloadGame();
+            GameManager.Instance.ReloadGame();
         }
     }
 

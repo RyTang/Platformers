@@ -3,5 +3,6 @@ using UnityEngine;
 
 public enum SceneIndexes
 {
-    TESTING_SCENE=0,
+    LEVEL_SELECTION = 0,
+    TESTING_SCENE = 1,
 }

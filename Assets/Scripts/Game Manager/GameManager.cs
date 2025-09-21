@@ -1,23 +1,20 @@
-using System;
-using System.Collections.Generic;
-using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
-    public static GameManager instance;
+    public static GameManager Instance;
     [SerializeField] private GameEvent RestartEvent;
     [SerializeField] private PlayerData playerData;
 
     void Start()
     {
-        if (instance == null)
+        if (Instance == null)
         {
-            instance = this;
+            Instance = this;
             DontDestroyOnLoad(gameObject);
         }
-        else if (this != instance)
+        else if (this != Instance)
         {
             Destroy(gameObject);
         }
@@ -26,8 +23,12 @@ public class GameManager : MonoBehaviour
     public void ReloadGame()
     {
         playerData.ResetPlayerStats();
-        SceneManager.LoadScene((int)SceneIndexes.TESTING_SCENE);
+        SceneManager.LoadScene((int) SceneIndexes.TESTING_SCENE);
         Time.timeScale = 1;
     }
 
+    public void LoadScene(SceneIndexes sceneIndex){
+        SceneManager.LoadScene((int) sceneIndex);
+        Time.timeScale = 1;
+    }
 }
