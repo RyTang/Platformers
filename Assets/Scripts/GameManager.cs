@@ -29,4 +29,5 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene((int)SceneIndexes.TESTING_SCENE);
         Time.timeScale = 1;
     }
+
 }

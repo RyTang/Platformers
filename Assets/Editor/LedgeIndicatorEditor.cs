@@ -1,11 +1,12 @@
 using UnityEngine;
 using UnityEditor;
 using System;
-using Unity.VisualScripting;
 
 public class LedgeIndicatorEditor : EditorWindow
 {
+    [Tooltip("Prefab for the ledge indicator to be placed")]
     private GameObject ledgeIndicatorPrefab;
+    [Tooltip("Layers to check for conflicts when placing ledge indicators")]
     private LayerMask detectionLayer;
 
     [MenuItem("Tools/Auto-Add Ledge Indicators")]
