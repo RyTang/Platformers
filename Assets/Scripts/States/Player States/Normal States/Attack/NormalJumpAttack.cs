@@ -37,6 +37,7 @@ public class NormalJumpAttack : BaseState<PlayerController>, IAttack
     {
         attackControl = 0;
         Runner.GetRigidbody2D().gravityScale = Runner.GetPlayerData().gravityScale;
+        Runner.GetAnimator().SetBool(PlayerAnimation.isAttackingBool, false);
         yield break;
     }
     

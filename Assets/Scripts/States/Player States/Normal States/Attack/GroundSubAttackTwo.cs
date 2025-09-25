@@ -53,6 +53,7 @@ public class GroundSubAttackTwo : BaseState<PlayerController>, IAttack
     public override IEnumerator ExitState()
     {
         attackControl = 0;
+        Runner.GetAnimator().SetBool(PlayerAnimation.isAttackingBool, false);
         yield break;
     }
 }

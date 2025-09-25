@@ -22,8 +22,8 @@ MonoBehaviour:
   mass: 1
   slideDuration: 0.3
   slideVelocity: 13
-  dashDuration: 0.2
-  dashForce: 20
+  dashDuration: 0.25
+  dashForce: 15
   dashCooldown: 1
   injuredDuration: 0.5
   horizontalFallSpeed: 5

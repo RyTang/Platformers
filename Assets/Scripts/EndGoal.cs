@@ -9,6 +9,7 @@ public class EndGoal : MonoBehaviour
     {
         if (collision.CompareTag("Player")) // TODO: Make this better
         {
+            // TODO: Should create the scoreboard
             GameManager.Instance.ReloadGame();
         }
     }
