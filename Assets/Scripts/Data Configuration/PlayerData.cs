@@ -1,4 +1,5 @@
 using System;
+using UnityEditor.EditorTools;
 using UnityEngine;
 using UnityEngine.PlayerLoop;
 
@@ -67,7 +68,16 @@ public class PlayerData : ScriptableObject
 
     [Header("Air Step Information")]
     public float airStepForce = 10f;
+
+    [Tooltip("How long Air Step lasts before transitioning to Fall State")]
     public float airStepDuration = 0.3f;
+
+    [Tooltip("Slowmo Factor during Air Step Slowdown")]
+    public float airStepSlowdownFactor = 0.5f;
+    [Tooltip("Maximum duration player can hold Air Step Slowdown")]
+    public float maxAirStepSlowdownDuration = 2f;
+    [Tooltip("Maximum duration player needs to hold Air Step Slowdown to get full Air Step Force")]
+    public float airStepThresholdDuration = 1f;
 
 
     // Player Innate Data

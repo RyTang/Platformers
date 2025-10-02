@@ -1,12 +1,13 @@
 using System.Collections;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "Player State/Normal State/Air Step")]
+[CreateAssetMenu(menuName = "Player State/Normal State/Air Step/Air Step")]
 public class AirStepState : BaseState<PlayerController>
 {
     private Rigidbody2D rb2d;
 
     private Vector2 airStepDirection;
+    private AirStepData airStepData;
 
     private bool airStepInputGiven = false;
     private bool isAirStepping = false;
@@ -27,7 +28,8 @@ public class AirStepState : BaseState<PlayerController>
 
     public override void EnterState(PlayerController parent, object objToPass)
     {
-        airStepDirection = (Vector2) objToPass; // Ensure Vector is normalized for direction input
+        airStepData = (AirStepData) objToPass;
+        airStepDirection = airStepData.airStepDirection;
         airStepInputGiven = true;
         base.EnterState(parent, objToPass);
     }
@@ -48,7 +50,7 @@ public class AirStepState : BaseState<PlayerController>
         Runner.GetAnimator().SetBool(PlayerAnimation.isDashingBool, true); // TODO: Change this
 
         rb2d.velocity = new Vector2(0, 0);
-        rb2d.AddForce(airStepDirection.normalized * Runner.GetPlayerData().airStepForce, ForceMode2D.Impulse);
+        rb2d.AddForce(airStepDirection.normalized * Runner.GetPlayerData().airStepForce * airStepData.powerFactor, ForceMode2D.Impulse);
 
         airStepDurationCoroutine = Runner.StartCoroutine(AirStepDuration());
 
@@ -74,8 +76,9 @@ public class AirStepState : BaseState<PlayerController>
         {
             CurrentSuperState.SetSubState(typeof(NormalWallClingState));
         }
+        // TODO: Consider removing this variable jump thingy
         // If Jump Button not held down, then stop Air Step
-        else if (jumpControl <= 0 || !isAirStepping)
+        else if (!isAirStepping)
         {
             CurrentSuperState.SetSubState(typeof(NormalFallState));
         }

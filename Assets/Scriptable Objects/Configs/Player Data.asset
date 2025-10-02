@@ -44,3 +44,7 @@ MonoBehaviour:
   knockbackForce: 2
   jumpAttackGravity: 0.3
   airStepForce: 12
+  airStepDuration: 0.3
+  airStepSlowdownFactor: 0.1
+  maxAirStepSlowdownDuration: 5
+  airStepThresholdDuration: 1

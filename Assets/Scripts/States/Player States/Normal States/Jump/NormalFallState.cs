@@ -58,9 +58,7 @@ public class NormalFallState : BaseState<PlayerController>
         }
         else if (hasReleasedJumpControl && jumpControl > 0 && Runner.UseAirStep())
         {
-            // TODO: How to check for input
-            Vector2 airStepDirection = new Vector2(horizontalControl, verticalControl).normalized;
-            CurrentSuperState.SetSubState(typeof(AirStepState), airStepDirection);
+            CurrentSuperState.SetSubState(typeof(AirStepSlowdown));
         }
         else if (Runner.GetLedgeCheck().Check())
         {
@@ -101,7 +99,6 @@ public class NormalFallState : BaseState<PlayerController>
     public override void OnStateCollisionStay(Collision2D collision)
     {
         if (Runner.GetGroundCheck().Check()){
-            Debug.Log($"TouchedGround: {collision.relativeVelocity}");
             CurrentSuperState.SetSubState(typeof(NormalLandState), collision.relativeVelocity.y);
         }
     }
