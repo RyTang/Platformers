@@ -11,7 +11,14 @@ public abstract class BaseState<T> : ScriptableObject where T : MonoBehaviour
     /// </summary>
     protected T Runner { get; set; }
     protected bool IsStateActive { get; set; } = true;
+
+    /// <summary>
+    /// Current Sub State that is being run, (run, walking)
+    /// </summary>
     protected BaseState<T> CurrentSubState { get; set; }
+    /// <summary>
+    /// Current Parent State of this State, (Normal, Sprinting, Swimming or etc)
+    /// </summary>
     protected BaseState<T> CurrentSuperState { get; set; }
     [SerializeField] protected List<BaseState<T>> availableSubStates = new List<BaseState<T>>();
     protected Dictionary<Type, BaseState<T>> cachedSubStates = new Dictionary<Type, BaseState<T>>();

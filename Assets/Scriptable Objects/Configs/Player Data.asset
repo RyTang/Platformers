@@ -43,3 +43,4 @@ MonoBehaviour:
   attackDamage: 1
   knockbackForce: 2
   jumpAttackGravity: 0.3
+  airStepForce: 12

@@ -20,11 +20,12 @@ public class NormalLedgeHangState : BaseState<PlayerController>
         Runner.GetRigidbody2D().gravityScale = 0;
         Runner.GetRigidbody2D().velocity = Vector2.zero;
 
-        if (!Runner.GetLedgeCheck().Check()) {
+        if (!Runner.GetLedgeCheck().Check())
+        {
             return;
         }
 
-        
+
         Runner.GetAnimator().SetBool(PlayerAnimation.isHoldingLedgeBool, true);
         controlDelayedFinished = true;
         controlReleased = true;
@@ -33,6 +34,9 @@ public class NormalLedgeHangState : BaseState<PlayerController>
 
         // Set position of hanging
         Runner.transform.position = chosenLedge.GetHangPosition();
+
+        // Refreshes Movements Abilities
+        Runner.RefreshAirStep();
     }
 
     private GameObject GetChosenLedge(){
@@ -47,8 +51,9 @@ public class NormalLedgeHangState : BaseState<PlayerController>
     public override void CaptureInput()
     {
         base.CaptureInput();
-        float currentVerticalControls = Runner.GetVerticalControls();
-        horizontalControls = Runner.GetHorizontalControls();
+        float currentVerticalControls = Runner.GetVerticalControl();
+        // TODO: Consider if should consider jump control here
+        horizontalControls = Runner.GetHorizontalControl();
         if (currentVerticalControls < 1 || controlDelayedFinished){
             verticalControls = currentVerticalControls;
             controlReleased = true;

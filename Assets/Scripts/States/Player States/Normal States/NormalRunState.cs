@@ -4,7 +4,7 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Player State/Normal State/Run")]
 public class NormalRunState : BaseState<PlayerController>
 {
-    private float horizontalControl, verticalControl, dashControl, attackControl, mobilityControl;
+    private float horizontalControl, jumpControl, dashControl, attackControl, mobilityControl;
     private Rigidbody2D rb2d;
 
 
@@ -13,12 +13,13 @@ public class NormalRunState : BaseState<PlayerController>
         base.EnterState(parent);
         rb2d = parent.GetRigidbody2D();
         Runner.GetAnimator().SetBool(PlayerAnimation.isRunningBool, true);
+        Runner.RefreshAirStep();
     }
 
     public override void CaptureInput()
     {
-        horizontalControl = Runner.GetHorizontalControls();
-        verticalControl = Runner.GetVerticalControls();
+        horizontalControl = Runner.GetHorizontalControl();
+        jumpControl = Runner.GetJumpControl();
         dashControl = Runner.GetDashControls();
         attackControl = Runner.GetAttackControls();
         mobilityControl = Runner.GetMobilityControl();
@@ -35,10 +36,10 @@ public class NormalRunState : BaseState<PlayerController>
         else if (horizontalControl == 0){
             CurrentSuperState.SetSubState(typeof(NormalIdleState));
         }
-        else if (verticalControl > 0) {
+        else if (jumpControl > 0) {
             CurrentSuperState.SetSubState(typeof(NormalJumpState));
         }
-        else if (!Runner.GetGroundCheck().Check() && (verticalControl < 0 || Runner.GetRigidbody2D().velocity.y < 0)){
+        else if (!Runner.GetGroundCheck().Check() && (jumpControl < 0 || Runner.GetRigidbody2D().velocity.y < 0)){
             CurrentSuperState.SetSubState(typeof(NormalFallCoyoteState));
         }
         else if (mobilityControl > 0) {

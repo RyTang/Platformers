@@ -15,6 +15,7 @@ public class PlayerController : BaseCharacter<PlayerController>, IDamageable
     [SerializeField] protected LayerCheck wallCheck;
     [SerializeField] protected LayerCheck ledgeCheck;
     [SerializeField] protected SimpleFlash injuredFlash;
+    
 
     public delegate void OnAnimationEventTriggered(AnimationEventTrigger eventTrigger);
     public event OnAnimationEventTriggered AnimationEvent;
@@ -22,6 +23,7 @@ public class PlayerController : BaseCharacter<PlayerController>, IDamageable
 
     private bool damageInvulnerability = false;
     private bool disableVerticalControls = false, disableHorizontalControls = false;
+    private bool canAirStep = false;
     
 
     public event Action<GameObject> OnDestroyEvent;
@@ -34,14 +36,23 @@ public class PlayerController : BaseCharacter<PlayerController>, IDamageable
         damageInvulnerability = false;
     }
 
+    public override void Update()
+    {
+        base.Update();
+        if (GetGroundCheck().Check())
+        {
+            canAirStep = true; // TODO: THis is not exactly clean
+        }
+    }
+
     protected override void SpriteDirection()
     {
         // So that knockback doesn't affect the direction that the player is facing and that it is only based on controls;
         // TODO: Override direction for certain states
-        float xDirection = GetHorizontalControls();
+        float xDirection = GetHorizontalControl();
         if (xDirection == 0) return;
 
-        Vector3 localScale =  spriteRenderer.transform.localScale;
+        Vector3 localScale = spriteRenderer.transform.localScale;
 
         float facingDirection = xDirection < 0 ? -Mathf.Abs(localScale.x) : Mathf.Abs(localScale.x);
 
@@ -145,17 +156,32 @@ public class PlayerController : BaseCharacter<PlayerController>, IDamageable
         return Input.GetAxisRaw("Grapple");
     }
 
-    public virtual float GetHorizontalControls(){
+    public virtual float GetHorizontalControl(){
         if (disableHorizontalControls) return 0;
         return Input.GetAxisRaw("Horizontal");
     }
 
-    public virtual float GetVerticalControls(){
+    // TODO: Change this afterwards
+    public virtual float GetVerticalControl()
+    {
         if (disableVerticalControls) return 0;
         return Input.GetAxisRaw("Vertical");
     }
     
-    public virtual float GetMobilityControl(){
+    public virtual float GetJumpControl()
+    {
+        if (disableVerticalControls) return 0; // TODO: Change to this to disable jump Controls
+        return Input.GetAxisRaw("Jump");
+    }
+
+    public virtual float GetSingularJumpPressControls()
+    {
+        if (disableVerticalControls) return 0; // TODO: Change to this to disable jump Controls
+        return GetSingularPress("Jump");
+    }
+    
+    public virtual float GetMobilityControl()
+    {
         if (disableHorizontalControls) return 0;
         return GetSingularPress("Mobility");
     }
@@ -177,6 +203,29 @@ public class PlayerController : BaseCharacter<PlayerController>, IDamageable
         return Input.GetAxisRaw("Sprint");
     }
 
+    /// <summary>
+    /// Consumes Air Step
+    /// </summary>
+    /// <returns>Whether able to air step</returns>
+    public bool UseAirStep()
+    {
+        if (canAirStep)
+        {
+            canAirStep = false;
+            return true;
+        }
+        return false;
+    }
+    
+    /// <summary>
+    /// Reset Air Step Usage
+    /// </summary>
+    public void RefreshAirStep()
+    {
+        canAirStep = true;
+    }
+    
+
     // FIXME: PROBLEM WHERE IF CALLING FROM MAIN STATE AND SUB STATE, MAIN STATE WILL BE PRIOTISED
     private float GetSingularPress(string axisToCheck)
     {
@@ -186,10 +235,11 @@ public class PlayerController : BaseCharacter<PlayerController>, IDamageable
         }
         float axisValue = Input.GetAxisRaw(axisToCheck);
 
-        if (axisValue > 0){
+        if (axisValue > 0)
+        {
             buttonReleasedStates.Add(axisToCheck, StartCoroutine(ReleasedButtonPress(axisToCheck)));
-        }       
-        return axisValue; 
+        }
+        return axisValue;
     }
 
     // Creating code that will return based on instance calling for code

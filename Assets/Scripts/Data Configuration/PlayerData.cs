@@ -65,6 +65,9 @@ public class PlayerData : ScriptableObject
 
     public float jumpAttackGravity = 0.3f;
 
+    [Header("Air Step Information")]
+    public float airStepForce = 10f;
+
 
     // Player Innate Data
     private float maxJumpHeight;

@@ -7,14 +7,15 @@ using UnityEngine.AI;
 [CreateAssetMenu(menuName = "Player State/Normal State/Main State")]
 public class NormalMainState : BaseState<PlayerController>
 {
-    private float horizontalControl, verticalControl, sprintControl;
+    private float verticalControl, horizontalControl, jumpControl, sprintControl;
     
     private bool canJump = false;
 
     public override void CaptureInput()
     {
-        horizontalControl = Runner.GetHorizontalControls();
-        verticalControl = Runner.GetVerticalControls();
+        horizontalControl = Runner.GetHorizontalControl();
+        verticalControl = Runner.GetVerticalControl();
+        jumpControl = Runner.GetJumpControl();
         sprintControl = Runner.GetSprintControls();
     }
 
@@ -31,7 +32,7 @@ public class NormalMainState : BaseState<PlayerController>
         if ((verticalControl < 0 && !Runner.GetGroundCheck().Check()) || (Runner.GetRigidbody2D().velocity.y < 0 && !canJump)){
             SetSubState(typeof(NormalFallState));
         }
-        else if (verticalControl > 0 && Runner.GetGroundCheck().Check()){
+        else if (jumpControl > 0 && Runner.GetGroundCheck().Check()){
             SetSubState(typeof(NormalJumpState));
         }
         else if (horizontalControl != 0){

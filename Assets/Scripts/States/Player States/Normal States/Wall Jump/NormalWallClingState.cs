@@ -5,7 +5,7 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Player State/Normal State/Wall Cling")]
 public class NormalWallClingState : BaseState<PlayerController>
 {
-    private float horizontalControl, verticalControl, dashControl;
+    private float horizontalControl, jumpControl, dashControl, verticalControl;
     private Rigidbody2D rb2d;
 
     private bool canJump = false;
@@ -18,7 +18,8 @@ public class NormalWallClingState : BaseState<PlayerController>
         base.EnterState(parent);
         rb2d = parent.GetRigidbody2D();
 
-        if (clingDelay != null){
+        if (clingDelay != null)
+        {
             Runner.StopCoroutine(clingDelay);
         }
 
@@ -26,13 +27,17 @@ public class NormalWallClingState : BaseState<PlayerController>
 
         Runner.GetAnimator().SetBool(PlayerAnimation.isWallClingingBool, true);
         clingDelay = Runner.StartCoroutine(ClingDelay());
+
+        // Reset certian movement abilities
+        Runner.RefreshAirStep();
     }
 
 
     public override void CaptureInput()
     {
-        verticalControl = Runner.GetVerticalControls();
-        horizontalControl = Runner.GetHorizontalControls();
+        jumpControl = Runner.GetJumpControl();
+        verticalControl = Runner.GetVerticalControl();
+        horizontalControl = Runner.GetHorizontalControl();
         dashControl = Runner.GetDashControls();
     }
 
@@ -49,7 +54,7 @@ public class NormalWallClingState : BaseState<PlayerController>
         else if (!Runner.GetWallCheck().Check() || (Mathf.Sign(horizontalControl) != Mathf.Sign(Runner.transform.localScale.x) && horizontalControl != 0)){
             CurrentSuperState.SetSubState(typeof(NormalFallCoyoteState));
         }
-        else if (verticalControl > 0 && canJump){
+        else if (jumpControl > 0 && canJump){
             CurrentSuperState.SetSubState(typeof(NormalWallJumpState));
         }
         else if (Runner.GetLedgeCheck().Check()) {
