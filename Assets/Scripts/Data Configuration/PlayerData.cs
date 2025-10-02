@@ -67,6 +67,7 @@ public class PlayerData : ScriptableObject
 
     [Header("Air Step Information")]
     public float airStepForce = 10f;
+    public float airStepDuration = 0.3f;
 
 
     // Player Innate Data

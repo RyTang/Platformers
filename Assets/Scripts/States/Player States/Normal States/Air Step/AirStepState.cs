@@ -11,6 +11,8 @@ public class AirStepState : BaseState<PlayerController>
     private bool airStepInputGiven = false;
     private bool isAirStepping = false;
 
+    private Coroutine airStepDurationCoroutine;
+
     
 
     private float verticalControl, horizontalControl, jumpControl;
@@ -21,14 +23,11 @@ public class AirStepState : BaseState<PlayerController>
         verticalControl = Runner.GetVerticalControl();
         horizontalControl = Runner.GetHorizontalControl();
         jumpControl = Runner.GetJumpControl();
-
-        // airStepDirection = new Vector2(horizontalControls, verticalControls).normalized;
     }
 
     public override void EnterState(PlayerController parent, object objToPass)
     {
-        Debug.Log("Air Stepping");
-        airStepDirection = ((Vector2)objToPass).normalized; // Ensure Vector is normalized for direction input
+        airStepDirection = (Vector2) objToPass; // Ensure Vector is normalized for direction input
         airStepInputGiven = true;
         base.EnterState(parent, objToPass);
     }
@@ -47,20 +46,23 @@ public class AirStepState : BaseState<PlayerController>
 
         isAirStepping = true;
         Runner.GetAnimator().SetBool(PlayerAnimation.isDashingBool, true); // TODO: Change this
-        rb2d.velocity = new Vector2(rb2d.velocity.x, 0);
-        rb2d.AddForce(airStepDirection * Runner.GetPlayerData().airStepForce, ForceMode2D.Impulse); // TOOD Need to make magnitude is clamped
-        // TODO: Need to fix horizontal forces
 
+        rb2d.velocity = new Vector2(0, 0);
+        rb2d.AddForce(airStepDirection.normalized * Runner.GetPlayerData().airStepForce, ForceMode2D.Impulse);
+
+        airStepDurationCoroutine = Runner.StartCoroutine(AirStepDuration());
+
+    }
+
+    public IEnumerator AirStepDuration(){
+        yield return new WaitForSeconds(Runner.GetPlayerData().airStepDuration);
+        isAirStepping = false;
     }
 
 
     public override void CheckStateTransition()
     {
-        if (!isAirStepping && !Runner.GetGroundCheck().Check())
-        {
-            CurrentSuperState.SetSubState(typeof(NormalFallState));
-        }
-        else if (Runner.GetGroundCheck().Check())
+        if (Runner.GetGroundCheck().Check())
         {
             CurrentSuperState.SetSubState(typeof(NormalIdleState));
         }
@@ -73,11 +75,8 @@ public class AirStepState : BaseState<PlayerController>
             CurrentSuperState.SetSubState(typeof(NormalWallClingState));
         }
         // If Jump Button not held down, then stop Air Step
-        // TODO: Consider if this is good or not
-        else if (jumpControl <= 0 || rb2d.velocity.y <= 0)
+        else if (jumpControl <= 0 || !isAirStepping)
         {
-            // TODO: if stop pressing should stop accelerating
-            rb2d.velocity = new Vector2(rb2d.velocity.x, 0);
             CurrentSuperState.SetSubState(typeof(NormalFallState));
         }
     }
@@ -87,21 +86,12 @@ public class AirStepState : BaseState<PlayerController>
         Runner.GetAnimator().SetBool(PlayerAnimation.isDashingBool, false); // TODO: Change this
         isAirStepping = false;
         airStepInputGiven = false;
+        if (airStepDurationCoroutine != null)
+        {
+            Runner.StopCoroutine(airStepDurationCoroutine);
+            airStepDurationCoroutine = null;
+        }
+
         return base.ExitState();
-    }
-
-
-    // TODO: possibly reduce the motion movement for air step
-    public override void FixedUpdateState()
-    {
-        // // TODO: How to 
-        // if (horizontalControl == 0)
-        // {
-        //     rb2d.velocity = new Vector2(0, rb2d.velocity.y);
-        // }
-        // else if (horizontalControl != 0)
-        // {
-        //     rb2d.velocity = horizontalControl > 0 ? new Vector2(Runner.GetPlayerData().moveSpeed, rb2d.velocity.y) : new Vector2(-Runner.GetPlayerData().moveSpeed, rb2d.velocity.y);
-        // }
     }
 }
