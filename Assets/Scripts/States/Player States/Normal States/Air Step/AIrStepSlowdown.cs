@@ -42,7 +42,7 @@ public class AirStepSlowdown : BaseState<PlayerController>
         // Slow down Time during Air Step Slowdown
         letGoOfJump = false;
         durationInSlowMode = 0;
-        Time.timeScale = Runner.GetPlayerData().airStepSlowdownFactor;
+        GameManager.SetTimeScale(Runner.GetPlayerData().airStepSlowdownFactor);
         Debug.Log($"Slowing down time to {Time.timeScale}");
 
         slowdownCoroutine = Runner.StartCoroutine(SlowdownDuration());
@@ -101,7 +101,7 @@ public class AirStepSlowdown : BaseState<PlayerController>
             Runner.StopCoroutine(slowdownCoroutine);
             slowdownCoroutine = null;
         }
-        Time.timeScale = 1f;
+        GameManager.SetTimeScale(1f);
         return base.ExitState();
     }
     

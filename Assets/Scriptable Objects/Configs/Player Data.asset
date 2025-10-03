@@ -46,5 +46,5 @@ MonoBehaviour:
   airStepForce: 12
   airStepDuration: 0.3
   airStepSlowdownFactor: 0.1
-  maxAirStepSlowdownDuration: 5
+  maxAirStepSlowdownDuration: 3
   airStepThresholdDuration: 1
