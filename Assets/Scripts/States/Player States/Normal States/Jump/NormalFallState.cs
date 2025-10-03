@@ -56,6 +56,7 @@ public class NormalFallState : BaseState<PlayerController>
         else if (verticalControl < 0){
             CurrentSuperState.SetSubState(CurrentSuperState.GetState(typeof(NormalFreeFallState)));
         }
+        // TODO: Figure out if any way to make this more intentional
         else if (hasReleasedJumpControl && jumpControl > 0 && Runner.UseAirStep())
         {
             CurrentSuperState.SetSubState(typeof(AirStepSlowdown));

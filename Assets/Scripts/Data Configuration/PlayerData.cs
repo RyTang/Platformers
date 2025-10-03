@@ -78,7 +78,9 @@ public class PlayerData : ScriptableObject
     public float maxAirStepSlowdownDuration = 2f;
     [Tooltip("Maximum duration player needs to hold Air Step Slowdown to get full Air Step Force")]
     public float airStepThresholdDuration = 1f;
-
+    [Header("Air Step Arrow Information")]
+    public float baseArrowLength = 0.3f;
+    public float maxExtraLength = 2f;
 
     // Player Innate Data
     private float maxJumpHeight;

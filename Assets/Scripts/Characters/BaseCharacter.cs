@@ -20,9 +20,9 @@ public abstract class BaseCharacter<T> : StateRunner<T> where T: MonoBehaviour
 
     protected override void Awake()
     {
-        rb2d ??= GetComponent<Rigidbody2D>();
-        spriteRenderer ??= GetComponent<SpriteRenderer>();
-        animator ??= GetComponent<Animator>();
+        rb2d ??= GetComponentInChildren<Rigidbody2D>();
+        spriteRenderer ??= GetComponentInChildren<SpriteRenderer>();
+        animator ??= GetComponentInChildren<Animator>();
     }
 
     public override void Update()

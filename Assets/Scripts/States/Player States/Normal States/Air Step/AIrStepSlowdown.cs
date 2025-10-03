@@ -15,6 +15,8 @@ public class AirStepSlowdown : BaseState<PlayerController>
 
     private float durationInSlowMode = 0f;
 
+    private GameObject airStepArrow;
+
     public override void CaptureInput()
     {
         verticalControl = Runner.GetVerticalControl();
@@ -34,6 +36,12 @@ public class AirStepSlowdown : BaseState<PlayerController>
     public override void EnterState(PlayerController parent)
     {
         base.EnterState(parent);
+        
+        // Disable Rotation, as it can be buggy with the arrow
+        Runner.CanRotate(false);
+
+        airStepArrow = Runner.GetAirStepArrow();
+        airStepArrow.SetActive(true);
 
         // TODO: Figure out how to make the slow mo time smoother
 
@@ -90,6 +98,17 @@ public class AirStepSlowdown : BaseState<PlayerController>
         Debug.Log($"In Slowdown State, timeScale: {Time.timeScale}, durationInSlowMode: {durationInSlowMode}");
         durationInSlowMode += Time.unscaledDeltaTime;
 
+        // Calculate direction and scale of arrow only if there is a direction
+        if (airStepDirection != Vector2.zero)
+        {
+            float angle = Mathf.Atan2(airStepDirection.y, airStepDirection.x) * Mathf.Rad2Deg;
+            airStepArrow.transform.rotation = Quaternion.Euler(0, 0, angle);
+
+            // Scale arrow based on power factor
+            float powerFactor = Mathf.Clamp01(durationInSlowMode / Runner.GetPlayerData().airStepThresholdDuration);
+            airStepArrow.transform.localScale = new Vector3(Runner.GetPlayerData().baseArrowLength + (powerFactor * Runner.GetPlayerData().maxExtraLength), airStepArrow.transform.localScale.y, 1);
+        }
+
         base.UpdateState();
     }
 
@@ -101,6 +120,8 @@ public class AirStepSlowdown : BaseState<PlayerController>
             Runner.StopCoroutine(slowdownCoroutine);
             slowdownCoroutine = null;
         }
+        Runner.CanRotate(true);
+        airStepArrow.SetActive(false);
         GameManager.SetTimeScale(1f);
         return base.ExitState();
     }
