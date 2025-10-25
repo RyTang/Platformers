@@ -8,6 +8,9 @@ public class NormalJumpState : BaseState<PlayerController>
 
     private float verticalControl, horizontalControl, jumpControl, dashControl, attackControl;
 
+    
+    private Coroutine controlBufferCoroutine;
+
     public override void EnterState(PlayerController parent)
     {
         base.EnterState(parent);
@@ -29,13 +32,16 @@ public class NormalJumpState : BaseState<PlayerController>
 
     public override void CheckStateTransition()
     {
-        if (attackControl > 0) {
+        if (attackControl > 0)
+        {
             CurrentSuperState.SetSubState(typeof(NormalJumpAttack));
         }
-        else if (dashControl > 0){
+        else if (dashControl > 0)
+        {
             CurrentSuperState.SetSubState(typeof(NormalDashState));
         }
-        else if (jumpControl <= 0 || rb2d.velocity.y <= 0){
+        else if (jumpControl <= 0 || rb2d.velocity.y <= 0)
+        {
             rb2d.velocity = new Vector2(rb2d.velocity.x, 0);
             CurrentSuperState.SetSubState(typeof(NormalFallState));
         }
@@ -43,7 +49,7 @@ public class NormalJumpState : BaseState<PlayerController>
         {
             CurrentSuperState.SetSubState(typeof(NormalIdleState));
         }
-        else if (Runner.GetLedgeCheck().Check())
+        else if (Runner.GetHybridLedgeDetector().TryFindLedge(out _, out _, out _))
         {
             CurrentSuperState.SetSubState(typeof(NormalLedgeHangState));
         }
@@ -56,6 +62,13 @@ public class NormalJumpState : BaseState<PlayerController>
     public override IEnumerator ExitState()
     {
         Runner.GetAnimator().SetBool(PlayerAnimation.isJumping, false);
+
+        if (controlBufferCoroutine != null)
+        {
+            Runner.StopCoroutine(controlBufferCoroutine);
+            
+        }
+        controlBufferCoroutine = null;
         yield break;
     }
 

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.SearchService;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -16,28 +17,30 @@ public class UserInterface : MonoBehaviour
     public void OpenGameOverMenu(){
         blockerScreen.SetActive(true);
         gameOverMenu.SetActive(true);
+        GameManager.SetTimeScale(0);
         Time.timeScale = 0;
     }
 
     public void CloseGameOverMenu(){
         blockerScreen.SetActive(false);
         gameOverMenu.SetActive(false);
-        Time.timeScale = 1.0f;
+        GameManager.SetTimeScale(1);
     }
 
     public void ButtonPause(){
         blockerScreen.SetActive(true);
         pauseMenu.SetActive(true);
-        Time.timeScale = 0;
+        GameManager.SetTimeScale(0);
     }
 
     public void ButtonResume(){
         blockerScreen.SetActive(false);
         pauseMenu.SetActive(false);
-        Time.timeScale = 1.0f;
+        GameManager.SetTimeScale(1);
     }
 
-    public void ButtonRestart(){
+    public void ButtonRestart()
+    {
         GameManager.Instance.ReloadGame();
     }
 

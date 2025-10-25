@@ -10,6 +10,7 @@ public class GroundSubAttackOne : BaseState<PlayerController>, IAttack
     public override void EnterState(PlayerController parent)
     {
         base.EnterState(parent);
+        Runner.CanRotate(false);
 
         // Prevent from Moving  
         Runner.GetRigidbody2D().velocity = new Vector2(0, Runner.GetRigidbody2D().velocity.y);
@@ -39,6 +40,8 @@ public class GroundSubAttackOne : BaseState<PlayerController>, IAttack
     {
         attackControl = 0;
         Runner.GetAnimator().SetBool(PlayerAnimation.isAttackingBool, false);
+        Runner.CanRotate(true);
+
         yield break;
     }
 

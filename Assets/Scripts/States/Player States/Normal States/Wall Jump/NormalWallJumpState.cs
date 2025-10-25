@@ -25,20 +25,17 @@ public class NormalWallJumpState : BaseState<PlayerController>
         canMove = false;
         this.parent = parent;
         Runner.CanRotate(false);
-        float wallJumpDirection = -Runner.transform.localScale.x;
+
+        // Will be jumping backwards in a nut shell
+        float wallJumpDirection = Runner.IsFacingRight() ? -1 : 1;
         Vector2 jumpForce = new Vector2(wallJumpDirection * Runner.GetPlayerData().wallJumpForce.x, Runner.GetPlayerData().wallJumpForce.y);
         rb2d.AddForce(jumpForce, ForceMode2D.Impulse);
 
-        if (Runner.transform.localScale.x * wallJumpDirection <= 0){
-            Vector3 localScale = Runner.transform.localScale;
-            localScale.x *= -1f;
-            Runner.transform.localScale = localScale;
-        }
+        // Flip the character to face away from the wall if they are not already facing that direction
+        Runner.SetFacingDirection(wallJumpDirection > 0);
 
         Runner.GetAnimator().SetTrigger(PlayerAnimation.triggerWallJump);
         Runner.GetAnimator().SetBool(PlayerAnimation.isWallJumpingBool, true);
-
-        
 
         if (!canMove){
             currentWallDelay = Runner.StartCoroutine(WallJumpDelay());

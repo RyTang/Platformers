@@ -14,12 +14,13 @@ public class PlayerController : BaseCharacter<PlayerController>, IDamageable
     [SerializeField] private LayerCheck attackCheck;
     [SerializeField] protected LayerCheck wallCheck;
     [SerializeField] protected LayerCheck ledgeCheck;
+    [SerializeField] protected HybridLedgeDetector hybridLedgeDetector;
     [SerializeField] protected GameObject colliders;
     [SerializeField] protected GameObject airStepArrow;
     [SerializeField] protected SimpleFlash injuredFlash;
 
     // Used to determine which way the player is facing
-    public bool facingRight = true;
+    protected bool facingRight = true;
     
 
     public delegate void OnAnimationEventTriggered(AnimationEventTrigger eventTrigger);
@@ -56,19 +57,12 @@ public class PlayerController : BaseCharacter<PlayerController>, IDamageable
         float xDirection = GetHorizontalControl();
         if (xDirection == 0) return;
 
-        Vector3 localScale = spriteRenderer.transform.localScale;
-
-        float facingDirection = xDirection < 0 ? -Mathf.Abs(localScale.x) : Mathf.Abs(localScale.x);
-
-        facingRight = facingDirection >= 0;
-        spriteRenderer.flipX = !facingRight;
-
-        // TODO: Determine if this will be an issue
-        colliders.transform.localScale = new Vector3(facingDirection, colliders.transform.localScale.y, colliders.transform.localScale.z);
+        facingRight = xDirection >= 0;
+        SetFacingDirection(facingRight);
     }
-
-
-    public PlayerData GetPlayerData(){
+    
+    public PlayerData GetPlayerData()
+    {
         return playerData;
     }
 
@@ -142,17 +136,32 @@ public class PlayerController : BaseCharacter<PlayerController>, IDamageable
     public void AttackDone(){
         GetAnimator().SetBool(PlayerAnimation.isAttackingBool, false);
     }
+    
+    public bool IsFacingRight()
+    {
+        return facingRight;
+    }
+    
+    public void SetFacingDirection(bool facingRight)
+    {
+        this.facingRight = facingRight;
+        spriteRenderer.flipX = !this.facingRight;
 
-    public LayerCheck GetAttackCheck(){
+        colliders.transform.localScale = new Vector3(this.facingRight ? 1 : -1, colliders.transform.localScale.y, colliders.transform.localScale.z);
+    }
+
+    public LayerCheck GetAttackCheck()
+    {
         return attackCheck;
     }
 
     public LayerCheck GetWallCheck(){
         return wallCheck;
     }
-
-    public LayerCheck GetLedgeCheck(){
-        return ledgeCheck;
+    
+    public HybridLedgeDetector GetHybridLedgeDetector()
+    {
+        return hybridLedgeDetector;
     }
     
     public GameObject GetAirStepArrow()

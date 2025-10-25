@@ -7,6 +7,7 @@ public class LayerCheck : MonoBehaviour
     [SerializeField] private LayerMask collisionMask;
 
     public bool Check(){
+        bool hit = Physics2D.OverlapBox(transform.position, layerCheckBox, 0, collisionMask);
         return Physics2D.OverlapBox(transform.position, layerCheckBox, 0, collisionMask);
     }
 

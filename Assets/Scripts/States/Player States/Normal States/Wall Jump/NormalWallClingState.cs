@@ -12,8 +12,11 @@ public class NormalWallClingState : BaseState<PlayerController>
 
     private Coroutine clingDelay;
 
+    private bool hasReleasedJump = false;
+
     public override void EnterState(PlayerController parent)
     {
+        hasReleasedJump = false;
 
         base.EnterState(parent);
         rb2d = parent.GetRigidbody2D();
@@ -39,28 +42,37 @@ public class NormalWallClingState : BaseState<PlayerController>
         verticalControl = Runner.GetVerticalControl();
         horizontalControl = Runner.GetHorizontalControl();
         dashControl = Runner.GetDashControls();
+
+        if (jumpControl <= 0)
+        {
+            hasReleasedJump = true;
+        }
     }
 
     public override void CheckStateTransition()
     {
-        if (dashControl > 0 && Runner.GetWallCheck().Check()){
-            Vector3 localScale = Runner.transform.localScale;
-            localScale.x *= -1f;
-            Runner.transform.localScale = localScale;
-            CurrentSuperState.SetSubState(typeof(NormalDashState), Mathf.Sign(localScale.x));
+        float facingDirection = Runner.IsFacingRight() ? 1 : -1;
+        if (dashControl > 0 && Runner.GetWallCheck().Check())
+        {
+            Runner.SetFacingDirection(!Runner.IsFacingRight());
+            CurrentSuperState.SetSubState(typeof(NormalDashState), Mathf.Sign(Runner.IsFacingRight() ? 1 : -1));
             // FIXME: FIgure out how to deal with this interaction with Dash where direction input is read and changes direction of Dash into wall
         }
         // In the case of not in contact with wall 
-        else if (!Runner.GetWallCheck().Check() || (Mathf.Sign(horizontalControl) != Mathf.Sign(Runner.transform.localScale.x) && horizontalControl != 0)){
+        else if (!Runner.GetWallCheck().Check() || (Mathf.Sign(horizontalControl) != Mathf.Sign(facingDirection) && horizontalControl != 0))
+        {
             CurrentSuperState.SetSubState(typeof(NormalFallCoyoteState));
         }
-        else if (jumpControl > 0 && canJump){
+        else if (hasReleasedJump && jumpControl > 0 && canJump)
+        {
             CurrentSuperState.SetSubState(typeof(NormalWallJumpState));
         }
-        else if (Runner.GetLedgeCheck().Check()) {
+        else if (Runner.GetHybridLedgeDetector().TryFindLedge(out _, out _, out _))
+        {
             CurrentSuperState.SetSubState(typeof(NormalLedgeHangState));
         }
-        else if (verticalControl < 0) {
+        else if (verticalControl < 0)
+        {
             CurrentSuperState.SetSubState(typeof(NormalFallState));
         }
     }

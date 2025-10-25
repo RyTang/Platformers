@@ -13,10 +13,12 @@ public class GroundSubAttackThree : BaseState<PlayerController>, IAttack
 
         // Prevent from Moving  
         Runner.GetRigidbody2D().velocity = new Vector2(0, Runner.GetRigidbody2D().velocity.y);
-        
+
         Runner.GetAnimator().SetTrigger(PlayerAnimation.triggerGroundAttack03);
 
         Runner.GetAnimator().SetBool(PlayerAnimation.isAttackingBool, true);
+
+        Runner.CanRotate(false);
     }
 
     public void Attack()
@@ -54,6 +56,8 @@ public class GroundSubAttackThree : BaseState<PlayerController>, IAttack
     {
         attackControl = 0;
         Runner.GetAnimator().SetBool(PlayerAnimation.isAttackingBool, false);
+        Runner.CanRotate(true);
+
         yield break;
     }
 }

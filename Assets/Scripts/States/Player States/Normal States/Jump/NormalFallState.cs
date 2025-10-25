@@ -6,8 +6,6 @@ public class NormalFallState : BaseState<PlayerController>
 {
     private float horizontalControl, dashControl, attackControl, verticalControl, jumpControl;
 
-    private float initialLocalGravity;
-
     Rigidbody2D rb2d;
 
     /// <summary>
@@ -20,12 +18,10 @@ public class NormalFallState : BaseState<PlayerController>
     {
         base.EnterState(parent);
         rb2d = parent.GetRigidbody2D();
-        initialLocalGravity = rb2d.gravityScale;
         hasReleasedJumpControl = false;
 
-
         // Increase Gravity
-        rb2d.gravityScale = initialLocalGravity * Runner.GetPlayerData().fallGravityMultiplier;
+        rb2d.gravityScale = Runner.GetPlayerData().gravityScale * Runner.GetPlayerData().fallGravityMultiplier;
 
         Runner.GetAnimator().SetBool(PlayerAnimation.isFallingBool, true);
 
@@ -59,9 +55,9 @@ public class NormalFallState : BaseState<PlayerController>
         // TODO: Figure out if any way to make this more intentional
         else if (hasReleasedJumpControl && jumpControl > 0 && Runner.UseAirStep())
         {
-            CurrentSuperState.SetSubState(typeof(AirStepSlowdown));
+            CurrentSuperState.SetSubState(typeof(AirStepSlowdownState));
         }
-        else if (Runner.GetLedgeCheck().Check())
+        else if (Runner.GetHybridLedgeDetector().TryFindLedge(out _, out _, out _))
         {
             CurrentSuperState.SetSubState(typeof(NormalLedgeHangState));
         }
@@ -73,7 +69,7 @@ public class NormalFallState : BaseState<PlayerController>
 
     public override IEnumerator ExitState()
     {
-        rb2d.gravityScale = initialLocalGravity;
+        rb2d.gravityScale = Runner.GetPlayerData().gravityScale;
         Runner.GetAnimator().SetBool(PlayerAnimation.isFallingBool, false);
         yield break;
     }

@@ -162,9 +162,9 @@ MonoBehaviour:
   attackCheck: {fileID: 4777856694764989848}
   wallCheck: {fileID: 2180066061103716309}
   ledgeCheck: {fileID: 1158825825035624961}
+  colliders: {fileID: 4402167687131855374}
   airStepArrow: {fileID: 3873918963425608313}
   injuredFlash: {fileID: 4221473227381161332}
-  facingRight: 0
 --- !u!50 &6818691641368730274
 Rigidbody2D:
   serializedVersion: 4
@@ -277,7 +277,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &5978859203871904244
 Transform:
   m_ObjectHideFlags: 0

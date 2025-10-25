@@ -45,6 +45,8 @@ MonoBehaviour:
   jumpAttackGravity: 0.3
   airStepForce: 12
   airStepDuration: 0.3
-  airStepSlowdownFactor: 0.1
-  maxAirStepSlowdownDuration: 3
-  airStepThresholdDuration: 1
+  airStepSlowdownFactor: 0.05
+  maxAirStepSlowdownDuration: 2
+  airStepThresholdDuration: 0.3
+  baseArrowLength: 0.5
+  maxExtraLength: 0.5

@@ -6,22 +6,28 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Player State/Normal State/Climbing/Hanging")]
 public class NormalLedgeHangState : BaseState<PlayerController>
 {
-    private float verticalControls, horizontalControls;
-    private float initialGravity;
-    private bool controlDelayedFinished, controlReleased;
+    private float verticalControls, horizontalControls, jumpControl;
+    private bool controlDelayedFinished, controlReleased, foundLedge;
 
     private LedgeIndicator chosenLedge;
+    private Vector2 hangPos, standPos;
 
     public override void EnterState(PlayerController parent)
     {
         base.EnterState(parent);
         // Stop All Gravity
-        initialGravity = Runner.GetRigidbody2D().gravityScale;
         Runner.GetRigidbody2D().gravityScale = 0;
         Runner.GetRigidbody2D().velocity = Vector2.zero;
 
-        if (!Runner.GetLedgeCheck().Check())
+        Debug.Log("Entered Ledge Hang State");
+
+        Runner.CanRotate(false);
+
+        foundLedge = Runner.GetHybridLedgeDetector().TryFindLedge(out chosenLedge, out hangPos, out standPos);
+
+        if (!foundLedge)
         {
+            Debug.Log("Could not find ledge, falling");
             return;
         }
 
@@ -30,27 +36,17 @@ public class NormalLedgeHangState : BaseState<PlayerController>
         controlDelayedFinished = true;
         controlReleased = true;
 
-        chosenLedge = GetChosenLedge().GetComponent<LedgeIndicator>();
-
         // Set position of hanging
-        Runner.transform.position = chosenLedge.GetHangPosition();
+        Runner.transform.position = hangPos;
 
         // Refreshes Movements Abilities
         Runner.RefreshAirStep();
     }
 
-    private GameObject GetChosenLedge(){
-        List<GameObject> ledges = Runner.GetLedgeCheck().GetObjectsInCheck();
-        
-        // Get the one that is closes to the player collision checker.
-        Vector2 handPosition = Runner.GetLedgeCheck().transform.position;
-        
-        return ledges.OrderBy(ledge => Vector2.Distance(handPosition, ledge.transform.position)).FirstOrDefault();
-    }
-
     public override void CaptureInput()
     {
         base.CaptureInput();
+        jumpControl = Runner.GetJumpControl();
         float currentVerticalControls = Runner.GetVerticalControl();
         // TODO: Consider if should consider jump control here
         horizontalControls = Runner.GetHorizontalControl();
@@ -62,19 +58,32 @@ public class NormalLedgeHangState : BaseState<PlayerController>
 
     public override void CheckStateTransition()
     {
-        bool controlsNotFacingLedge = horizontalControls != 0 && horizontalControls != Mathf.Sign(Runner.transform.localScale.x);
-        if (controlsNotFacingLedge || verticalControls < 0 || chosenLedge == null ) {
+        bool controlsNotFacingLedge = horizontalControls != 0 && horizontalControls != Mathf.Sign(Runner.IsFacingRight() ? 1 : -1);
+        if (controlsNotFacingLedge || verticalControls < 0 || !foundLedge)
+        {
+            Debug.Log("Letting go of ledge");
             CurrentSuperState.SetSubState(typeof(NormalFallState));
         }
-        else if (controlReleased && verticalControls > 0) {
-            CurrentSuperState.SetSubState(typeof(NormalLedgeClimbState), chosenLedge);
+        else if (controlReleased)
+        {
+            if (verticalControls > 0)
+            {
+                Debug.Log("Climbing up ledge");
+                CurrentSuperState.SetSubState(typeof(NormalLedgeClimbState), chosenLedge);
+            }
+            else if (jumpControl > 0)
+            {
+                // TODO: Need to create a new ledge jump state
+                CurrentSuperState.SetSubState(typeof(NormalJumpState));
+            }
         }
     }
 
     public override IEnumerator ExitState()
     {
         Runner.GetAnimator().SetBool(PlayerAnimation.isHoldingLedgeBool, false);
-        Runner.GetRigidbody2D().gravityScale = initialGravity;
+        Runner.GetRigidbody2D().gravityScale = Runner.GetPlayerData().gravityScale;
+        Runner.CanRotate(true);
         yield break;
     }
 }

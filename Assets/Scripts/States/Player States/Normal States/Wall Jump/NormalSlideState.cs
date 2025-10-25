@@ -33,7 +33,7 @@ public class NormalSlideState : BaseState<PlayerController>
         {
             CurrentSuperState.SetSubState(CurrentSuperState.GetState(typeof(NormalIdleState)));
         }
-        else if (Runner.GetLedgeCheck().Check()) {
+        else if (Runner.GetHybridLedgeDetector().TryFindLedge(out _, out _, out _)) {
             CurrentSuperState.SetSubState(typeof(NormalLedgeHangState));
         }
     }

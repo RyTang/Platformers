@@ -55,7 +55,7 @@ public class NormalFallCoyoteState : BaseState<PlayerController>
         else if (dashControl > 0){
             CurrentSuperState.SetSubState(CurrentSuperState.GetState(typeof(NormalDashState)));
         }
-        else if (Runner.GetLedgeCheck().Check()) {
+        else if (Runner.GetHybridLedgeDetector().TryFindLedge(out _, out _, out _)){
             CurrentSuperState.SetSubState(typeof(NormalLedgeHangState));
         }
         else if (horizontalControl != 0 && Runner.GetWallCheck().Check()){
