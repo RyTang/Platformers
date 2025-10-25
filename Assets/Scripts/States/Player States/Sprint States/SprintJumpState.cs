@@ -6,7 +6,7 @@ public class SprintJumpState : BaseState<PlayerController>
 {
     Rigidbody2D rb2d;
 
-    private float horizontalControl, verticalControl, dashControl, attackControl;
+    private float horizontalControl, jumpControl, dashControl, attackControl;
 
     public override void EnterState(PlayerController parent)
     {
@@ -20,8 +20,8 @@ public class SprintJumpState : BaseState<PlayerController>
 
     public override void CaptureInput()
     {
-        horizontalControl = Runner.GetHorizontalControls();
-        verticalControl = Runner.GetVerticalControls();
+        horizontalControl = Runner.GetHorizontalControl();
+        jumpControl = Runner.GetJumpControl();
         dashControl = Runner.GetDashControls();
         attackControl = Runner.GetAttackControls();
     }
@@ -34,7 +34,7 @@ public class SprintJumpState : BaseState<PlayerController>
         else if (dashControl > 0){
             CurrentSuperState.SetSubState(CurrentSuperState.GetState(typeof(SprintDashState)));
         }
-        else if (verticalControl <= 0 || rb2d.velocity.y <= 0){
+        else if (jumpControl <= 0 || rb2d.velocity.y <= 0){
             CurrentSuperState.SetSubState(CurrentSuperState.GetState(typeof(SprintFallState)));
         }
         else if (horizontalControl != 0 && Runner.GetWallCheck().Check()){

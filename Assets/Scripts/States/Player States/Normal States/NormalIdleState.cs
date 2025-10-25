@@ -4,18 +4,19 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Player State/Normal State/Idle")]
 public class NormalIdleState : BaseState<PlayerController>
 {
-    private float horizontalControl, verticalControl, dashControl, attackControl, mobilityControl;
+    private float horizontalControl, jumpControl, dashControl, attackControl, mobilityControl;
 
     public override void EnterState(PlayerController parent)
     {
         base.EnterState(parent);
         Runner.GetAnimator().SetBool(PlayerAnimation.isIdleBool, true);
+        Runner.RefreshAirStep();
     }
 
     public override void CaptureInput()
     {
-        horizontalControl = Runner.GetHorizontalControls();
-        verticalControl = Runner.GetVerticalControls();
+        horizontalControl = Runner.GetHorizontalControl();
+        jumpControl = Runner.GetJumpControl();
         dashControl = Runner.GetDashControls();
         attackControl = Runner.GetAttackControls();
         mobilityControl = Runner.GetMobilityControl();
@@ -31,10 +32,10 @@ public class NormalIdleState : BaseState<PlayerController>
         else if (attackControl > 0){
             CurrentSuperState.SetSubState(typeof(GroundSubAttackOne));
         }
-        else if (verticalControl > 0){
+        else if (jumpControl > 0){
             CurrentSuperState.SetSubState(typeof(NormalJumpState));
         }
-        else if (!Runner.GetGroundCheck().Check() && (verticalControl < 0 || Runner.GetRigidbody2D().velocity.y < 0)){
+        else if (!Runner.GetGroundCheck().Check() && (jumpControl < 0 || Runner.GetRigidbody2D().velocity.y < 0)){
             CurrentSuperState.SetSubState(typeof(NormalFallCoyoteState));
         }
         else if (mobilityControl > 0) {

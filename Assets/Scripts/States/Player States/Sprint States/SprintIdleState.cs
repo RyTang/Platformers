@@ -4,7 +4,7 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Player State/Sprint State/Idle")]
 public class SprintIdleState : BaseState<PlayerController>
 {
-    private float horizontalControl, verticalControl, dashControl, attackControl, mobilityControl;
+    private float horizontalControl, jumpControl, dashControl, attackControl, mobilityControl;
 
     public override void EnterState(PlayerController parent)
     {
@@ -14,8 +14,8 @@ public class SprintIdleState : BaseState<PlayerController>
 
     public override void CaptureInput()
     {
-        horizontalControl = Runner.GetHorizontalControls();
-        verticalControl = Runner.GetVerticalControls();
+        horizontalControl = Runner.GetHorizontalControl();
+        jumpControl = Runner.GetJumpControl();
         dashControl = Runner.GetDashControls();
         attackControl = Runner.GetAttackControls();
         mobilityControl = Runner.GetMobilityControl();
@@ -31,10 +31,10 @@ public class SprintIdleState : BaseState<PlayerController>
         // else if (attackControl > 0){
         //     CurrentSuperState.SetSubState(typeof(GroundSubAttackOne));
         // } // TODO: Think of how to do attacking state while sprinting
-        else if (verticalControl > 0){
+        else if (jumpControl > 0){
             CurrentSuperState.SetSubState(typeof(SprintJumpState));
         }
-        else if (!Runner.GetGroundCheck().Check() && (verticalControl < 0 || Runner.GetRigidbody2D().velocity.y < 0)){
+        else if (!Runner.GetGroundCheck().Check() && (jumpControl < 0 || Runner.GetRigidbody2D().velocity.y < 0)){
             CurrentSuperState.SetSubState(typeof(SprintFallCoyoteState));
         }
         else if (mobilityControl > 0) {

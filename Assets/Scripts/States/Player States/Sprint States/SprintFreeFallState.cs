@@ -44,8 +44,8 @@ public class SprintFreeFallState : BaseState<PlayerController>
 
     public override void CaptureInput()
     {
-        verticalControl = Runner.GetVerticalControls();
-        horizontalControl = Runner.GetHorizontalControls();
+        verticalControl = Runner.GetVerticalControl();
+        horizontalControl = Runner.GetHorizontalControl();
         dashControl = Runner.GetDashControls();
         attackControl = Runner.GetAttackControls();
     }

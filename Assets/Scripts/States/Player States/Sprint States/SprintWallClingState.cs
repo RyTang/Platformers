@@ -5,7 +5,7 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Player State/Sprint State/Wall Cling")]
 public class SprintWallClingState : BaseState<PlayerController>
 {
-    private float horizontalControl, verticalControl, dashControl;
+    private float horizontalControl, jumpControl, dashControl;
     private Rigidbody2D rb2d;
 
     private bool canJump = false;
@@ -31,8 +31,8 @@ public class SprintWallClingState : BaseState<PlayerController>
 
     public override void CaptureInput()
     {
-        verticalControl = Runner.GetVerticalControls();
-        horizontalControl = Runner.GetHorizontalControls();
+        jumpControl = Runner.GetJumpControl();
+        horizontalControl = Runner.GetHorizontalControl();
         dashControl = Runner.GetDashControls();
     }
 
@@ -48,10 +48,10 @@ public class SprintWallClingState : BaseState<PlayerController>
         else if (!Runner.GetWallCheck().Check() || (Mathf.Sign(horizontalControl) != Mathf.Sign(Runner.transform.localScale.x) && horizontalControl != 0)){
             CurrentSuperState.SetSubState(CurrentSuperState.GetState(typeof(SprintFallCoyoteState)));
         }
-        else if (verticalControl > 0 && canJump){
+        else if (jumpControl > 0 && canJump){
             CurrentSuperState.SetSubState(CurrentSuperState.GetState(typeof(SprintWallJumpState)));
         }
-        else if (verticalControl < 0) {
+        else if (jumpControl < 0) {
             CurrentSuperState.SetSubState(CurrentSuperState.GetState(typeof(SprintFallState)));
         }
     }

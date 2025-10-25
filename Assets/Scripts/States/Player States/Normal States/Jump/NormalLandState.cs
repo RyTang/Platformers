@@ -9,9 +9,10 @@ public class NormalLandState : BaseState<PlayerController>
 
     public override void EnterState(PlayerController parent, object objToPass)
     {
-        landVelocity = Mathf.Abs((float) objToPass);
+        landVelocity = Mathf.Abs((float)objToPass);
         base.EnterState(parent, objToPass);
         Debug.Log("Entered landing State");
+        Runner.RefreshAirStep();
     }
 
     public override void EnterState(PlayerController parent)

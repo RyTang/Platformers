@@ -1,6 +1,8 @@
 using System.Collections;
 using UnityEngine;
 
+// TODO: With Air Step State, might not need this state anymore
+
 [CreateAssetMenu(menuName = "Player State/Normal State/Dash")]
 public class NormalDashState : BaseState<PlayerController>
 {
@@ -9,7 +11,11 @@ public class NormalDashState : BaseState<PlayerController>
     private Coroutine currentDashDelay, dashBufferCoroutine;
 
     private bool canDash = true;
-    private bool dashing, dashInputGiven, dashBufferDone;
+    private bool dashing, dashInputGiven;
+    /// <summary>
+    /// Used to prevent dash cancelling into wall cling
+    /// </summary>
+    private bool dashBufferDone;
     private float dashDirection;
 
     public override void EnterState(PlayerController parent, object objToPass)
@@ -96,7 +102,6 @@ public class NormalDashState : BaseState<PlayerController>
         {
             Runner.StopCoroutine(currentDashDelay);
             currentDashDelay = null;
-            Runner.GetAnimator().SetBool(PlayerAnimation.isDashingBool, false);
             canDash = true;
             CurrentSuperState.SetSubState(typeof(NormalWallClingState));
         }
@@ -106,6 +111,7 @@ public class NormalDashState : BaseState<PlayerController>
     {
         dashing = false;
         dashInputGiven = false;
+        Runner.GetAnimator().SetBool(PlayerAnimation.isDashingBool, false);
         Runner.CanRotate(true);
         Runner.EnableHorizontalControls();
         Runner.EnableVerticalControls();

@@ -4,11 +4,16 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Player State/Normal State/Fall")]
 public class NormalFallState : BaseState<PlayerController>
 {
-    private float horizontalControl, dashControl, attackControl, verticalControl;
+    private float horizontalControl, dashControl, attackControl, verticalControl, jumpControl;
 
     private float initialLocalGravity;
 
     Rigidbody2D rb2d;
+
+    /// <summary>
+    /// To differentiate between variable jump and triggering the next jump
+    /// </summary>
+    private bool hasReleasedJumpControl = false;
 
 
     public override void EnterState(PlayerController parent)
@@ -16,6 +21,7 @@ public class NormalFallState : BaseState<PlayerController>
         base.EnterState(parent);
         rb2d = parent.GetRigidbody2D();
         initialLocalGravity = rb2d.gravityScale;
+        hasReleasedJumpControl = false;
 
 
         // Increase Gravity
@@ -27,10 +33,16 @@ public class NormalFallState : BaseState<PlayerController>
 
     public override void CaptureInput()
     {
-        horizontalControl = Runner.GetHorizontalControls();
-        verticalControl = Runner.GetVerticalControls();
+        horizontalControl = Runner.GetHorizontalControl();
+        verticalControl = Runner.GetVerticalControl();
+        jumpControl = Runner.GetJumpControl();
         dashControl = Runner.GetDashControls();
         attackControl = Runner.GetAttackControls();
+
+        if (jumpControl <= 0)
+        {
+            hasReleasedJumpControl = true;
+        }
     }
 
     public override void CheckStateTransition()
@@ -44,10 +56,17 @@ public class NormalFallState : BaseState<PlayerController>
         else if (verticalControl < 0){
             CurrentSuperState.SetSubState(CurrentSuperState.GetState(typeof(NormalFreeFallState)));
         }
-        else if (Runner.GetLedgeCheck().Check()) {
+        // TODO: Figure out if any way to make this more intentional
+        else if (hasReleasedJumpControl && jumpControl > 0 && Runner.UseAirStep())
+        {
+            CurrentSuperState.SetSubState(typeof(AirStepSlowdown));
+        }
+        else if (Runner.GetLedgeCheck().Check())
+        {
             CurrentSuperState.SetSubState(typeof(NormalLedgeHangState));
         }
-        else if ((rb2d.velocity.x != 0 || horizontalControl != 0) && Runner.GetWallCheck().Check()){
+        else if ((rb2d.velocity.x != 0 || horizontalControl != 0) && Runner.GetWallCheck().Check())
+        {
             CurrentSuperState.SetSubState(CurrentSuperState.GetState(typeof(NormalWallClingState)));
         }
     }
@@ -81,12 +100,8 @@ public class NormalFallState : BaseState<PlayerController>
     public override void OnStateCollisionStay(Collision2D collision)
     {
         if (Runner.GetGroundCheck().Check()){
-            Debug.Log($"TouchedGround: {collision.relativeVelocity}");
             CurrentSuperState.SetSubState(typeof(NormalLandState), collision.relativeVelocity.y);
         }
     }
 
-    public override void FixedUpdateState()
-    {
-    }
 }

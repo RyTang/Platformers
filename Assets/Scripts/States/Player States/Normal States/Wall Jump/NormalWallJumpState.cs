@@ -5,7 +5,7 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Player State/Normal State/Wall Jump")]
 public class NormalWallJumpState : BaseState<PlayerController>
 {
-    private float horizontalControl, verticalControl, dashControl, attackControl;
+    private float horizontalControl, jumpControl, dashControl, attackControl;
     private PlayerController parent;
     private Rigidbody2D rb2d;
     private bool canMove;
@@ -55,8 +55,8 @@ public class NormalWallJumpState : BaseState<PlayerController>
     {   
         if (canMove){
             Runner.CanRotate(true);
-            verticalControl = Runner.GetVerticalControls();
-            horizontalControl = Runner.GetHorizontalControls();
+            jumpControl = Runner.GetJumpControl();
+            horizontalControl = Runner.GetHorizontalControl();
             dashControl = Runner.GetDashControls();
             attackControl = Runner.GetAttackControls();
         }
@@ -70,7 +70,7 @@ public class NormalWallJumpState : BaseState<PlayerController>
             if (dashControl > 0){
                 CurrentSuperState.SetSubState(CurrentSuperState.GetState(typeof(NormalDashState)));
             }
-            else if (verticalControl <= 0 || rb2d.velocity.y <= 0){
+            else if (jumpControl <= 0 || rb2d.velocity.y <= 0){
                 CurrentSuperState.SetSubState(CurrentSuperState.GetState(typeof(NormalFallState)));
             }
             else if (attackControl > 0) {

@@ -11,7 +11,7 @@ public class LevelSelector : MonoBehaviour
     public void LoadScene()
     {
         Debug.Log("Loading scene: " + sceneIndexToLoad);
-        GameManager.Instance.LoadScene(sceneIndexToLoad);
+        GameManager.LoadScene(sceneIndexToLoad);
     }
 
     // TODO: Create an auto UI Button Creator for levels in the future. Use Classes for the Levels

@@ -6,7 +6,7 @@ public class NormalJumpState : BaseState<PlayerController>
 {
     Rigidbody2D rb2d;
 
-    private float horizontalControl, verticalControl, dashControl, attackControl;
+    private float verticalControl, horizontalControl, jumpControl, dashControl, attackControl;
 
     public override void EnterState(PlayerController parent)
     {
@@ -20,8 +20,9 @@ public class NormalJumpState : BaseState<PlayerController>
 
     public override void CaptureInput()
     {
-        horizontalControl = Runner.GetHorizontalControls();
-        verticalControl = Runner.GetVerticalControls();
+        verticalControl = Runner.GetVerticalControl();
+        horizontalControl = Runner.GetHorizontalControl();
+        jumpControl = Runner.GetJumpControl();
         dashControl = Runner.GetDashControls();
         attackControl = Runner.GetAttackControls();
     }
@@ -34,15 +35,20 @@ public class NormalJumpState : BaseState<PlayerController>
         else if (dashControl > 0){
             CurrentSuperState.SetSubState(typeof(NormalDashState));
         }
-        else if (verticalControl <= 0 || rb2d.velocity.y <= 0){
-            // TODO: if stop pressing should stop accelerating
+        else if (jumpControl <= 0 || rb2d.velocity.y <= 0){
             rb2d.velocity = new Vector2(rb2d.velocity.x, 0);
             CurrentSuperState.SetSubState(typeof(NormalFallState));
         }
-        else if (Runner.GetLedgeCheck().Check()) {
+        else if (Runner.GetGroundCheck().Check())
+        {
+            CurrentSuperState.SetSubState(typeof(NormalIdleState));
+        }
+        else if (Runner.GetLedgeCheck().Check())
+        {
             CurrentSuperState.SetSubState(typeof(NormalLedgeHangState));
         }
-        else if (horizontalControl != 0 && Runner.GetWallCheck().Check()){
+        else if (horizontalControl != 0 && Runner.GetWallCheck().Check())
+        {
             CurrentSuperState.SetSubState(typeof(NormalWallClingState));
         }
     }

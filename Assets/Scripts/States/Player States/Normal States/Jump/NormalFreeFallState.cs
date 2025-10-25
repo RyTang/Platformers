@@ -33,6 +33,9 @@ public class NormalFreeFallState : BaseState<PlayerController>
         diving = false;
         Runner.GetAnimator().SetTrigger(PlayerAnimation.triggerFreefall);
         Runner.GetAnimator().SetBool(PlayerAnimation.isFreeFallingBool, true);
+
+        // Refreshes Movements Abilities
+        Runner.RefreshAirStep();
     }
 
     private void OnAnimationEventTriggered(AnimationEventTrigger eventTrigger){
@@ -45,8 +48,8 @@ public class NormalFreeFallState : BaseState<PlayerController>
 
     public override void CaptureInput()
     {
-        verticalControl = Runner.GetVerticalControls();
-        horizontalControl = Runner.GetHorizontalControls();
+        verticalControl = Runner.GetVerticalControl();
+        horizontalControl = Runner.GetHorizontalControl();
         dashControl = Runner.GetDashControls();
         attackControl = Runner.GetAttackControls();
     }
