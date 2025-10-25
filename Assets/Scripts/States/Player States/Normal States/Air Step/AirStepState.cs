@@ -14,8 +14,6 @@ public class AirStepState : BaseState<PlayerController>
 
     private Coroutine airStepDurationCoroutine;
 
-    
-
     private float verticalControl, horizontalControl, jumpControl;
 
     public override void CaptureInput()
@@ -68,7 +66,7 @@ public class AirStepState : BaseState<PlayerController>
         {
             CurrentSuperState.SetSubState(typeof(NormalIdleState));
         }
-        else if (Runner.GetLedgeCheck().Check())
+        else if (Runner.GetHybridLedgeDetector().TryFindLedge(out _, out _, out _))
         {
             CurrentSuperState.SetSubState(typeof(NormalLedgeHangState));
         }

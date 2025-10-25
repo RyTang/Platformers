@@ -2,7 +2,7 @@ using System.Collections;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "Player State/Normal State/Air Step/Slow down")]
-public class AirStepSlowdown : BaseState<PlayerController>
+public class AirStepSlowdownState : BaseState<PlayerController>
 {
     private float verticalControl, horizontalControl, jumpControl;
 
@@ -25,6 +25,8 @@ public class AirStepSlowdown : BaseState<PlayerController>
 
         airStepDirection = new Vector2(horizontalControl, verticalControl).normalized;
 
+        airStepArrow.SetActive(airStepDirection != Vector2.zero);
+
         if (jumpControl <= 0)
         {
             letGoOfJump = true;
@@ -45,13 +47,10 @@ public class AirStepSlowdown : BaseState<PlayerController>
 
         // TODO: Figure out how to make the slow mo time smoother
 
-        Debug.Log("Entered Air Step Slowdown");
-
         // Slow down Time during Air Step Slowdown
         letGoOfJump = false;
         durationInSlowMode = 0;
         GameManager.SetTimeScale(Runner.GetPlayerData().airStepSlowdownFactor);
-        Debug.Log($"Slowing down time to {Time.timeScale}");
 
         slowdownCoroutine = Runner.StartCoroutine(SlowdownDuration());
     }
@@ -69,7 +68,6 @@ public class AirStepSlowdown : BaseState<PlayerController>
         if (airStepDirection != Vector2.zero && (!slowModeActive || letGoOfJump))
         {
             float powerFactor = Mathf.Clamp01(durationInSlowMode / Runner.GetPlayerData().airStepThresholdDuration);
-            Debug.Log($"Air Step Direction: {airStepDirection}, Power Factor: {powerFactor}");
 
             AirStepData airStepData = new AirStepData(airStepDirection, powerFactor);
             CurrentSuperState.SetSubState(typeof(AirStepState), airStepData);
@@ -83,7 +81,7 @@ public class AirStepSlowdown : BaseState<PlayerController>
         {
             CurrentSuperState.SetSubState(typeof(NormalIdleState));
         }
-        else if (Runner.GetLedgeCheck().Check())
+        else if (Runner.GetHybridLedgeDetector().TryFindLedge(out _, out _, out _))
         {
             CurrentSuperState.SetSubState(typeof(NormalLedgeHangState));
         }
@@ -95,7 +93,6 @@ public class AirStepSlowdown : BaseState<PlayerController>
 
     public override void UpdateState()
     {
-        Debug.Log($"In Slowdown State, timeScale: {Time.timeScale}, durationInSlowMode: {durationInSlowMode}");
         durationInSlowMode += Time.unscaledDeltaTime;
 
         // Calculate direction and scale of arrow only if there is a direction
